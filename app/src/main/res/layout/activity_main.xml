@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <LinearLayout
+            android:id="@+id/picker_horizontal_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#F0F0F0"
+            android:orientation="vertical"
+            android:padding="0dp">
+            <cn.forward.androids.views.BitmapScrollPicker
+                android:id="@+id/picker_03_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginTop="10dp"
+                android:background="#FFFFFF"
+                app:spv_center_item_background="#FFFFFF"
+                app:spv_disallow_intercept_touch="true"
+                app:spv_draw_bitmap_height="46dp"
+                app:spv_draw_bitmap_mode="size"
+                app:spv_draw_bitmap_width="50dp"
+                app:spv_is_circulation="false"
+                app:spv_max_scale="1.35"
+                app:spv_min_scale="0.85"
+                app:spv_orientation="horizontal"
+                app:spv_visible_item_count="5"
+                />
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/countryName"
+        android:layout_height="50dp"
+        android:textSize="24sp"
+        android:text="America"
+        android:textColor="#686868"
+        android:gravity="center|center_horizontal|center_vertical" />
+    <RelativeLayout
+        android:paddingTop="0dp"
+        android:gravity="center|center_horizontal|center_vertical"
+        >
+
+        <ImageView
+            android:id="@+id/infoOperating"
+            android:layout_width="274dp"
+            android:layout_height="274dp"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="0dp"
+            android:layout_marginLeft="0dp"
+            android:visibility="visible"
+            android:src="@drawable/test_bg"></ImageView>
+        <ImageView
+            android:id="@+id/infoOperating2"
+            android:layout_width="274dp"
+            android:layout_height="274dp"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="-3dp"
+            android:layout_marginLeft="3dp"
+            android:visibility="gone"
+            android:src="@drawable/test_bgs"></ImageView>
+        <at.markushi.ui.CircleButton
+            android:id="@+id/start_vpn"
+            android:layout_width="250dip"
+            android:layout_height="250dip"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="11dp"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:onClick="startVpn"
+            app:cb_color="#D9D9D9"
+            app:cb_pressedRingWidth="8dip" />
+        <ImageView
+            android:id="@+id/connectedImage"
+            android:layout_width="180dp"
+            android:layout_height="200dp"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="45dp"
+            android:layout_marginLeft="55dp"
+            android:visibility="gone"
+            android:src="@drawable/ic_action_tick1"></ImageView>
+        <ImageView
+            android:id="@+id/notConnectImage"
+            android:layout_width="274dp"
+            android:layout_height="150dp"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="70dp"
+            android:layout_marginLeft="10dp"
+            android:visibility="visible"
+            android:src="@drawable/ic_action_tick2"></ImageView>
+        <TextView
+            android:id="@+id/countryName2"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:textSize="20sp"
+            android:text="America"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="180dp"
+            android:layout_marginLeft="60dp"
+            android:gravity="center|center_horizontal|center_vertical" />
+
+    </RelativeLayout >
+
+
+
+
+
+
+    <LinearLayout
+        android:id="@+id/ProxyUrlLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        android:paddingTop="10000dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:tag="ProxyUrl">
+
+        <TextView
+            android:id="@+id/textViewProxyUrlTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/config_url"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/textViewProxyUrl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/config_not_set_value"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+
+        android:alpha="0.4" />
+
+    <LinearLayout
+        android:id="@+id/AppSelectLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:tag="AppSelect"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp">
+
+        <TextView
+            android:id="@+id/textViewAppSelectTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/select_app"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/textViewAppSelectDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/select_app_detail"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/textViewAppSelectLine"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:alpha="0.4" />
+
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout android:layout_column="14"></FrameLayout>
+    </TableRow>
+
+
+</TableLayout>
