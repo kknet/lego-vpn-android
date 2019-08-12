@@ -1,0 +1,11 @@
+[lego]
+local_ip = 0.0.0.0
+local_port = 8994
+first_node = false
+id = id_4
+bootstrap = id_1:192.168.20.17:8991
+country = US
+client = true
+
+[db]
+path = ./db
