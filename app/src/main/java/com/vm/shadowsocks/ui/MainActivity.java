@@ -3,6 +3,7 @@ package com.vm.shadowsocks.ui;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
@@ -18,20 +20,33 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SurfaceControl;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
-import android.widget.ScrollView;
+import android.widget.AbsListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ListView;
+import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.graphics.Color;
+import android.app.ListActivity;
+import android.os.Environment;
 import android.widget.LinearLayout;
+import android.content.res.AssetManager;
+import android.net.VpnService;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView;
+import android.os.Handler;
+import android.os.Message;
+import android.app.AlertDialog;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -42,27 +57,36 @@ import com.vm.shadowsocks.core.LocalVpnService;
 import com.vm.shadowsocks.core.ProxyConfig;
 
 import java.util.Calendar;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
+import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.HashMap;
+import java.net.NetworkInterface;
+import java.net.InetAddress;
+import java.net.Inet4Address;
+import java.util.Enumeration;
+import java.net.SocketException;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import at.markushi.ui.CircleButton;
 import cn.forward.androids.views.BitmapScrollPicker;
 import cn.forward.androids.views.ScrollPickerView;
 
-public class MainActivity extends Activity implements
+
+public class MainActivity extends ListActivity implements
         View.OnClickListener,
         OnCheckedChangeListener,
         LocalVpnService.onStatusChangedListener {
-
-    private static String GL_HISTORY_LOGS;
-
+    static {
+        System.loadLibrary("native-lib");
+    }
     private static final String TAG = MainActivity.class.getSimpleName();
-
     private static final String CONFIG_URL_KEY = "CONFIG_URL_KEY";
-
     private static final int START_VPN_SERVICE_REQUEST_CODE = 1985;
-
-    private TextView textViewProxyUrl, textViewProxyApp;
     private Calendar mCalendar;
     private BitmapScrollPicker mPickerHorizontal;
     private boolean StartVpnChecked = false;
@@ -71,13 +95,64 @@ public class MainActivity extends Activity implements
     private Vector<String> proxy_vec = new Vector<String>();
     private Vector<String> country_vec = new Vector<String>();
     private String selectCountry = "America";
+    private VpnService vpn_service = new VpnService();
+    private CheckTransaction check_tx = new CheckTransaction();
+    private static final int COMPLETED = 0;
+    private HashMap<Integer, String> block_hashmap = new HashMap<Integer, String>();
+    ArrayList<String> listItems=new ArrayList<String>();
+    ArrayAdapter<String> adapter;
+    int list_counter = 0;
+    private String int_tx_hash;
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == COMPLETED) {
+                String res = (String)msg.obj;
+                String[] split = res.split("\t");
+                if (split.length == 5) {
+                    if (!split[4].equals(int_tx_hash)) {
+                        String list_item = split[0] + ", now balance: " + split[1];
+                        listItems.add(list_item);
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    TextView balance = (TextView)findViewById(R.id.account_balance);
+                    balance.setText("LEGO：" + split[1]);
+                    String block_item = "\n\n\n    Transaction Hash: \n    " + split[4] + "\n\n    Block Height：" + split[2] + "\n\n    Block Hash：\n    " + split[3] + "\n\n\n";
+                    block_hashmap.put(list_counter, block_item);
+                    ++list_counter;
+                }
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        adapter=new ArrayAdapter<String>(this,
+                R.layout.array_adapter,
+                listItems);
+        setListAdapter(adapter);
+        ListView lv = getListView();
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView showText = new TextView(MainActivity.this);
+                showText.setText(block_hashmap.get(position));
+                showText.setTextIsSelectable(true);
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setView(showText).setCancelable(true).show();
+                /*
+                AlertDialog alertDialog1 = new AlertDialog.Builder(MainActivity.this)
+                        .setMessage(block_hashmap.get(position))
+                        .create();
+                alertDialog1.show();
+                */
+            }
+        });
+
         proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.176.17:4431");
         proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.176.217:4431");
         proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.176.228:4431");
@@ -176,32 +251,38 @@ public class MainActivity extends Activity implements
                 }
             }
         });
-        findViewById(R.id.ProxyUrlLayout).setOnClickListener(this);
-        findViewById(R.id.AppSelectLayout).setOnClickListener(this);
 
-        textViewProxyUrl = (TextView) findViewById(R.id.textViewProxyUrl);
         String ProxyUrl = readProxyUrl();
-        if (TextUtils.isEmpty(ProxyUrl)) {
-            textViewProxyUrl.setText(R.string.config_not_set_value);
-        } else {
-            textViewProxyUrl.setText(ProxyUrl);
-        }
+
         mCalendar = Calendar.getInstance();
         LocalVpnService.addOnStatusChangedListener(this);
 
         //Pre-App Proxy
         if (AppProxyManager.isLollipopOrAbove){
             new AppProxyManager(this);
-            textViewProxyApp = (TextView) findViewById(R.id.textViewAppSelectDetail);
-        } else {
-            ((ViewGroup) findViewById(R.id.AppSelectLayout).getParent()).removeView(findViewById(R.id.AppSelectLayout));
-            ((ViewGroup) findViewById(R.id.textViewAppSelectLine).getParent()).removeView(findViewById(R.id.textViewAppSelectLine));
         }
 
         infoOperatingIV = (ImageView)findViewById(R.id.infoOperating);
         operatingAnim = AnimationUtils.loadAnimation(this, R.anim.tip);
         LinearInterpolator lin = new LinearInterpolator();
         operatingAnim.setInterpolator(lin);
+        String local_ip = getIpAddressString();
+        int local_port = 7981;
+        String res = initP2PNetwork(local_ip, local_port, "id_1:134.209.43.75:8991,id_1:134.209.43.75:8991,id_1:134.209.43.75:8991,id_1:134.209.43.75:8991");
+        if (res.equals("create account address error!")) {
+            Log.e(TAG,"init p2p network failed!" + res + ", " + local_ip + ":" + local_port);
+        }
+        TextView acc_view = (TextView)findViewById(R.id.account_address);
+        acc_view.setText(res);
+        int p2p_socket = getP2PSocket();
+        if (!vpn_service.protect(p2p_socket)) {
+            Log.e(TAG,"protect vpn socket failed");
+            return;
+        }
+        createAccount();
+
+        Thread t1 = new Thread(check_tx,"check tx");
+        t1.start();
     }
 
     String readProxyUrl() {
@@ -283,7 +364,6 @@ public class MainActivity extends Activity implements
 
                         if (isValidUrl(ProxyUrl)) {
                             setProxyUrl(ProxyUrl);
-                            textViewProxyUrl.setText(ProxyUrl);
                         } else {
                             Toast.makeText(MainActivity.this, ProxyUrl, Toast.LENGTH_SHORT).show();
                         }
@@ -323,7 +403,6 @@ public class MainActivity extends Activity implements
             conn_succ_circle.setVisibility(View.VISIBLE);
             ImageView conn_succ_image = (ImageView)findViewById(R.id.connectedImage);
             conn_succ_image.setVisibility(View.VISIBLE);
-            Toast.makeText(this, "LegoVPN Connected!", Toast.LENGTH_SHORT).show();
         } else {
             c_btn.setColor(Color.parseColor("#989898"));
             ImageView conn_fail_circle = (ImageView)findViewById(R.id.infoOperating);
@@ -334,8 +413,8 @@ public class MainActivity extends Activity implements
             conn_fail_image.setVisibility(View.VISIBLE);
             ImageView conn_succ_image = (ImageView)findViewById(R.id.connectedImage);
             conn_succ_image.setVisibility(View.GONE);
-            Toast.makeText(this, "LegoVPN Disconnect!", Toast.LENGTH_SHORT).show();
         }
+
     }
 
     public void startVpn(View view) {
@@ -433,15 +512,6 @@ public class MainActivity extends Activity implements
     @Override
     protected void onResume() {
         super.onResume();
-        if (AppProxyManager.isLollipopOrAbove) {
-            if (AppProxyManager.Instance.proxyAppInfo.size() != 0) {
-                String tmpString = "";
-                for (AppInfo app : AppProxyManager.Instance.proxyAppInfo) {
-                    tmpString += app.getAppLabel() + ", ";
-                }
-                textViewProxyApp.setText(tmpString);
-            }
-        }
     }
 
     @Override
@@ -450,4 +520,104 @@ public class MainActivity extends Activity implements
         super.onDestroy();
     }
 
+    public static String getIpAddressString() {
+        try {
+            for (Enumeration<NetworkInterface> enNetI = NetworkInterface
+                    .getNetworkInterfaces(); enNetI.hasMoreElements(); ) {
+                NetworkInterface netI = enNetI.nextElement();
+                for (Enumeration<InetAddress> enumIpAddr = netI
+                        .getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
+                    InetAddress inetAddress = enumIpAddr.nextElement();
+                    if (inetAddress instanceof Inet4Address && !inetAddress.isLoopbackAddress()) {
+                        return inetAddress.getHostAddress();
+                    }
+                }
+            }
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+        return "0.0.0.0";
+    }
+
+    public class CheckTransaction extends ListActivity implements Runnable {
+        public List<String> gid_list = new ArrayList<String>();
+        private int create_tx_period = 10000;
+        public void run() {
+            int_tx_hash = transaction(SHA("to", "SHA-256"), 10);
+            AddTxGid(int_tx_hash);
+            while (true) {
+                synchronized (this) {
+                    Iterator<String> iterator = gid_list.iterator();
+                    while (iterator.hasNext()) {
+                        String tx_gid = iterator.next();
+                        String res = getTransaction(tx_gid);
+                        Log.e(TAG, "check tx runing." + tx_gid + ":" + res);
+                        if (!res.equals("NO")) {
+                            iterator.remove();
+                            Message message = new Message();
+                            message.what = COMPLETED;
+                            message.obj = res.toString();
+                            handler.sendMessage(message);
+                        }
+                    }
+                }
+
+                create_tx_period += 500;
+                if (create_tx_period >= 10000) {
+                    if (LocalVpnService.IsRunning) {
+                        String tx_gix1 = transaction(SHA("to", "SHA-256"), 10);
+                        AddTxGid(tx_gix1);
+                        Log.e(TAG,"start new tx: " + tx_gix1);
+                    }
+                    create_tx_period = 0;
+                }
+
+                try {
+                    Thread.sleep(500);
+                } catch(InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        public void AddTxGid(String tx_gid) {
+            synchronized (this) {
+                gid_list.add(tx_gid);
+            }
+        }
+    }
+
+    private String SHA(final String strText, final String strType)
+    {
+        // 返回值
+        String strResult = null;
+
+        // 是否是有效字符串
+        if (strText != null && strText.length() > 0) {
+            try {
+                MessageDigest messageDigest = MessageDigest.getInstance(strType);
+                messageDigest.update(strText.getBytes());
+                byte byteBuffer[] = messageDigest.digest();
+
+                StringBuffer strHexString = new StringBuffer();
+                for (int i = 0; i < byteBuffer.length; i++) {
+                    String hex = Integer.toHexString(0xff & byteBuffer[i]);
+                    if (hex.length() == 1) {
+                        strHexString.append('0');
+                    }
+                    strHexString.append(hex);
+                }
+                strResult = strHexString.toString();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+        }
+        return strResult;
+    }
+
+    public native String initP2PNetwork(String ip, int port, String bootstarp);
+    public native int getP2PSocket();
+    public native String createAccount();
+    public native String getTransaction(String tx_gid);
+    public native String transaction(String to, int amount);
 }
