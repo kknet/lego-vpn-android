@@ -1,0 +1,16 @@
+CMake Warning (dev) in CMakeLists.txt:
+  Syntax Warning in cmake code at
+
+    E:/dvpn/shadowsocks-android-java/app/CMakeLists.txt:13:39
+
+  Argument not separated from preceding token by whitespace.
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) in CMakeLists.txt:
+  Syntax Warning in cmake code at
+
+    E:/dvpn/shadowsocks-android-java/app/CMakeLists.txt:14:46
+
+  Argument not separated from preceding token by whitespace.
+This warning is for project developers.  Use -Wno-dev to suppress it.
+

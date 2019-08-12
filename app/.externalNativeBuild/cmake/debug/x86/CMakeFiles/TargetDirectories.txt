@@ -1,0 +1,3 @@
+E:/dvpn/shadowsocks-android-java/app/.externalNativeBuild/cmake/debug/x86/CMakeFiles/native-lib.dir
+E:/dvpn/shadowsocks-android-java/app/.externalNativeBuild/cmake/debug/x86/CMakeFiles/edit_cache.dir
+E:/dvpn/shadowsocks-android-java/app/.externalNativeBuild/cmake/debug/x86/CMakeFiles/rebuild_cache.dir

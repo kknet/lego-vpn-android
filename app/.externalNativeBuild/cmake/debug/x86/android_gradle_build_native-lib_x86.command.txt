@@ -1,0 +1,8 @@
+Executable : C:\Users\user\AppData\Local\Android\Sdk\cmake\3.6.4111459\bin\cmake.exe
+arguments : 
+--build
+E:\dvpn\shadowsocks-android-java\app\.externalNativeBuild\cmake\debug\x86
+--target
+native-lib
+jvmArgs : 
+

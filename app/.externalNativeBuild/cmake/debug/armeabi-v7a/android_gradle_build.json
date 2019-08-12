@@ -1,0 +1,174 @@
+
+{
+	"buildFiles" : [ "E:/dvpn/shadowsocks-android-java/app/CMakeLists.txt" ],
+	"cleanCommands" : 
+	[
+		"C:\\Users\\user\\AppData\\Local\\Android\\Sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\dvpn\\shadowsocks-android-java\\app\\.externalNativeBuild\\cmake\\debug\\armeabi-v7a --target clean"
+	],
+	"cppFileExtensions" : [ "cpp" ],
+	"libraries" : 
+	{
+		"broadcast-Debug-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "broadcast",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/libbroadcast.a",
+			"toolchain" : "2734026807"
+		},
+		"client-Debug-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "client",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/libclient.a",
+			"toolchain" : "2734026807"
+		},
+		"common-Debug-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "common",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/libcommon.a",
+			"toolchain" : "2734026807"
+		},
+		"crypto-Debug-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "crypto",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/libcrypto.a",
+			"toolchain" : "2734026807"
+		},
+		"cryptopp-Debug-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "cryptopp",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/libcryptopp.a",
+			"toolchain" : "2734026807"
+		},
+		"db-Debug-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "db",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/libdb.a",
+			"toolchain" : "2734026807"
+		},
+		"dht-Debug-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "dht",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/libdht.a",
+			"toolchain" : "2734026807"
+		},
+		"leveldb-Debug-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "leveldb",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/libleveldb.a",
+			"toolchain" : "2734026807"
+		},
+		"log4cpp-Debug-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "log4cpp",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/liblog4cpp.a",
+			"toolchain" : "2734026807"
+		},
+		"nat_traverse-Debug-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "nat_traverse",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/libnat_traverse.a",
+			"toolchain" : "2734026807"
+		},
+		"native-lib-Debug-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "native-lib",
+			"buildCommand" : "C:\\Users\\user\\AppData\\Local\\Android\\Sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\dvpn\\shadowsocks-android-java\\app\\.externalNativeBuild\\cmake\\debug\\armeabi-v7a --target native-lib",
+			"buildType" : "debug",
+			"files" : 
+			[
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi16 --gcc-toolchain=C:/Users/user/AppData/Local/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=C:/Users/user/AppData/Local/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dnative_lib_EXPORTS -I..\\..\\..\\..\\src\\main\\cpp\\libs\\include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fno-addrsig -march=armv7-a -mthumb -Wa,--noexecstack -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC -fvisibility=hidden    -c ",
+					"src" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/native-lib.cpp",
+					"workingDirectory" : "E:/dvpn/shadowsocks-android-java/app/.externalNativeBuild/cmake/debug/armeabi-v7a"
+				}
+			],
+			"output" : "E:/dvpn/shadowsocks-android-java/app/build/intermediates/cmake/debug/obj/armeabi-v7a/libnative-lib.so",
+			"toolchain" : "2734026807"
+		},
+		"network-Debug-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "network",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/libnetwork.a",
+			"toolchain" : "2734026807"
+		},
+		"protobuf-Debug-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "protobuf",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/libprotobuf.a",
+			"toolchain" : "2734026807"
+		},
+		"security-Debug-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "security",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/libsecurity.a",
+			"toolchain" : "2734026807"
+		},
+		"ssl-Debug-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "ssl",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/libssl.a",
+			"toolchain" : "2734026807"
+		},
+		"transport-Debug-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "transport",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/libtransport.a",
+			"toolchain" : "2734026807"
+		},
+		"uuid-Debug-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "uuid",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/libuuid.a",
+			"toolchain" : "2734026807"
+		},
+		"uv-Debug-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "uv",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/libuv.a",
+			"toolchain" : "2734026807"
+		}
+	},
+	"toolchains" : 
+	{
+		"2734026807" : 
+		{
+			"cCompilerExecutable" : "C:/Users/user/AppData/Local/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe",
+			"cppCompilerExecutable" : "C:/Users/user/AppData/Local/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe"
+		}
+	}
+}

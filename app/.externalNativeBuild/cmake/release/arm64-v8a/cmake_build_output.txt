@@ -1,0 +1,5 @@
+-- Cmake build type is: Release
+-- Cmake build android abi is: arm64-v8a
+-- Configuring done
+-- Generating done
+-- Build files have been written to: E:/dvpn/shadowsocks-android-java/app/.externalNativeBuild/cmake/release/arm64-v8a

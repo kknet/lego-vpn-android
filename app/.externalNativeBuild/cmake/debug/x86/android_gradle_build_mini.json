@@ -1,0 +1,101 @@
+{
+  "buildFiles": [
+    "E:\\dvpn\\shadowsocks-android-java\\app\\CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "C:\\Users\\user\\AppData\\Local\\Android\\Sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\dvpn\\shadowsocks-android-java\\app\\.externalNativeBuild\\cmake\\debug\\x86 --target clean"
+  ],
+  "libraries": {
+    "uuid-Debug-x86": {
+      "artifactName": "uuid",
+      "abi": "x86",
+      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\x86\\libuuid.a"
+    },
+    "security-Debug-x86": {
+      "artifactName": "security",
+      "abi": "x86",
+      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\x86\\libsecurity.a"
+    },
+    "uv-Debug-x86": {
+      "artifactName": "uv",
+      "abi": "x86",
+      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\x86\\libuv.a"
+    },
+    "db-Debug-x86": {
+      "artifactName": "db",
+      "abi": "x86",
+      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\x86\\libdb.a"
+    },
+    "nat_traverse-Debug-x86": {
+      "artifactName": "nat_traverse",
+      "abi": "x86",
+      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\x86\\libnat_traverse.a"
+    },
+    "protobuf-Debug-x86": {
+      "artifactName": "protobuf",
+      "abi": "x86",
+      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\x86\\libprotobuf.a"
+    },
+    "ssl-Debug-x86": {
+      "artifactName": "ssl",
+      "abi": "x86",
+      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\x86\\libssl.a"
+    },
+    "log4cpp-Debug-x86": {
+      "artifactName": "log4cpp",
+      "abi": "x86",
+      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\x86\\liblog4cpp.a"
+    },
+    "client-Debug-x86": {
+      "artifactName": "client",
+      "abi": "x86",
+      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\x86\\libclient.a"
+    },
+    "transport-Debug-x86": {
+      "artifactName": "transport",
+      "abi": "x86",
+      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\x86\\libtransport.a"
+    },
+    "dht-Debug-x86": {
+      "artifactName": "dht",
+      "abi": "x86",
+      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\x86\\libdht.a"
+    },
+    "native-lib-Debug-x86": {
+      "artifactName": "native-lib",
+      "buildCommand": "C:\\Users\\user\\AppData\\Local\\Android\\Sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\dvpn\\shadowsocks-android-java\\app\\.externalNativeBuild\\cmake\\debug\\x86 --target native-lib",
+      "abi": "x86",
+      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\build\\intermediates\\cmake\\debug\\obj\\x86\\libnative-lib.so"
+    },
+    "common-Debug-x86": {
+      "artifactName": "common",
+      "abi": "x86",
+      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\x86\\libcommon.a"
+    },
+    "broadcast-Debug-x86": {
+      "artifactName": "broadcast",
+      "abi": "x86",
+      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\x86\\libbroadcast.a"
+    },
+    "network-Debug-x86": {
+      "artifactName": "network",
+      "abi": "x86",
+      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\x86\\libnetwork.a"
+    },
+    "crypto-Debug-x86": {
+      "artifactName": "crypto",
+      "abi": "x86",
+      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\x86\\libcrypto.a"
+    },
+    "leveldb-Debug-x86": {
+      "artifactName": "leveldb",
+      "abi": "x86",
+      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\x86\\libleveldb.a"
+    },
+    "cryptopp-Debug-x86": {
+      "artifactName": "cryptopp",
+      "abi": "x86",
+      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\x86\\libcryptopp.a"
+    }
+  }
+}

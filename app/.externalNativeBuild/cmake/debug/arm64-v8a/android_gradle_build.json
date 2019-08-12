@@ -1,0 +1,174 @@
+
+{
+	"buildFiles" : [ "E:/dvpn/shadowsocks-android-java/app/CMakeLists.txt" ],
+	"cleanCommands" : 
+	[
+		"C:\\Users\\user\\AppData\\Local\\Android\\Sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\dvpn\\shadowsocks-android-java\\app\\.externalNativeBuild\\cmake\\debug\\arm64-v8a --target clean"
+	],
+	"cppFileExtensions" : [ "cpp" ],
+	"libraries" : 
+	{
+		"broadcast-Debug-arm64-v8a" : 
+		{
+			"abi" : "arm64-v8a",
+			"artifactName" : "broadcast",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/arm64-v8a/libbroadcast.a",
+			"toolchain" : "2734026807"
+		},
+		"client-Debug-arm64-v8a" : 
+		{
+			"abi" : "arm64-v8a",
+			"artifactName" : "client",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/arm64-v8a/libclient.a",
+			"toolchain" : "2734026807"
+		},
+		"common-Debug-arm64-v8a" : 
+		{
+			"abi" : "arm64-v8a",
+			"artifactName" : "common",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/arm64-v8a/libcommon.a",
+			"toolchain" : "2734026807"
+		},
+		"crypto-Debug-arm64-v8a" : 
+		{
+			"abi" : "arm64-v8a",
+			"artifactName" : "crypto",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/arm64-v8a/libcrypto.a",
+			"toolchain" : "2734026807"
+		},
+		"cryptopp-Debug-arm64-v8a" : 
+		{
+			"abi" : "arm64-v8a",
+			"artifactName" : "cryptopp",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/arm64-v8a/libcryptopp.a",
+			"toolchain" : "2734026807"
+		},
+		"db-Debug-arm64-v8a" : 
+		{
+			"abi" : "arm64-v8a",
+			"artifactName" : "db",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/arm64-v8a/libdb.a",
+			"toolchain" : "2734026807"
+		},
+		"dht-Debug-arm64-v8a" : 
+		{
+			"abi" : "arm64-v8a",
+			"artifactName" : "dht",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/arm64-v8a/libdht.a",
+			"toolchain" : "2734026807"
+		},
+		"leveldb-Debug-arm64-v8a" : 
+		{
+			"abi" : "arm64-v8a",
+			"artifactName" : "leveldb",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/arm64-v8a/libleveldb.a",
+			"toolchain" : "2734026807"
+		},
+		"log4cpp-Debug-arm64-v8a" : 
+		{
+			"abi" : "arm64-v8a",
+			"artifactName" : "log4cpp",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/arm64-v8a/liblog4cpp.a",
+			"toolchain" : "2734026807"
+		},
+		"nat_traverse-Debug-arm64-v8a" : 
+		{
+			"abi" : "arm64-v8a",
+			"artifactName" : "nat_traverse",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/arm64-v8a/libnat_traverse.a",
+			"toolchain" : "2734026807"
+		},
+		"native-lib-Debug-arm64-v8a" : 
+		{
+			"abi" : "arm64-v8a",
+			"artifactName" : "native-lib",
+			"buildCommand" : "C:\\Users\\user\\AppData\\Local\\Android\\Sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\dvpn\\shadowsocks-android-java\\app\\.externalNativeBuild\\cmake\\debug\\arm64-v8a --target native-lib",
+			"buildType" : "debug",
+			"files" : 
+			[
+				
+				{
+					"flags" : "  --target=aarch64-none-linux-android21 --gcc-toolchain=C:/Users/user/AppData/Local/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=C:/Users/user/AppData/Local/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dnative_lib_EXPORTS -I..\\..\\..\\..\\src\\main\\cpp\\libs\\include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fno-addrsig -Wa,--noexecstack -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC -fvisibility=hidden    -c ",
+					"src" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/native-lib.cpp",
+					"workingDirectory" : "E:/dvpn/shadowsocks-android-java/app/.externalNativeBuild/cmake/debug/arm64-v8a"
+				}
+			],
+			"output" : "E:/dvpn/shadowsocks-android-java/app/build/intermediates/cmake/debug/obj/arm64-v8a/libnative-lib.so",
+			"toolchain" : "2734026807"
+		},
+		"network-Debug-arm64-v8a" : 
+		{
+			"abi" : "arm64-v8a",
+			"artifactName" : "network",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/arm64-v8a/libnetwork.a",
+			"toolchain" : "2734026807"
+		},
+		"protobuf-Debug-arm64-v8a" : 
+		{
+			"abi" : "arm64-v8a",
+			"artifactName" : "protobuf",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/arm64-v8a/libprotobuf.a",
+			"toolchain" : "2734026807"
+		},
+		"security-Debug-arm64-v8a" : 
+		{
+			"abi" : "arm64-v8a",
+			"artifactName" : "security",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/arm64-v8a/libsecurity.a",
+			"toolchain" : "2734026807"
+		},
+		"ssl-Debug-arm64-v8a" : 
+		{
+			"abi" : "arm64-v8a",
+			"artifactName" : "ssl",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/arm64-v8a/libssl.a",
+			"toolchain" : "2734026807"
+		},
+		"transport-Debug-arm64-v8a" : 
+		{
+			"abi" : "arm64-v8a",
+			"artifactName" : "transport",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/arm64-v8a/libtransport.a",
+			"toolchain" : "2734026807"
+		},
+		"uuid-Debug-arm64-v8a" : 
+		{
+			"abi" : "arm64-v8a",
+			"artifactName" : "uuid",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/arm64-v8a/libuuid.a",
+			"toolchain" : "2734026807"
+		},
+		"uv-Debug-arm64-v8a" : 
+		{
+			"abi" : "arm64-v8a",
+			"artifactName" : "uv",
+			"buildType" : "debug",
+			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/arm64-v8a/libuv.a",
+			"toolchain" : "2734026807"
+		}
+	},
+	"toolchains" : 
+	{
+		"2734026807" : 
+		{
+			"cCompilerExecutable" : "C:/Users/user/AppData/Local/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe",
+			"cppCompilerExecutable" : "C:/Users/user/AppData/Local/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe"
+		}
+	}
+}

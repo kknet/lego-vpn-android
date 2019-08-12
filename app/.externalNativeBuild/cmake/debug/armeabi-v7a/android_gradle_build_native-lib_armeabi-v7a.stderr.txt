@@ -1,0 +1,1 @@
+ninja: error: '../../../../src/main/cpp/libs/armeabi-v7a/libclient.a', needed by '../../../../build/intermediates/cmake/debug/obj/armeabi-v7a/libnative-lib.so', missing and no known rule to make it
