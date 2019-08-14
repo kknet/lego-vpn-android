@@ -1,9 +1,9 @@
 
 {
-	"buildFiles" : [ "E:/dvpn/shadowsocks-android-java/app/CMakeLists.txt" ],
+	"buildFiles" : [ "E:/lego/lego/lego_vpn_android/app/CMakeLists.txt" ],
 	"cleanCommands" : 
 	[
-		"C:\\Users\\user\\AppData\\Local\\Android\\Sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\dvpn\\shadowsocks-android-java\\app\\.externalNativeBuild\\cmake\\debug\\x86_64 --target clean"
+		"C:\\Users\\user\\AppData\\Local\\Android\\Sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\lego\\lego\\lego_vpn_android\\app\\.externalNativeBuild\\cmake\\debug\\x86_64 --target clean"
 	],
 	"cppFileExtensions" : [ "cpp" ],
 	"libraries" : 
@@ -13,7 +13,7 @@
 			"abi" : "x86_64",
 			"artifactName" : "broadcast",
 			"buildType" : "debug",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/x86_64/libbroadcast.a",
+			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/x86_64/libbroadcast.a",
 			"toolchain" : "2734026807"
 		},
 		"client-Debug-x86_64" : 
@@ -21,7 +21,7 @@
 			"abi" : "x86_64",
 			"artifactName" : "client",
 			"buildType" : "debug",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/x86_64/libclient.a",
+			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/x86_64/libclient.a",
 			"toolchain" : "2734026807"
 		},
 		"common-Debug-x86_64" : 
@@ -29,7 +29,7 @@
 			"abi" : "x86_64",
 			"artifactName" : "common",
 			"buildType" : "debug",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/x86_64/libcommon.a",
+			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/x86_64/libcommon.a",
 			"toolchain" : "2734026807"
 		},
 		"crypto-Debug-x86_64" : 
@@ -37,7 +37,7 @@
 			"abi" : "x86_64",
 			"artifactName" : "crypto",
 			"buildType" : "debug",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/x86_64/libcrypto.a",
+			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/x86_64/libcrypto.a",
 			"toolchain" : "2734026807"
 		},
 		"cryptopp-Debug-x86_64" : 
@@ -45,7 +45,7 @@
 			"abi" : "x86_64",
 			"artifactName" : "cryptopp",
 			"buildType" : "debug",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/x86_64/libcryptopp.a",
+			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/x86_64/libcryptopp.a",
 			"toolchain" : "2734026807"
 		},
 		"db-Debug-x86_64" : 
@@ -53,7 +53,7 @@
 			"abi" : "x86_64",
 			"artifactName" : "db",
 			"buildType" : "debug",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/x86_64/libdb.a",
+			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/x86_64/libdb.a",
 			"toolchain" : "2734026807"
 		},
 		"dht-Debug-x86_64" : 
@@ -61,7 +61,7 @@
 			"abi" : "x86_64",
 			"artifactName" : "dht",
 			"buildType" : "debug",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/x86_64/libdht.a",
+			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/x86_64/libdht.a",
 			"toolchain" : "2734026807"
 		},
 		"leveldb-Debug-x86_64" : 
@@ -69,7 +69,7 @@
 			"abi" : "x86_64",
 			"artifactName" : "leveldb",
 			"buildType" : "debug",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/x86_64/libleveldb.a",
+			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/x86_64/libleveldb.a",
 			"toolchain" : "2734026807"
 		},
 		"log4cpp-Debug-x86_64" : 
@@ -77,7 +77,7 @@
 			"abi" : "x86_64",
 			"artifactName" : "log4cpp",
 			"buildType" : "debug",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/x86_64/liblog4cpp.a",
+			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/x86_64/liblog4cpp.a",
 			"toolchain" : "2734026807"
 		},
 		"nat_traverse-Debug-x86_64" : 
@@ -85,25 +85,25 @@
 			"abi" : "x86_64",
 			"artifactName" : "nat_traverse",
 			"buildType" : "debug",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/x86_64/libnat_traverse.a",
+			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/x86_64/libnat_traverse.a",
 			"toolchain" : "2734026807"
 		},
 		"native-lib-Debug-x86_64" : 
 		{
 			"abi" : "x86_64",
 			"artifactName" : "native-lib",
-			"buildCommand" : "C:\\Users\\user\\AppData\\Local\\Android\\Sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\dvpn\\shadowsocks-android-java\\app\\.externalNativeBuild\\cmake\\debug\\x86_64 --target native-lib",
+			"buildCommand" : "C:\\Users\\user\\AppData\\Local\\Android\\Sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\lego\\lego\\lego_vpn_android\\app\\.externalNativeBuild\\cmake\\debug\\x86_64 --target native-lib",
 			"buildType" : "debug",
 			"files" : 
 			[
 				
 				{
 					"flags" : "  --target=x86_64-none-linux-android21 --gcc-toolchain=C:/Users/user/AppData/Local/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=C:/Users/user/AppData/Local/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dnative_lib_EXPORTS -I..\\..\\..\\..\\src\\main\\cpp\\libs\\include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fno-addrsig -Wa,--noexecstack -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC -fvisibility=hidden    -c ",
-					"src" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/native-lib.cpp",
-					"workingDirectory" : "E:/dvpn/shadowsocks-android-java/app/.externalNativeBuild/cmake/debug/x86_64"
+					"src" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/native-lib.cpp",
+					"workingDirectory" : "E:/lego/lego/lego_vpn_android/app/.externalNativeBuild/cmake/debug/x86_64"
 				}
 			],
-			"output" : "E:/dvpn/shadowsocks-android-java/app/build/intermediates/cmake/debug/obj/x86_64/libnative-lib.so",
+			"output" : "E:/lego/lego/lego_vpn_android/app/build/intermediates/cmake/debug/obj/x86_64/libnative-lib.so",
 			"toolchain" : "2734026807"
 		},
 		"network-Debug-x86_64" : 
@@ -111,7 +111,7 @@
 			"abi" : "x86_64",
 			"artifactName" : "network",
 			"buildType" : "debug",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/x86_64/libnetwork.a",
+			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/x86_64/libnetwork.a",
 			"toolchain" : "2734026807"
 		},
 		"protobuf-Debug-x86_64" : 
@@ -119,7 +119,7 @@
 			"abi" : "x86_64",
 			"artifactName" : "protobuf",
 			"buildType" : "debug",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/x86_64/libprotobuf.a",
+			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/x86_64/libprotobuf.a",
 			"toolchain" : "2734026807"
 		},
 		"security-Debug-x86_64" : 
@@ -127,7 +127,7 @@
 			"abi" : "x86_64",
 			"artifactName" : "security",
 			"buildType" : "debug",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/x86_64/libsecurity.a",
+			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/x86_64/libsecurity.a",
 			"toolchain" : "2734026807"
 		},
 		"ssl-Debug-x86_64" : 
@@ -135,7 +135,7 @@
 			"abi" : "x86_64",
 			"artifactName" : "ssl",
 			"buildType" : "debug",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/x86_64/libssl.a",
+			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/x86_64/libssl.a",
 			"toolchain" : "2734026807"
 		},
 		"transport-Debug-x86_64" : 
@@ -143,7 +143,7 @@
 			"abi" : "x86_64",
 			"artifactName" : "transport",
 			"buildType" : "debug",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/x86_64/libtransport.a",
+			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/x86_64/libtransport.a",
 			"toolchain" : "2734026807"
 		},
 		"uuid-Debug-x86_64" : 
@@ -151,7 +151,7 @@
 			"abi" : "x86_64",
 			"artifactName" : "uuid",
 			"buildType" : "debug",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/x86_64/libuuid.a",
+			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/x86_64/libuuid.a",
 			"toolchain" : "2734026807"
 		},
 		"uv-Debug-x86_64" : 
@@ -159,7 +159,7 @@
 			"abi" : "x86_64",
 			"artifactName" : "uv",
 			"buildType" : "debug",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/x86_64/libuv.a",
+			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/x86_64/libuv.a",
 			"toolchain" : "2734026807"
 		}
 	},

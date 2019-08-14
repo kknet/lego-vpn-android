@@ -42,7 +42,7 @@ rule CUSTOM_COMMAND
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = C:\Users\user\AppData\Local\Android\Sdk\cmake\3.6.4111459\bin\cmake.exe -HE:\dvpn\shadowsocks-android-java\app -BE:\dvpn\shadowsocks-android-java\app\.externalNativeBuild\cmake\release\arm64-v8a
+  command = C:\Users\user\AppData\Local\Android\Sdk\cmake\3.6.4111459\bin\cmake.exe -HE:\lego\lego\lego_vpn_android\app -BE:\lego\lego\lego_vpn_android\app\.externalNativeBuild\cmake\release\arm64-v8a
   description = Re-running CMake...
   generator = 1
 

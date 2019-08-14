@@ -76,6 +76,8 @@ import at.markushi.ui.CircleButton;
 import cn.forward.androids.views.BitmapScrollPicker;
 import cn.forward.androids.views.ScrollPickerView;
 
+import org.json.JSONObject;
+import org.json.JSONArray;
 
 public class MainActivity extends ListActivity implements
         View.OnClickListener,
@@ -103,6 +105,65 @@ public class MainActivity extends ListActivity implements
     ArrayAdapter<String> adapter;
     int list_counter = 0;
     private String int_tx_hash;
+
+    private static JSONObject getBaseRequest() {
+        try {
+            return new JSONObject()
+                    .put("apiVersion", 2)
+                    .put("apiVersionMinor", 0);
+        } catch (org.json.JSONException e) {
+            return null;
+        }
+    }
+
+    private static JSONObject getTokenizationSpecification() {
+        try {
+            JSONObject tokenizationSpecification = new JSONObject();
+            tokenizationSpecification.put("type", "DIRECT");
+            tokenizationSpecification.put(
+                    "parameters",
+                    new JSONObject()
+                            .put("protocolVersion", "ECv2")
+                            .put("publicKey", "BOdoXP1aiNp.....kh3JUhiSZKHYF2Y="));
+            return tokenizationSpecification;
+        } catch (org.json.JSONException e) {
+            return null;
+        }
+    }
+    private static JSONArray getAllowedCardNetworks() {
+            return new JSONArray()
+                .put("AMEX")
+                .put("DISCOVER")
+                .put("INTERAC")
+                .put("JCB")
+                .put("MASTERCARD")
+                .put("VISA");
+
+
+    }
+
+    private static JSONArray getAllowedCardAuthMethods() {
+        return new JSONArray()
+                .put("PAN_ONLY")
+                .put("CRYPTOGRAM_3DS");
+    }
+
+    private static JSONObject getBaseCardPaymentMethod() {
+        try {
+            JSONObject cardPaymentMethod = new JSONObject();
+            cardPaymentMethod.put("type", "CARD");
+            cardPaymentMethod.put(
+                    "parameters",
+                    new JSONObject()
+                            .put("allowedAuthMethods", getAllowedCardAuthMethods())
+                            .put("allowedCardNetworks", getAllowedCardNetworks()));
+
+            return cardPaymentMethod;
+        } catch (org.json.JSONException e) {
+            return null;
+        }
+    }
+
 
     private Handler handler = new Handler(){
         @Override
@@ -268,7 +329,7 @@ public class MainActivity extends ListActivity implements
         operatingAnim.setInterpolator(lin);
         String local_ip = getIpAddressString();
         int local_port = 7981;
-        String res = initP2PNetwork(local_ip, local_port, "id_1:134.209.43.75:8991,id_1:134.209.43.75:8991,id_1:134.209.43.75:8991,id_1:134.209.43.75:8991");
+        String res = initP2PNetwork(local_ip, local_port, "id_1:134.209.43.75:8991");
         if (res.equals("create account address error!")) {
             Log.e(TAG,"init p2p network failed!" + res + ", " + local_ip + ":" + local_port);
         }
@@ -565,7 +626,7 @@ public class MainActivity extends ListActivity implements
                 create_tx_period += 500;
                 if (create_tx_period >= 10000) {
                     if (LocalVpnService.IsRunning) {
-                        String tx_gix1 = transaction(SHA("to", "SHA-256"), 10);
+                        String tx_gix1 = transaction("9650e70834d97b0d4de7bdb8a959045a2c9a5704219c896e3c35d2c88e279bb8", 10);
                         AddTxGid(tx_gix1);
                         Log.e(TAG,"start new tx: " + tx_gix1);
                     }

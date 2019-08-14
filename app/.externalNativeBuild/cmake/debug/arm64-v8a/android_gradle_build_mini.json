@@ -1,101 +1,101 @@
 {
   "buildFiles": [
-    "E:\\dvpn\\shadowsocks-android-java\\app\\CMakeLists.txt"
+    "E:\\lego\\lego\\lego_vpn_android\\app\\CMakeLists.txt"
   ],
   "cleanCommands": [
-    "C:\\Users\\user\\AppData\\Local\\Android\\Sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\dvpn\\shadowsocks-android-java\\app\\.externalNativeBuild\\cmake\\debug\\arm64-v8a --target clean"
+    "C:\\Users\\user\\AppData\\Local\\Android\\Sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\lego\\lego\\lego_vpn_android\\app\\.externalNativeBuild\\cmake\\debug\\arm64-v8a --target clean"
   ],
   "libraries": {
     "crypto-Debug-arm64-v8a": {
       "artifactName": "crypto",
       "abi": "arm64-v8a",
-      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libcrypto.a"
+      "output": "E:\\lego\\lego\\lego_vpn_android\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libcrypto.a"
     },
     "dht-Debug-arm64-v8a": {
       "artifactName": "dht",
       "abi": "arm64-v8a",
-      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libdht.a"
+      "output": "E:\\lego\\lego\\lego_vpn_android\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libdht.a"
     },
     "nat_traverse-Debug-arm64-v8a": {
       "artifactName": "nat_traverse",
       "abi": "arm64-v8a",
-      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libnat_traverse.a"
+      "output": "E:\\lego\\lego\\lego_vpn_android\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libnat_traverse.a"
     },
     "protobuf-Debug-arm64-v8a": {
       "artifactName": "protobuf",
       "abi": "arm64-v8a",
-      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libprotobuf.a"
+      "output": "E:\\lego\\lego\\lego_vpn_android\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libprotobuf.a"
     },
     "security-Debug-arm64-v8a": {
       "artifactName": "security",
       "abi": "arm64-v8a",
-      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libsecurity.a"
+      "output": "E:\\lego\\lego\\lego_vpn_android\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libsecurity.a"
     },
     "db-Debug-arm64-v8a": {
       "artifactName": "db",
       "abi": "arm64-v8a",
-      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libdb.a"
+      "output": "E:\\lego\\lego\\lego_vpn_android\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libdb.a"
     },
     "network-Debug-arm64-v8a": {
       "artifactName": "network",
       "abi": "arm64-v8a",
-      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libnetwork.a"
+      "output": "E:\\lego\\lego\\lego_vpn_android\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libnetwork.a"
     },
     "uuid-Debug-arm64-v8a": {
       "artifactName": "uuid",
       "abi": "arm64-v8a",
-      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libuuid.a"
+      "output": "E:\\lego\\lego\\lego_vpn_android\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libuuid.a"
     },
     "broadcast-Debug-arm64-v8a": {
       "artifactName": "broadcast",
       "abi": "arm64-v8a",
-      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libbroadcast.a"
+      "output": "E:\\lego\\lego\\lego_vpn_android\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libbroadcast.a"
     },
     "common-Debug-arm64-v8a": {
       "artifactName": "common",
       "abi": "arm64-v8a",
-      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libcommon.a"
+      "output": "E:\\lego\\lego\\lego_vpn_android\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libcommon.a"
     },
     "leveldb-Debug-arm64-v8a": {
       "artifactName": "leveldb",
       "abi": "arm64-v8a",
-      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libleveldb.a"
+      "output": "E:\\lego\\lego\\lego_vpn_android\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libleveldb.a"
     },
     "ssl-Debug-arm64-v8a": {
       "artifactName": "ssl",
       "abi": "arm64-v8a",
-      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libssl.a"
+      "output": "E:\\lego\\lego\\lego_vpn_android\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libssl.a"
     },
     "client-Debug-arm64-v8a": {
       "artifactName": "client",
       "abi": "arm64-v8a",
-      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libclient.a"
+      "output": "E:\\lego\\lego\\lego_vpn_android\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libclient.a"
     },
     "cryptopp-Debug-arm64-v8a": {
       "artifactName": "cryptopp",
       "abi": "arm64-v8a",
-      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libcryptopp.a"
+      "output": "E:\\lego\\lego\\lego_vpn_android\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libcryptopp.a"
     },
     "log4cpp-Debug-arm64-v8a": {
       "artifactName": "log4cpp",
       "abi": "arm64-v8a",
-      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\arm64-v8a\\liblog4cpp.a"
+      "output": "E:\\lego\\lego\\lego_vpn_android\\app\\src\\main\\cpp\\libs\\arm64-v8a\\liblog4cpp.a"
     },
     "uv-Debug-arm64-v8a": {
       "artifactName": "uv",
       "abi": "arm64-v8a",
-      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libuv.a"
+      "output": "E:\\lego\\lego\\lego_vpn_android\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libuv.a"
     },
     "native-lib-Debug-arm64-v8a": {
       "artifactName": "native-lib",
-      "buildCommand": "C:\\Users\\user\\AppData\\Local\\Android\\Sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\dvpn\\shadowsocks-android-java\\app\\.externalNativeBuild\\cmake\\debug\\arm64-v8a --target native-lib",
+      "buildCommand": "C:\\Users\\user\\AppData\\Local\\Android\\Sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\lego\\lego\\lego_vpn_android\\app\\.externalNativeBuild\\cmake\\debug\\arm64-v8a --target native-lib",
       "abi": "arm64-v8a",
-      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\build\\intermediates\\cmake\\debug\\obj\\arm64-v8a\\libnative-lib.so"
+      "output": "E:\\lego\\lego\\lego_vpn_android\\app\\build\\intermediates\\cmake\\debug\\obj\\arm64-v8a\\libnative-lib.so"
     },
     "transport-Debug-arm64-v8a": {
       "artifactName": "transport",
       "abi": "arm64-v8a",
-      "output": "E:\\dvpn\\shadowsocks-android-java\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libtransport.a"
+      "output": "E:\\lego\\lego\\lego_vpn_android\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libtransport.a"
     }
   }
 }
