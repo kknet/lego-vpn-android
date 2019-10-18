@@ -26,6 +26,8 @@ add_library(cryptopp STATIC IMPORTED)
 add_library(ssl STATIC IMPORTED)
 add_library(crypto STATIC IMPORTED)
 add_library(common STATIC IMPORTED)
+add_library(kcp STATIC IMPORTED)
+add_library(ip STATIC IMPORTED)
 add_library(log4cpp STATIC IMPORTED)
 add_library(protobuf STATIC IMPORTED)
 add_library(leveldb STATIC IMPORTED)
@@ -39,10 +41,13 @@ add_library(client STATIC IMPORTED)
 add_library(uuid STATIC IMPORTED)
 add_library(broadcast STATIC IMPORTED)
 add_library(nat_traverse STATIC IMPORTED)
+add_library(zlib STATIC IMPORTED)
 set_target_properties(cryptopp    PROPERTIES IMPORTED_LOCATION    ${LOCAL_PATH}/libs/${ANDROID_ABI}/libcryptopp.a )
 set_target_properties(ssl    PROPERTIES IMPORTED_LOCATION    ${LOCAL_PATH}/libs/${ANDROID_ABI}/libssl.a )
 set_target_properties(crypto    PROPERTIES IMPORTED_LOCATION    ${LOCAL_PATH}/libs/${ANDROID_ABI}/libcrypto.a )
 set_target_properties(common    PROPERTIES IMPORTED_LOCATION    ${LOCAL_PATH}/libs/${ANDROID_ABI}/libcommon.a )
+set_target_properties(kcp    PROPERTIES IMPORTED_LOCATION    ${LOCAL_PATH}/libs/${ANDROID_ABI}/libkcp.a )
+set_target_properties(ip    PROPERTIES IMPORTED_LOCATION    ${LOCAL_PATH}/libs/${ANDROID_ABI}/libip.a )
 set_target_properties(log4cpp    PROPERTIES IMPORTED_LOCATION    ${LOCAL_PATH}/libs/${ANDROID_ABI}/liblog4cpp.a )
 set_target_properties(protobuf    PROPERTIES IMPORTED_LOCATION    ${LOCAL_PATH}/libs/${ANDROID_ABI}/libprotobuf.a )
 set_target_properties(leveldb    PROPERTIES IMPORTED_LOCATION    ${LOCAL_PATH}/libs/${ANDROID_ABI}/libleveldb.a )
@@ -56,7 +61,7 @@ set_target_properties(client    PROPERTIES IMPORTED_LOCATION    ${LOCAL_PATH}/li
 set_target_properties(uuid    PROPERTIES IMPORTED_LOCATION    ${LOCAL_PATH}/libs/${ANDROID_ABI}/libuuid.a )
 set_target_properties(broadcast    PROPERTIES IMPORTED_LOCATION    ${LOCAL_PATH}/libs/${ANDROID_ABI}/libbroadcast.a )
 set_target_properties(nat_traverse    PROPERTIES IMPORTED_LOCATION    ${LOCAL_PATH}/libs/${ANDROID_ABI}/libnat_traverse.a )
-
+set_target_properties(zlib    PROPERTIES IMPORTED_LOCATION    ${LOCAL_PATH}/libs/${ANDROID_ABI}/libzlib.a )
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.
 # You can define multiple libraries, and CMake builds them for you.
@@ -100,7 +105,10 @@ target_link_libraries( # Specifies the target library.
         security
         ssl
         crypto
+        zlib
         db
+        ip
+        kcp
         common
         log4cpp
         uv

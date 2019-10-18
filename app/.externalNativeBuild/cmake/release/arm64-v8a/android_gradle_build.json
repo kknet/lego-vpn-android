@@ -1,9 +1,9 @@
 
 {
-	"buildFiles" : [ "E:/lego/lego/lego_vpn_android/app/CMakeLists.txt" ],
+	"buildFiles" : [ "D:/lego/lego-vpn-android/app/CMakeLists.txt" ],
 	"cleanCommands" : 
 	[
-		"C:\\Users\\user\\AppData\\Local\\Android\\Sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\lego\\lego\\lego_vpn_android\\app\\.externalNativeBuild\\cmake\\release\\arm64-v8a --target clean"
+		"D:\\tools\\tools\\lib\\cmake\\3.6.4111459\\bin\\cmake.exe --build D:\\lego\\lego-vpn-android\\app\\.externalNativeBuild\\cmake\\release\\arm64-v8a --target clean"
 	],
 	"cppFileExtensions" : [ "cpp" ],
 	"libraries" : 
@@ -13,162 +13,186 @@
 			"abi" : "arm64-v8a",
 			"artifactName" : "broadcast",
 			"buildType" : "release",
-			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/arm64-v8a/libbroadcast.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/arm64-v8a/libbroadcast.a",
+			"toolchain" : "688343757"
 		},
 		"client-Release-arm64-v8a" : 
 		{
 			"abi" : "arm64-v8a",
 			"artifactName" : "client",
 			"buildType" : "release",
-			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/arm64-v8a/libclient.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/arm64-v8a/libclient.a",
+			"toolchain" : "688343757"
 		},
 		"common-Release-arm64-v8a" : 
 		{
 			"abi" : "arm64-v8a",
 			"artifactName" : "common",
 			"buildType" : "release",
-			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/arm64-v8a/libcommon.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/arm64-v8a/libcommon.a",
+			"toolchain" : "688343757"
 		},
 		"crypto-Release-arm64-v8a" : 
 		{
 			"abi" : "arm64-v8a",
 			"artifactName" : "crypto",
 			"buildType" : "release",
-			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/arm64-v8a/libcrypto.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/arm64-v8a/libcrypto.a",
+			"toolchain" : "688343757"
 		},
 		"cryptopp-Release-arm64-v8a" : 
 		{
 			"abi" : "arm64-v8a",
 			"artifactName" : "cryptopp",
 			"buildType" : "release",
-			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/arm64-v8a/libcryptopp.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/arm64-v8a/libcryptopp.a",
+			"toolchain" : "688343757"
 		},
 		"db-Release-arm64-v8a" : 
 		{
 			"abi" : "arm64-v8a",
 			"artifactName" : "db",
 			"buildType" : "release",
-			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/arm64-v8a/libdb.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/arm64-v8a/libdb.a",
+			"toolchain" : "688343757"
 		},
 		"dht-Release-arm64-v8a" : 
 		{
 			"abi" : "arm64-v8a",
 			"artifactName" : "dht",
 			"buildType" : "release",
-			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/arm64-v8a/libdht.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/arm64-v8a/libdht.a",
+			"toolchain" : "688343757"
+		},
+		"ip-Release-arm64-v8a" : 
+		{
+			"abi" : "arm64-v8a",
+			"artifactName" : "ip",
+			"buildType" : "release",
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/arm64-v8a/libip.a",
+			"toolchain" : "688343757"
+		},
+		"kcp-Release-arm64-v8a" : 
+		{
+			"abi" : "arm64-v8a",
+			"artifactName" : "kcp",
+			"buildType" : "release",
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/arm64-v8a/libkcp.a",
+			"toolchain" : "688343757"
 		},
 		"leveldb-Release-arm64-v8a" : 
 		{
 			"abi" : "arm64-v8a",
 			"artifactName" : "leveldb",
 			"buildType" : "release",
-			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/arm64-v8a/libleveldb.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/arm64-v8a/libleveldb.a",
+			"toolchain" : "688343757"
 		},
 		"log4cpp-Release-arm64-v8a" : 
 		{
 			"abi" : "arm64-v8a",
 			"artifactName" : "log4cpp",
 			"buildType" : "release",
-			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/arm64-v8a/liblog4cpp.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/arm64-v8a/liblog4cpp.a",
+			"toolchain" : "688343757"
 		},
 		"nat_traverse-Release-arm64-v8a" : 
 		{
 			"abi" : "arm64-v8a",
 			"artifactName" : "nat_traverse",
 			"buildType" : "release",
-			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/arm64-v8a/libnat_traverse.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/arm64-v8a/libnat_traverse.a",
+			"toolchain" : "688343757"
 		},
 		"native-lib-Release-arm64-v8a" : 
 		{
 			"abi" : "arm64-v8a",
 			"artifactName" : "native-lib",
-			"buildCommand" : "C:\\Users\\user\\AppData\\Local\\Android\\Sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\lego\\lego\\lego_vpn_android\\app\\.externalNativeBuild\\cmake\\release\\arm64-v8a --target native-lib",
+			"buildCommand" : "D:\\tools\\tools\\lib\\cmake\\3.6.4111459\\bin\\cmake.exe --build D:\\lego\\lego-vpn-android\\app\\.externalNativeBuild\\cmake\\release\\arm64-v8a --target native-lib",
 			"buildType" : "release",
 			"files" : 
 			[
 				
 				{
-					"flags" : "  --target=aarch64-none-linux-android21 --gcc-toolchain=C:/Users/user/AppData/Local/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=C:/Users/user/AppData/Local/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dnative_lib_EXPORTS -I..\\..\\..\\..\\src\\main\\cpp\\libs\\include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fno-addrsig -Wa,--noexecstack -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC -fvisibility=hidden    -c ",
-					"src" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/native-lib.cpp",
-					"workingDirectory" : "E:/lego/lego/lego_vpn_android/app/.externalNativeBuild/cmake/release/arm64-v8a"
+					"flags" : "  --target=aarch64-none-linux-android23 --gcc-toolchain=D:/tools/tools/lib/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/tools/tools/lib/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dnative_lib_EXPORTS -I..\\..\\..\\..\\src\\main\\cpp\\libs\\include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fno-addrsig -Wa,--noexecstack -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC -fvisibility=hidden    -c ",
+					"src" : "D:/lego/lego-vpn-android/app/src/main/cpp/native-lib.cpp",
+					"workingDirectory" : "D:/lego/lego-vpn-android/app/.externalNativeBuild/cmake/release/arm64-v8a"
 				}
 			],
-			"output" : "E:/lego/lego/lego_vpn_android/app/build/intermediates/cmake/release/obj/arm64-v8a/libnative-lib.so",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/build/intermediates/cmake/release/obj/arm64-v8a/libnative-lib.so",
+			"toolchain" : "688343757"
 		},
 		"network-Release-arm64-v8a" : 
 		{
 			"abi" : "arm64-v8a",
 			"artifactName" : "network",
 			"buildType" : "release",
-			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/arm64-v8a/libnetwork.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/arm64-v8a/libnetwork.a",
+			"toolchain" : "688343757"
 		},
 		"protobuf-Release-arm64-v8a" : 
 		{
 			"abi" : "arm64-v8a",
 			"artifactName" : "protobuf",
 			"buildType" : "release",
-			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/arm64-v8a/libprotobuf.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/arm64-v8a/libprotobuf.a",
+			"toolchain" : "688343757"
 		},
 		"security-Release-arm64-v8a" : 
 		{
 			"abi" : "arm64-v8a",
 			"artifactName" : "security",
 			"buildType" : "release",
-			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/arm64-v8a/libsecurity.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/arm64-v8a/libsecurity.a",
+			"toolchain" : "688343757"
 		},
 		"ssl-Release-arm64-v8a" : 
 		{
 			"abi" : "arm64-v8a",
 			"artifactName" : "ssl",
 			"buildType" : "release",
-			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/arm64-v8a/libssl.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/arm64-v8a/libssl.a",
+			"toolchain" : "688343757"
 		},
 		"transport-Release-arm64-v8a" : 
 		{
 			"abi" : "arm64-v8a",
 			"artifactName" : "transport",
 			"buildType" : "release",
-			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/arm64-v8a/libtransport.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/arm64-v8a/libtransport.a",
+			"toolchain" : "688343757"
 		},
 		"uuid-Release-arm64-v8a" : 
 		{
 			"abi" : "arm64-v8a",
 			"artifactName" : "uuid",
 			"buildType" : "release",
-			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/arm64-v8a/libuuid.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/arm64-v8a/libuuid.a",
+			"toolchain" : "688343757"
 		},
 		"uv-Release-arm64-v8a" : 
 		{
 			"abi" : "arm64-v8a",
 			"artifactName" : "uv",
 			"buildType" : "release",
-			"output" : "E:/lego/lego/lego_vpn_android/app/src/main/cpp/libs/arm64-v8a/libuv.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/arm64-v8a/libuv.a",
+			"toolchain" : "688343757"
+		},
+		"zlib-Release-arm64-v8a" : 
+		{
+			"abi" : "arm64-v8a",
+			"artifactName" : "zlib",
+			"buildType" : "release",
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/arm64-v8a/libzlib.a",
+			"toolchain" : "688343757"
 		}
 	},
 	"toolchains" : 
 	{
-		"2734026807" : 
+		"688343757" : 
 		{
-			"cCompilerExecutable" : "C:/Users/user/AppData/Local/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe",
-			"cppCompilerExecutable" : "C:/Users/user/AppData/Local/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe"
+			"cCompilerExecutable" : "D:/tools/tools/lib/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe",
+			"cppCompilerExecutable" : "D:/tools/tools/lib/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe"
 		}
 	}
 }

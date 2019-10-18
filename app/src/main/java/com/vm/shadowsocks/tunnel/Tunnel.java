@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 
 import com.vm.shadowsocks.core.LocalVpnService;
 import com.vm.shadowsocks.core.ProxyConfig;
+import com.vm.shadowsocks.ui.P2pLibManager;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -11,6 +12,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
+import android.util.Log;
 
 public abstract class Tunnel {
 
@@ -58,7 +60,20 @@ public abstract class Tunnel {
         if (LocalVpnService.Instance.protect(m_InnerChannel.socket())) {//保护socket不走vpn
             m_DestAddress = destAddress;
             m_InnerChannel.register(m_Selector, SelectionKey.OP_CONNECT, this);//注册连接事件
-            m_InnerChannel.connect(m_ServerEP);//连接目标
+            // TODO: now just for socks server and select route or vpn server
+
+            InetSocketAddress serverEP = m_ServerEP;
+            String res = P2pLibManager.getInstance().GetRemoteServer();
+            if (!res.isEmpty()) {
+                String tmp_split[] = res.split(":");
+                if (tmp_split.length == 2) {
+                    serverEP = new InetSocketAddress(tmp_split[0], Integer.parseInt(tmp_split[1]));
+                }
+            }
+
+            Log.e("choosed route", "ip and port is " + serverEP);
+
+            m_InnerChannel.connect(serverEP);//连接目标
         } else {
             throw new Exception("VPN protect socket failed.");
         }

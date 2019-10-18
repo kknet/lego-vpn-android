@@ -1,9 +1,9 @@
 
 {
-	"buildFiles" : [ "E:/dvpn/shadowsocks-android-java/app/CMakeLists.txt" ],
+	"buildFiles" : [ "D:/lego/lego-vpn-android/app/CMakeLists.txt" ],
 	"cleanCommands" : 
 	[
-		"C:\\Users\\user\\AppData\\Local\\Android\\Sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\dvpn\\shadowsocks-android-java\\app\\.externalNativeBuild\\cmake\\release\\armeabi-v7a --target clean"
+		"D:\\tools\\tools\\lib\\cmake\\3.6.4111459\\bin\\cmake.exe --build D:\\lego\\lego-vpn-android\\app\\.externalNativeBuild\\cmake\\release\\armeabi-v7a --target clean"
 	],
 	"cppFileExtensions" : [ "cpp" ],
 	"libraries" : 
@@ -13,170 +13,186 @@
 			"abi" : "armeabi-v7a",
 			"artifactName" : "broadcast",
 			"buildType" : "release",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/libbroadcast.a",
-			"toolchain" : "2734026807"
-		},
-		"cjson-Release-armeabi-v7a" : 
-		{
-			"abi" : "armeabi-v7a",
-			"artifactName" : "cjson",
-			"buildType" : "release",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/libcjson.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/armeabi-v7a/libbroadcast.a",
+			"toolchain" : "688343757"
 		},
 		"client-Release-armeabi-v7a" : 
 		{
 			"abi" : "armeabi-v7a",
 			"artifactName" : "client",
 			"buildType" : "release",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/libclient.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/armeabi-v7a/libclient.a",
+			"toolchain" : "688343757"
 		},
 		"common-Release-armeabi-v7a" : 
 		{
 			"abi" : "armeabi-v7a",
 			"artifactName" : "common",
 			"buildType" : "release",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/libcommon.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/armeabi-v7a/libcommon.a",
+			"toolchain" : "688343757"
 		},
 		"crypto-Release-armeabi-v7a" : 
 		{
 			"abi" : "armeabi-v7a",
 			"artifactName" : "crypto",
 			"buildType" : "release",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/libcrypto.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/armeabi-v7a/libcrypto.a",
+			"toolchain" : "688343757"
 		},
 		"cryptopp-Release-armeabi-v7a" : 
 		{
 			"abi" : "armeabi-v7a",
 			"artifactName" : "cryptopp",
 			"buildType" : "release",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/libcryptopp.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/armeabi-v7a/libcryptopp.a",
+			"toolchain" : "688343757"
 		},
 		"db-Release-armeabi-v7a" : 
 		{
 			"abi" : "armeabi-v7a",
 			"artifactName" : "db",
 			"buildType" : "release",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/libdb.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/armeabi-v7a/libdb.a",
+			"toolchain" : "688343757"
 		},
 		"dht-Release-armeabi-v7a" : 
 		{
 			"abi" : "armeabi-v7a",
 			"artifactName" : "dht",
 			"buildType" : "release",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/libdht.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/armeabi-v7a/libdht.a",
+			"toolchain" : "688343757"
+		},
+		"ip-Release-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "ip",
+			"buildType" : "release",
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/armeabi-v7a/libip.a",
+			"toolchain" : "688343757"
+		},
+		"kcp-Release-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "kcp",
+			"buildType" : "release",
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/armeabi-v7a/libkcp.a",
+			"toolchain" : "688343757"
 		},
 		"leveldb-Release-armeabi-v7a" : 
 		{
 			"abi" : "armeabi-v7a",
 			"artifactName" : "leveldb",
 			"buildType" : "release",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/libleveldb.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/armeabi-v7a/libleveldb.a",
+			"toolchain" : "688343757"
 		},
 		"log4cpp-Release-armeabi-v7a" : 
 		{
 			"abi" : "armeabi-v7a",
 			"artifactName" : "log4cpp",
 			"buildType" : "release",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/liblog4cpp.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/armeabi-v7a/liblog4cpp.a",
+			"toolchain" : "688343757"
 		},
 		"nat_traverse-Release-armeabi-v7a" : 
 		{
 			"abi" : "armeabi-v7a",
 			"artifactName" : "nat_traverse",
 			"buildType" : "release",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/libnat_traverse.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/armeabi-v7a/libnat_traverse.a",
+			"toolchain" : "688343757"
 		},
 		"native-lib-Release-armeabi-v7a" : 
 		{
 			"abi" : "armeabi-v7a",
 			"artifactName" : "native-lib",
-			"buildCommand" : "C:\\Users\\user\\AppData\\Local\\Android\\Sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\dvpn\\shadowsocks-android-java\\app\\.externalNativeBuild\\cmake\\release\\armeabi-v7a --target native-lib",
+			"buildCommand" : "D:\\tools\\tools\\lib\\cmake\\3.6.4111459\\bin\\cmake.exe --build D:\\lego\\lego-vpn-android\\app\\.externalNativeBuild\\cmake\\release\\armeabi-v7a --target native-lib",
 			"buildType" : "release",
 			"files" : 
 			[
 				
 				{
-					"flags" : "  --target=armv7-none-linux-androideabi16 --gcc-toolchain=C:/Users/user/AppData/Local/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=C:/Users/user/AppData/Local/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dnative_lib_EXPORTS -I..\\..\\..\\..\\src\\main\\cpp\\libs\\include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fno-addrsig -march=armv7-a -mthumb -Wa,--noexecstack -Wformat -Werror=format-security   -Oz -DNDEBUG  -fPIC -fvisibility=hidden    -c ",
-					"src" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/native-lib.cpp",
-					"workingDirectory" : "E:/dvpn/shadowsocks-android-java/app/.externalNativeBuild/cmake/release/armeabi-v7a"
+					"flags" : "  --target=armv7-none-linux-androideabi23 --gcc-toolchain=D:/tools/tools/lib/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/tools/tools/lib/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dnative_lib_EXPORTS -I..\\..\\..\\..\\src\\main\\cpp\\libs\\include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fno-addrsig -march=armv7-a -mthumb -Wa,--noexecstack -Wformat -Werror=format-security   -Oz -DNDEBUG  -fPIC -fvisibility=hidden    -c ",
+					"src" : "D:/lego/lego-vpn-android/app/src/main/cpp/native-lib.cpp",
+					"workingDirectory" : "D:/lego/lego-vpn-android/app/.externalNativeBuild/cmake/release/armeabi-v7a"
 				}
 			],
-			"output" : "E:/dvpn/shadowsocks-android-java/app/build/intermediates/cmake/release/obj/armeabi-v7a/libnative-lib.so",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/build/intermediates/cmake/release/obj/armeabi-v7a/libnative-lib.so",
+			"toolchain" : "688343757"
 		},
 		"network-Release-armeabi-v7a" : 
 		{
 			"abi" : "armeabi-v7a",
 			"artifactName" : "network",
 			"buildType" : "release",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/libnetwork.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/armeabi-v7a/libnetwork.a",
+			"toolchain" : "688343757"
 		},
 		"protobuf-Release-armeabi-v7a" : 
 		{
 			"abi" : "armeabi-v7a",
 			"artifactName" : "protobuf",
 			"buildType" : "release",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/libprotobuf.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/armeabi-v7a/libprotobuf.a",
+			"toolchain" : "688343757"
 		},
 		"security-Release-armeabi-v7a" : 
 		{
 			"abi" : "armeabi-v7a",
 			"artifactName" : "security",
 			"buildType" : "release",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/libsecurity.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/armeabi-v7a/libsecurity.a",
+			"toolchain" : "688343757"
 		},
 		"ssl-Release-armeabi-v7a" : 
 		{
 			"abi" : "armeabi-v7a",
 			"artifactName" : "ssl",
 			"buildType" : "release",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/libssl.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/armeabi-v7a/libssl.a",
+			"toolchain" : "688343757"
 		},
 		"transport-Release-armeabi-v7a" : 
 		{
 			"abi" : "armeabi-v7a",
 			"artifactName" : "transport",
 			"buildType" : "release",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/libtransport.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/armeabi-v7a/libtransport.a",
+			"toolchain" : "688343757"
 		},
 		"uuid-Release-armeabi-v7a" : 
 		{
 			"abi" : "armeabi-v7a",
 			"artifactName" : "uuid",
 			"buildType" : "release",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/libuuid.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/armeabi-v7a/libuuid.a",
+			"toolchain" : "688343757"
 		},
 		"uv-Release-armeabi-v7a" : 
 		{
 			"abi" : "armeabi-v7a",
 			"artifactName" : "uv",
 			"buildType" : "release",
-			"output" : "E:/dvpn/shadowsocks-android-java/app/src/main/cpp/libs/armeabi-v7a/libuv.a",
-			"toolchain" : "2734026807"
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/armeabi-v7a/libuv.a",
+			"toolchain" : "688343757"
+		},
+		"zlib-Release-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "zlib",
+			"buildType" : "release",
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/armeabi-v7a/libzlib.a",
+			"toolchain" : "688343757"
 		}
 	},
 	"toolchains" : 
 	{
-		"2734026807" : 
+		"688343757" : 
 		{
-			"cCompilerExecutable" : "C:/Users/user/AppData/Local/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe",
-			"cppCompilerExecutable" : "C:/Users/user/AppData/Local/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe"
+			"cCompilerExecutable" : "D:/tools/tools/lib/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe",
+			"cppCompilerExecutable" : "D:/tools/tools/lib/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe"
 		}
 	}
 }

@@ -3,7 +3,6 @@ package com.vm.shadowsocks.ui;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -16,21 +15,17 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.SurfaceControl;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
-import android.widget.AbsListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ListView;
-import android.widget.BaseAdapter;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.view.animation.Animation;
@@ -38,24 +33,27 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.graphics.Color;
 import android.app.ListActivity;
-import android.os.Environment;
-import android.widget.LinearLayout;
-import android.content.res.AssetManager;
 import android.net.VpnService;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView;
 import android.os.Handler;
 import android.os.Message;
-import android.app.AlertDialog;
 
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
+//import com.google.android.gms.common.api.Status;
+//import com.google.android.gms.tasks.OnCompleteListener;
+//import com.google.android.gms.tasks.Task;
+//import com.google.android.gms.wallet.AutoResolveHelper;
+//import com.google.android.gms.wallet.IsReadyToPayRequest;
+//import com.google.android.gms.wallet.ItemInfo;
+//import com.google.android.gms.wallet.PaymentData;
+//import com.google.android.gms.wallet.PaymentDataRequest;
+//import com.google.android.gms.wallet.PaymentsClient;
+//import com.google.android.gms.wallet.PaymentsUtil;
+//import com.google.zxing.integration.android.IntentIntegrator;
+//import com.google.zxing.integration.android.IntentResult;
 import com.vm.shadowsocks.R;
-import com.vm.shadowsocks.core.AppInfo;
 import com.vm.shadowsocks.core.AppProxyManager;
 import com.vm.shadowsocks.core.LocalVpnService;
 import com.vm.shadowsocks.core.ProxyConfig;
-
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
@@ -72,14 +70,26 @@ import java.net.SocketException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import at.grabner.circleprogress.CircleProgressView;
 import at.markushi.ui.CircleButton;
-import cn.forward.androids.views.BitmapScrollPicker;
-import cn.forward.androids.views.ScrollPickerView;
 
 import org.json.JSONObject;
 import org.json.JSONArray;
 
-public class MainActivity extends ListActivity implements
+import android.widget.Spinner;
+
+import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
+import me.shaohui.bottomdialog.BottomDialog;
+import androidx.fragment.app.FragmentActivity;
+import de.codecrafters.tableview.TableView;
+import de.codecrafters.tableview.model.TableColumnWeightModel;
+import android.app.Dialog;
+import androidx.core.content.ContextCompat;
+import java.lang.String;
+import java.io.File;
+import android.widget.Switch;
+
+public class MainActivity extends FragmentActivity  implements
         View.OnClickListener,
         OnCheckedChangeListener,
         LocalVpnService.onStatusChangedListener {
@@ -90,21 +100,75 @@ public class MainActivity extends ListActivity implements
     private static final String CONFIG_URL_KEY = "CONFIG_URL_KEY";
     private static final int START_VPN_SERVICE_REQUEST_CODE = 1985;
     private Calendar mCalendar;
-    private BitmapScrollPicker mPickerHorizontal;
     private boolean StartVpnChecked = false;
     private Animation operatingAnim;
-    private ImageView infoOperatingIV;
-    private Vector<String> proxy_vec = new Vector<String>();
     private Vector<String> country_vec = new Vector<String>();
     private String selectCountry = "America";
     private VpnService vpn_service = new VpnService();
     private CheckTransaction check_tx = new CheckTransaction();
     private static final int COMPLETED = 0;
+    private static final int GOT_VPN_SERVICE = 1;
+    private static final int GOT_TANSACTIONS = 2;
+    private static final int GOT_BALANCE = 3;
+    private static final int GOT_LOCAL_IP = 4;
+    private static final int GOT_VPN_ROUTE = 5;
+
     private HashMap<Integer, String> block_hashmap = new HashMap<Integer, String>();
     ArrayList<String> listItems=new ArrayList<String>();
-    ArrayAdapter<String> adapter;
     int list_counter = 0;
     private String int_tx_hash;
+
+//    private PaymentsClient mPaymentsClient;
+    private View mGooglePayButton;
+    private static final int LOAD_PAYMENT_DATA_REQUEST_CODE = 991;
+    private TextView mGooglePayStatusText;
+//    private ItemInfo mBikeItem = new ItemInfo("Simple Bike", 300 * 1000000, R.drawable.bike);
+    private long mShippingCost = 90 * 1000000;
+    public ArrayList<String> vpn_country_list = new ArrayList<String>();
+
+    private HashMap<String, Vector<String>> country_vpn_map = new HashMap<String, Vector<String>>();
+    private HashMap<String, Vector<String>> country_route_map = new HashMap<String, Vector<String>>();
+    private HashMap<String, String> country_to_short = new HashMap<String, String>();
+
+    private CircleProgressView mCircleView;
+
+    private Spinner mSpinner;
+    private String[] spinnerTitles;
+    private String[] spinnerPopulation;
+    private int[] spinnerImages;
+    private boolean isUserInteracting;
+    private String now_choosed_country = "US";
+    private String local_country = "CN";
+    private BottomDialog bottom_dialog;
+    private BottomDialog upgrade_dialog;
+
+    private String private_key;
+    private String account_address;
+
+    private String transactions_res = new String("");
+    private long account_balance = -1;
+    private String local_ip = "0.0.0.0";
+    public static String choosed_vpn_seckey = "";
+    public static String choosed_vpn_url = "";
+    private String relay_country = local_country;
+    public static boolean use_smart_route = true;
+    private final int kDefaultVpnServerPort= 9033;
+    private String version_download_url = "";
+
+    private final String kCurrentVersion = "1.0.5";
+    private int dip2px(float dpValue) {
+        final float scale = getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
+    private void InitItemLayout() {
+        if (mCircleView.getY() > 70) {
+            mCircleView.setY(70);
+            CircleButton c_btn = (CircleButton)findViewById(R.id.start_vpn);
+            c_btn.setY(70);
+        }
+        //mCircleView.setLayoutParams(params);
+    }
 
     private static JSONObject getBaseRequest() {
         try {
@@ -138,8 +202,6 @@ public class MainActivity extends ListActivity implements
                 .put("JCB")
                 .put("MASTERCARD")
                 .put("VISA");
-
-
     }
 
     private static JSONArray getAllowedCardAuthMethods() {
@@ -164,7 +226,6 @@ public class MainActivity extends ListActivity implements
         }
     }
 
-
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -175,122 +236,213 @@ public class MainActivity extends ListActivity implements
                     if (!split[4].equals(int_tx_hash)) {
                         String list_item = split[0] + ", now balance: " + split[1];
                         listItems.add(list_item);
-                        adapter.notifyDataSetChanged();
                     }
 
-                    TextView balance = (TextView)findViewById(R.id.account_balance);
-                    balance.setText("LEGO：" + split[1]);
+                    TextView balance = (TextView)findViewById(R.id.balance_lego);
+                    balance.setText(split[1] + " lego");
+                    TextView balance_d = (TextView)findViewById(R.id.balance_dollar);
+                    balance_d.setText(String.format("%.2f", Integer.parseInt(split[1]) * 0.002) + "$");
                     String block_item = "\n\n\n    Transaction Hash: \n    " + split[4] + "\n\n    Block Height：" + split[2] + "\n\n    Block Hash：\n    " + split[3] + "\n\n\n";
                     block_hashmap.put(list_counter, block_item);
                     ++list_counter;
                 }
             }
+
+            if (msg.what == GOT_VPN_SERVICE) {
+                String res = (String)msg.obj;
+                String[] c_split = res.split("\t");
+                String country = c_split[0];
+                String[] split = c_split[1].split(",");
+                if (!country_vpn_map.containsKey(country)) {
+                    country_vpn_map.put(country, new Vector<String>());
+                }
+
+                Vector<String> url_vec = country_vpn_map.get(country);
+                for (int i = 0; i < split.length; ++i) {
+                    url_vec.add(split[i]);
+                    if (url_vec.size() > 16) {
+                        url_vec.remove(0);
+                    }
+                }
+            }
+
+            if (msg.what == GOT_VPN_ROUTE) {
+                String res = (String)msg.obj;
+                String[] c_split = res.split("\t");
+                String country = c_split[0];
+                String[] split = c_split[1].split(",");
+                if (!country_route_map.containsKey(country)) {
+                    country_route_map.put(country, new Vector<String>());
+                }
+
+                Vector<String> url_vec = country_route_map.get(country);
+                for (int i = 0; i < split.length; ++i) {
+                    url_vec.add(split[i]);
+                    if (url_vec.size() > 16) {
+                        url_vec.remove(0);
+                    }
+                }
+            }
+
+            if (msg.what == GOT_TANSACTIONS) {
+                String res = (String)msg.obj;
+                if (res.isEmpty()) {
+                    return;
+                }
+                transactions_res = res;
+            }
+
+            if (msg.what == GOT_BALANCE) {
+                long res = (long)msg.obj;
+                account_balance = res;
+                TextView balance = (TextView)findViewById(R.id.balance_lego);
+                balance.setText(account_balance + " lego");
+                TextView balance_d = (TextView)findViewById(R.id.balance_dollar);
+                balance_d.setText(String.format("%.2f", account_balance * 0.002) + "$");
+            }
+
+            if (msg.what == GOT_LOCAL_IP) {
+                String tmp_local_ip = (String)msg.obj;
+                if (!tmp_local_ip.equals(local_ip)) {
+                    int rand_port = (int)(Math.random() * 10000) + 7000;
+                    int socket_num = resetTransport(tmp_local_ip, rand_port);
+                    if (socket_num > 0) {
+                        if (!vpn_service.protect(socket_num)) {
+                            Log.e(TAG,"protect vpn socket failed");
+                        }
+
+                        Log.e(TAG, "success reset local ip from: " + local_ip + " to " + tmp_local_ip);
+                        local_ip = tmp_local_ip;
+                    } else {
+                        Log.e(TAG, "failed reset local ip from: " + local_ip + " to " + tmp_local_ip);
+                    }
+                }
+            }
         }
     };
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        adapter=new ArrayAdapter<String>(this,
-                R.layout.array_adapter,
-                listItems);
-        setListAdapter(adapter);
-        ListView lv = getListView();
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView showText = new TextView(MainActivity.this);
-                showText.setText(block_hashmap.get(position));
-                showText.setTextIsSelectable(true);
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setView(showText).setCancelable(true).show();
-                /*
-                AlertDialog alertDialog1 = new AlertDialog.Builder(MainActivity.this)
-                        .setMessage(block_hashmap.get(position))
-                        .create();
-                alertDialog1.show();
-                */
-            }
-        });
+    public void hideDialog(View view) {
+        bottom_dialog.dismiss();
+    }
+    public void hideUpgrade(View view) {
+        upgrade_dialog.dismiss();
+    }
+    public void switchSmartRoute(View view) {
+        Switch s = (Switch) findViewById(R.id.switch_smart_route);
+        use_smart_route = s.isChecked();
+        LocalVpnService.IsRunning = false;
+        P2pLibManager.getInstance().use_smart_route = s.isChecked();
+    }
 
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.176.17:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.176.217:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.176.228:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.176.48:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.176.8:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.178.100:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.178.119:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.178.123:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.178.135:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.178.148:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.178.154:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.184.183:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.184.194:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.184.196:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.184.216:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.184.222:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.184.224:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.184.241:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.188.13:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.188.170:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.188.18:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.188.181:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.188.191:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.188.195:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.188.200:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.188.210:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.188.247:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.188.36:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.188.85:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.191.199:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.191.243:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.191.69:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.191.70:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.64.107:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.64.154:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.64.170:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.64.242:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.64.27:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.64.59:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.64.85:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.65.249:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.66.174:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.66.189:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.66.212:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.66.39:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.66.74:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.67.27:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.68.207:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.68.24:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.72.5:4431");
-        proxy_vec.add("ss://aes-128-cfb:Xf4aGbTaf1@104.248.72.63:4431");
-        ProxyConfig.Instance.globalMode = true;
-        mPickerHorizontal = (BitmapScrollPicker) findViewById(R.id.picker_03_horizontal);
-        final CopyOnWriteArrayList<Bitmap> bitmaps = new CopyOnWriteArrayList<Bitmap>();
-        bitmaps.add(BitmapFactory.decodeResource(getResources(), R.drawable.aodaliya));
-        bitmaps.add(BitmapFactory.decodeResource(getResources(), R.drawable.baxi));
-        bitmaps.add(BitmapFactory.decodeResource(getResources(), R.drawable.deguo));
-        bitmaps.add(BitmapFactory.decodeResource(getResources(), R.drawable.faguo));
-        bitmaps.add(BitmapFactory.decodeResource(getResources(), R.drawable.hanguo));
-        bitmaps.add(BitmapFactory.decodeResource(getResources(), R.drawable.helan));
-        bitmaps.add(BitmapFactory.decodeResource(getResources(), R.drawable.jianada));
-        bitmaps.add(BitmapFactory.decodeResource(getResources(), R.drawable.meiguo));
-        bitmaps.add(BitmapFactory.decodeResource(getResources(), R.drawable.putaoya));
-        bitmaps.add(BitmapFactory.decodeResource(getResources(), R.drawable.riben));
-        bitmaps.add(BitmapFactory.decodeResource(getResources(), R.drawable.xianggang));
-        bitmaps.add(BitmapFactory.decodeResource(getResources(), R.drawable.xinxilan));
-        bitmaps.add(BitmapFactory.decodeResource(getResources(), R.drawable.yindu));
-        bitmaps.add(BitmapFactory.decodeResource(getResources(), R.drawable.yindunixiya));
-        bitmaps.add(BitmapFactory.decodeResource(getResources(), R.drawable.yinggelan));
-        country_vec.add("Australia");
+    private void initView(final View view) {
+        transactions_res = getTransactions();
+        String[] lines = transactions_res.split(";");
+        String[][] DATA_TO_SHOW = new String[lines.length][4];
+        for (int i = 0; i < lines.length; ++i) {
+            String[] items = lines[i].split(",");
+            if (items.length != 4) {
+                continue;
+            }
+
+            DATA_TO_SHOW[i][0] = items[0];
+            DATA_TO_SHOW[i][1] = items[1];
+            DATA_TO_SHOW[i][2] = items[2].substring(0, 5).toUpperCase() + "..." + items[2].substring(items[2].length() - 5).toUpperCase();
+            DATA_TO_SHOW[i][3] = items[3];
+        }
+        EditText prikey_text=(EditText)view.findViewById(R.id.dlg_private_key);
+        prikey_text.setText(private_key.toUpperCase());
+        EditText acc_text=(EditText)view.findViewById(R.id.dlg_account_address);
+        acc_text.setText(account_address.toUpperCase());
+
+        TextView balance = (TextView)findViewById(R.id.balance_lego);
+        TextView dlg_balance = (TextView)view.findViewById(R.id.dlg_balance_lego);
+        dlg_balance.setText(balance.getText());
+
+        TextView balance_d = (TextView)findViewById(R.id.balance_dollar);
+        TextView dlg_balance_d = (TextView)view.findViewById(R.id.dlg_balance_dollar);
+        dlg_balance_d.setText(balance_d.getText());
+
+        String[] data_header ={"datetime", "type", "account", "amount"};
+        final SimpleTableHeaderAdapter simpleTableHeaderAdapter = new SimpleTableHeaderAdapter(MainActivity.this, data_header);
+        simpleTableHeaderAdapter.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.white));
+        simpleTableHeaderAdapter.setTextSize(14);
+        TableView<String[]> tableView = (TableView<String[]>) view.findViewById(R.id.tableView);
+
+        final int rowColorEven = ContextCompat.getColor(MainActivity.this, R.color.env);
+        final int rowColorOdd = ContextCompat.getColor(MainActivity.this, R.color.odd);
+        tableView.setDataRowBackgroundProvider(TableDataRowBackgroundProviders.alternatingRowColors(rowColorEven, rowColorOdd));
+
+        final TableColumnWeightModel tableColumnWeightModel = new TableColumnWeightModel(4);
+        tableColumnWeightModel.setColumnWeight(0, 35);
+        tableColumnWeightModel.setColumnWeight(1, 15);
+        tableColumnWeightModel.setColumnWeight(2, 30);
+        tableColumnWeightModel.setColumnWeight(3, 20);
+        tableView.setColumnModel(tableColumnWeightModel);
+
+        tableView.setHeaderAdapter(simpleTableHeaderAdapter);
+        if (!transactions_res.isEmpty()) {
+            SimpleTableDataAdapter dataAdapter = new SimpleTableDataAdapter(MainActivity.this, DATA_TO_SHOW);
+            dataAdapter.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.dark_gray));
+            dataAdapter.setTextSize(12);
+            tableView.setDataAdapter(dataAdapter);
+        }
+    }
+
+    public void showDialog(View view) {
+        bottom_dialog.show();
+    }
+    public void checkVer(View view) {
+        version_download_url = "";
+        String ver = checkVersion();
+        if (ver.isEmpty()) {
+            Toast.makeText(this, "Already the latest version.", Toast.LENGTH_SHORT).show();
+        } else {
+            String[] downs = ver.split(",");
+            for (int i = 0; i < downs.length; ++i) {
+                String[] item = downs[i].split(";");
+                if (item.length < 3) {
+                    continue;
+                }
+
+                if (item[0].equals("android")) {
+                    if (item[1].equals(kCurrentVersion)) {
+                        Toast.makeText(this, "Already the latest version.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    version_download_url = item[2];
+                    break;
+                }
+            }
+
+            if (version_download_url.isEmpty()) {
+                Toast.makeText(this, "Already the latest version...", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            upgrade_dialog.show();
+        }
+    }
+
+    public void upgradeNow(View view)
+    {
+        Uri uri = Uri.parse(version_download_url);
+        Intent intent = new Intent();
+        intent.setAction("android.intent.action.VIEW");
+        intent.setData(uri);
+        startActivity(intent);
+        upgrade_dialog.dismiss();
+    }
+
+    private void InitSpinner() {
+        mSpinner = (Spinner) findViewById(R.id.spinner);
+        country_vec.add("America");
         country_vec.add("Brazil");
         country_vec.add("Germany");
         country_vec.add("France");
         country_vec.add("Korea");
         country_vec.add("Holland");
         country_vec.add("Canada");
-        country_vec.add("America");
+        country_vec.add("Australia");
         country_vec.add("Portugal");
         country_vec.add("Japan");
         country_vec.add("Hong Kong");
@@ -298,57 +450,142 @@ public class MainActivity extends ListActivity implements
         country_vec.add("India");
         country_vec.add("Indonesia");
         country_vec.add("England");
+        country_vec.add("China");
 
-        mPickerHorizontal.setData(bitmaps);
-        mPickerHorizontal.setOnSelectedListener(new ScrollPickerView.OnSelectedListener() {
+        country_to_short.put("Australia", "AU");
+        country_to_short.put("Singapore", "SG");
+        country_to_short.put("Brazil", "BR");
+        country_to_short.put("Germany", "DE");
+        country_to_short.put("France", "FR");
+        country_to_short.put("Korea", "KR");
+        country_to_short.put("Holland", "NL");
+        country_to_short.put("Canada", "CA");
+        country_to_short.put("America", "US");
+        country_to_short.put("Portugal", "PT");
+        country_to_short.put("Japan", "JP");
+        country_to_short.put("Hong Kong", "HK");
+        country_to_short.put("New Zealand", "NZ");
+        country_to_short.put("India", "IN");
+        country_to_short.put("Indonesia", "ID");
+        country_to_short.put("England", "GB");
+        country_to_short.put("China", "CN");
+
+        for (String value: country_to_short.values()) {
+            vpn_country_list.add(value);
+        }
+        spinnerTitles = new String[]{"America", "Singapore", "Brazil","Germany","France","Korea", "Japan", "Canada","Australia","Hong Kong", "India", "England", "China"};
+        spinnerImages = new int[]{
+                R.drawable.us
+                , R.drawable.sg
+                , R.drawable.br
+                , R.drawable.de
+                , R.drawable.fr
+                , R.drawable.kr
+                , R.drawable.jp
+                , R.drawable.ca
+                , R.drawable.au
+                , R.drawable.hk
+                , R.drawable.in
+                , R.drawable.gb
+                , R.drawable.cn
+        };
+
+        CustomAdapter mCustomAdapter = new CustomAdapter(MainActivity.this, spinnerTitles, spinnerImages);
+        mSpinner.setAdapter(mCustomAdapter);
+
+        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onSelected(ScrollPickerView scrollPickerView, int position) {
-                TextView countr_text = (TextView) findViewById(R.id.countryName);
-                selectCountry = country_vec.get(position);
-                countr_text.setText(selectCountry);
-                if (!LocalVpnService.IsRunning) {
-                    TextView country_text2 = (TextView) findViewById(R.id.countryName2);
-                    country_text2.setText(selectCountry);
-                }
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                now_choosed_country = country_to_short.get(spinnerTitles[i]);
+                P2pLibManager.getInstance().choosed_country = country_to_short.get(spinnerTitles[i]);
+                LocalVpnService.IsRunning = false;
+                InitItemLayout();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
+    }
 
-        String ProxyUrl = readProxyUrl();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.activity_main);
 
+        InitSpinner();
+        ProxyConfig.Instance.globalMode = true;
+        mCircleView = (CircleProgressView) findViewById(R.id.circleView);
+        mCircleView.setValue(100);
+        mCircleView.setBarColor(getResources().getColor(R.color.disconnect_succ_out));
         mCalendar = Calendar.getInstance();
         LocalVpnService.addOnStatusChangedListener(this);
-
         //Pre-App Proxy
         if (AppProxyManager.isLollipopOrAbove){
             new AppProxyManager(this);
         }
-
-        infoOperatingIV = (ImageView)findViewById(R.id.infoOperating);
         operatingAnim = AnimationUtils.loadAnimation(this, R.anim.tip);
         LinearInterpolator lin = new LinearInterpolator();
         operatingAnim.setInterpolator(lin);
-        String local_ip = getIpAddressString();
+        local_ip = getIpAddressString();
         int local_port = 7981;
-        String res = initP2PNetwork(local_ip, local_port, "id_1:134.209.43.75:8991");
+        String data_path = this.getFilesDir().getPath();
+        Log.e(TAG, "get file path:" + data_path);
+        String res = initP2PNetwork(local_ip, local_port,
+                "id:122.112.234.133:9001,id:119.3.15.76:9001,id:119.3.73.78:9001",
+                data_path);
         if (res.equals("create account address error!")) {
             Log.e(TAG,"init p2p network failed!" + res + ", " + local_ip + ":" + local_port);
+            return;
         }
-        TextView acc_view = (TextView)findViewById(R.id.account_address);
-        acc_view.setText(res);
+        String[] res_split = res.split(",");
+        if (res_split.length != 3) {
+            Log.e(TAG,"init p2p network failed!" + res + ", " + local_ip + ":" + local_port);
+            return;
+        }
+        Log.d(TAG, "onCreate: start check tx thread. 22222 ");
+
+        local_country = res_split[0];
+        account_address = res_split[1];
+        private_key = res_split[2];
+        P2pLibManager.getInstance().local_country = local_country;
+        Log.e(TAG, "get local country: " + local_country);
+        bottom_dialog = BottomDialog.create(getSupportFragmentManager())
+                .setViewListener(new BottomDialog.ViewListener() {
+                    @Override
+                    public void bindView(View v) {
+                        initView(v);
+                    }
+                })
+                .setLayoutRes(R.layout.dialog_layout)
+                .setDimAmount(0.1f)
+                .setCancelOutside(false)
+                .setTag("BottomDialog");
+        upgrade_dialog = BottomDialog.create(getSupportFragmentManager())
+                .setViewListener(new BottomDialog.ViewListener() {
+                    @Override
+                    public void bindView(View v) {
+                    }
+                })
+                .setLayoutRes(R.layout.upgrade)
+                .setDimAmount(0.1f)
+                .setCancelOutside(false)
+                .setTag("UpgradeDialog");
+        TextView acc_view = (TextView)findViewById(R.id.accoount_address_value);
+        acc_view.setText(account_address.substring(0, 7).toUpperCase() +
+                "......" +
+                account_address.substring(account_address.length() - 7).toUpperCase());
+        Log.d(TAG, "onCreate: start check tx thread. 1111 ");
+
         int p2p_socket = getP2PSocket();
         if (!vpn_service.protect(p2p_socket)) {
             Log.e(TAG,"protect vpn socket failed");
-            return;
         }
         createAccount();
-
         Thread t1 = new Thread(check_tx,"check tx");
         t1.start();
-    }
-
-    String readProxyUrl() {
-        int rand_num = (int)(Math.random()) * proxy_vec.size();
-        return proxy_vec.get(rand_num);// editText.getText().toString().trim();
+        Log.d(TAG, "onCreate: start check tx thread.");
     }
 
     void setProxyUrl(String ProxyUrl) {
@@ -398,42 +635,6 @@ public class MainActivity extends ListActivity implements
 
     }
 
-    private void scanForProxyUrl() {
-        new IntentIntegrator(this)
-                .setPrompt(getString(R.string.config_url_scan_hint))
-                .initiateScan(IntentIntegrator.QR_CODE_TYPES);
-    }
-
-    private void showProxyUrlInputDialog() {
-        final EditText editText = new EditText(this);
-        editText.setInputType(InputType.TYPE_TEXT_VARIATION_URI);
-        editText.setHint(getString(R.string.config_url_hint));
-        editText.setText(readProxyUrl());
-
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.config_url)
-                .setView(editText)
-                .setPositiveButton(R.string.btn_ok, new OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (editText.getText() == null) {
-                            return;
-                        }
-                        int rand_num = (int)(Math.random()) * proxy_vec.size();
-                        String ProxyUrl = proxy_vec.get(rand_num);// editText.getText().toString().trim();
-                        Toast.makeText(MainActivity.this, ProxyUrl, Toast.LENGTH_SHORT).show();
-
-                        if (isValidUrl(ProxyUrl)) {
-                            setProxyUrl(ProxyUrl);
-                        } else {
-                            Toast.makeText(MainActivity.this, ProxyUrl, Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                })
-                .setNegativeButton(R.string.btn_cancel, null)
-                .show();
-    }
-
     @SuppressLint("DefaultLocale")
     @Override
     public void onLogReceived(String logString) {
@@ -451,47 +652,33 @@ public class MainActivity extends ListActivity implements
     public void onStatusChanged(String status, Boolean isRunning) {
         CircleButton c_btn = (CircleButton)findViewById(R.id.start_vpn);
         c_btn.setEnabled(true);
-        TextView country_text2 = (TextView) findViewById(R.id.countryName2);
-        country_text2.setText(selectCountry);
         if (isRunning) {
-            infoOperatingIV.clearAnimation();
-            c_btn.setColor(Color.parseColor("#009800"));
-            ImageView conn_fail_circle = (ImageView)findViewById(R.id.infoOperating);
-            conn_fail_circle.setVisibility(View.GONE);
-            ImageView conn_fail_image = (ImageView)findViewById(R.id.notConnectImage);
-            conn_fail_image.setVisibility(View.GONE);
-            ImageView conn_succ_circle = (ImageView)findViewById(R.id.infoOperating2);
-            conn_succ_circle.setVisibility(View.VISIBLE);
-            ImageView conn_succ_image = (ImageView)findViewById(R.id.connectedImage);
-            conn_succ_image.setVisibility(View.VISIBLE);
+            c_btn.setColor(getResources().getColor(R.color.connect_succ_in));
+            //possiblyShowGooglePayButton();
+            mCircleView.stopSpinning();
+            mCircleView.setSpinSpeed(10);
+            c_btn.setImageDrawable(getResources().getDrawable(R.drawable.connected));
+            mCircleView.setValueAnimated(100);
+            mCircleView.setBarColor(getResources().getColor(R.color.connect_succ_out));
         } else {
-            c_btn.setColor(Color.parseColor("#989898"));
-            ImageView conn_fail_circle = (ImageView)findViewById(R.id.infoOperating);
-            conn_fail_circle.setVisibility(View.VISIBLE);
-            ImageView conn_succ_circle = (ImageView)findViewById(R.id.infoOperating2);
-            conn_succ_circle.setVisibility(View.GONE);
-            ImageView conn_fail_image = (ImageView)findViewById(R.id.notConnectImage);
-            conn_fail_image.setVisibility(View.VISIBLE);
-            ImageView conn_succ_image = (ImageView)findViewById(R.id.connectedImage);
-            conn_succ_image.setVisibility(View.GONE);
+            c_btn.setColor(getResources().getColor(R.color.disconnect_succ_in));
+            mCircleView.stopSpinning();
+            mCircleView.setBarColor(getResources().getColor(R.color.disconnect_succ_out));
+            c_btn.setImageDrawable(getResources().getDrawable(R.drawable.connect));
+            mCircleView.setValue(100);
+            mCircleView.setSpinSpeed(2);
         }
-
     }
 
     public void startVpn(View view) {
-        CircleButton c_btn = (CircleButton)findViewById(R.id.start_vpn);
-        c_btn.setEnabled(false);
         if (LocalVpnService.IsRunning != true) {
             Intent intent = LocalVpnService.prepare(this);
             if (intent == null) {
                 startVPNService();
             } else {
                 startActivityForResult(intent, START_VPN_SERVICE_REQUEST_CODE);
+                startVPNService();
             }
-            if (operatingAnim != null) {
-                infoOperatingIV.startAnimation(operatingAnim);
-            }
-            LocalVpnService.IsRunning = true;
         } else {
             LocalVpnService.IsRunning = false;
         }
@@ -501,22 +688,193 @@ public class MainActivity extends ListActivity implements
 
     }
 
-    private void startVPNService() {
-        int rand_num = (int)(Math.random()) * proxy_vec.size();
-        String ProxyUrl = proxy_vec.get(rand_num);// editText.getText().toString().trim();
+    private String ChooseRouteProxyUrl(String dest_country) {
+        String route_proxy_url = new String();
+        if (country_route_map.containsKey(dest_country)) {
+            Vector<String> vpn_url_vec = country_route_map.get(dest_country);
+            int rand_num = (int)(Math.random() * vpn_url_vec.size());
+            String[] item_split = vpn_url_vec.get(rand_num).split(":");
+            if (item_split.length >= 6) {
+                route_proxy_url = "ss://aes-128-cfb:passwd@" + item_split[0] + ":" + item_split[2];
+                relay_country = dest_country;
+            }
+        }
 
-        if (!isValidUrl(ProxyUrl)) {
-            Toast.makeText(this, "invalid proxy config.", Toast.LENGTH_SHORT).show();
+        if (route_proxy_url.isEmpty()) {
+            if (country_route_map.containsKey(now_choosed_country)) {
+                Vector<String> vpn_url_vec = country_route_map.get(now_choosed_country);
+                int rand_num = (int)(Math.random() * vpn_url_vec.size());
+                String[] item_split = vpn_url_vec.get(rand_num).split(":");
+                if (item_split.length >= 6) {
+                    route_proxy_url = "ss://aes-128-cfb:passwd@" + item_split[0] + ":" + item_split[2];
+                    relay_country = now_choosed_country;
+                }
+            }
+        }
+
+        if (route_proxy_url.isEmpty()) {
+            for (String key : country_route_map.keySet()) {
+                Vector<String> vpn_url_vec = country_route_map.get(key);
+                if (vpn_url_vec.size() > 0) {
+                    int rand_num = (int)(Math.random() * vpn_url_vec.size());
+                    String[] item_split = vpn_url_vec.get(rand_num).split(":");
+                    if (item_split.length >= 6) {
+                        route_proxy_url = "ss://aes-128-cfb:passwd@" + item_split[0] + ":" + item_split[2];
+                        relay_country = key;
+                        break;
+                    }
+                }
+            }
+        }
+        return route_proxy_url;
+    }
+
+    private String ChooseVpnProxyUrlDirect(String dest_country) {
+        String vpn_proxy_url = new String();
+        if (country_vpn_map.containsKey(dest_country)) {
+            Vector<String> vpn_url_vec = country_vpn_map.get(dest_country);
+            int rand_num = (int)(Math.random() * vpn_url_vec.size());
+            String[] item_split = vpn_url_vec.get(rand_num).split(":");
+            if (item_split.length >= 6) {
+                vpn_proxy_url = "ss://aes-128-cfb:passwd@" + item_split[0] + ":" + item_split[1];
+                relay_country = dest_country;
+            }
+        }
+
+        if (vpn_proxy_url.isEmpty()) {
+            for (String key : country_vpn_map.keySet()) {
+                Vector<String> vpn_url_vec = country_vpn_map.get(key);
+                if (vpn_url_vec.size() > 0) {
+                    int rand_num = (int)(Math.random() * vpn_url_vec.size());
+                    String[] item_split = vpn_url_vec.get(rand_num).split(":");
+                    if (item_split.length >= 6) {
+                        vpn_proxy_url = "ss://aes-128-cfb:passwd@" + item_split[0] + ":" + item_split[1];
+                        relay_country = key;
+                        break;
+                    }
+                }
+            }
+        }
+        return vpn_proxy_url;
+    }
+
+    private String ChooseVpnProxyUrl() {
+        String vpn_proxy_url = new String();
+        if (country_vpn_map.containsKey(now_choosed_country)) {
+            Vector<String> vpn_url_vec = country_vpn_map.get(now_choosed_country);
+            Vector<String> new_url_vec = new Vector<String>();
+            for (String item: vpn_url_vec) {
+                String[] item_split = item.split(":");
+                if (item_split.length >= 6) {
+                    if (Integer.parseInt(item_split[1]) != kDefaultVpnServerPort) {
+                        new_url_vec.add(item);
+                    }
+                }
+            }
+
+            String item_string = "";
+            if (!new_url_vec.isEmpty()) {
+                int rand_num = (int)(Math.random() * new_url_vec.size());
+                item_string = new_url_vec.get(rand_num);
+                Log.e(TAG, "tt get vpn nodes: " + item_string);
+
+            }
+
+            if (item_string.isEmpty()) {
+                int rand_num = (int)(Math.random() * vpn_url_vec.size());
+                item_string = vpn_url_vec.get(rand_num);
+            }
+
+            if (!item_string.isEmpty()) {
+                vpn_proxy_url = item_string;
+            }
+        }
+
+        if (vpn_proxy_url.isEmpty()) {
+            for (String key : country_vpn_map.keySet()) {
+                if (key == local_country) {
+                    continue;
+                }
+
+                Vector<String> vpn_url_vec = country_vpn_map.get(key);
+                if (vpn_url_vec.size() > 0) {
+                    Vector<String> new_url_vec = new Vector<String>();
+                    for (String item: vpn_url_vec) {
+                        String[] item_split = item.split(":");
+                        if (item_split.length >= 6) {
+                            if (Integer.parseInt(item_split[2]) != kDefaultVpnServerPort) {
+                                new_url_vec.add(item);
+                            }
+                        }
+                    }
+
+                    String item_string = "";
+                    if (!new_url_vec.isEmpty()) {
+                        int rand_num = (int)(Math.random() * new_url_vec.size());
+                        item_string = new_url_vec.get(rand_num);
+                    }
+
+                    if (item_string.isEmpty()) {
+                        int rand_num = (int)(Math.random() * vpn_url_vec.size());
+                        item_string = vpn_url_vec.get(rand_num);
+                    }
+
+                    if (!item_string.isEmpty()) {
+                        vpn_proxy_url = item_string;
+                    }
+                }
+            }
+        }
+        return vpn_proxy_url;
+    }
+
+    private void startVPNService() {
+        String route_proxy_url = "";
+        if (use_smart_route) {
+            route_proxy_url = ChooseRouteProxyUrl(local_country);
+            if (!isValidUrl(route_proxy_url)) {
+                Toast.makeText(this, "Waiting Decentralized Routing...", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+
+        String vpn_proxy_url = ChooseVpnProxyUrl();
+        Log.e(TAG, "vpn proxy url: " + vpn_proxy_url);
+        if (vpn_proxy_url.isEmpty()) {
+            Toast.makeText(this, "Waiting Decentralized Vpn Server...", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String[] item_split = vpn_proxy_url.split(":");
+        if (item_split.length < 7) {
+            Toast.makeText(this, "Waiting Decentralized Vpn Server...", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String direct_vpn_proxy_url = "ss://aes-128-cfb:passwd@" + item_split[0] + ":" + item_split[1];
+        //String login_gid = vpnLogin(item_split[6]);
+        //Log.e(TAG, "join account address:" + item_split[6]);
+        P2pLibManager.getInstance().choosed_vpn_ip = "";
+        P2pLibManager.getInstance().encryptor = null;
+        boolean res = P2pLibManager.getInstance().GetVpnNode();
+        if(!res || P2pLibManager.getInstance().choosed_vpn_ip.isEmpty() || P2pLibManager.getInstance().encryptor == null) {
+            Toast.makeText(this, "Waiting Decentralized Vpn Server...", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        LocalVpnService.ProxyUrl = ProxyUrl;
+        if (use_smart_route) {
+            //Toast.makeText(this, " to " + direct_vpn_proxy_url +  " use " + route_proxy_url, Toast.LENGTH_SHORT).show();
+            choosed_vpn_url = vpn_proxy_url;
+            LocalVpnService.ProxyUrl = route_proxy_url;
+            Log.e(TAG, " to " + vpn_proxy_url +  " use " + route_proxy_url);
+        } else {
+            //Toast.makeText(this, "local " + local_country + " direct to " + now_choosed_country + ", " + direct_vpn_proxy_url, Toast.LENGTH_SHORT).show();
+            choosed_vpn_url = vpn_proxy_url;
+            LocalVpnService.ProxyUrl = direct_vpn_proxy_url;
+        }
         startService(new Intent(this, LocalVpnService.class));
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
+        CircleButton c_btn = (CircleButton)findViewById(R.id.start_vpn);
+        c_btn.setEnabled(false);
+        LocalVpnService.IsRunning = true;
+        mCircleView.spin();
     }
 
     @Override
@@ -582,6 +940,8 @@ public class MainActivity extends ListActivity implements
     }
 
     public static String getIpAddressString() {
+        return "0.0.0.0";
+/*
         try {
             for (Enumeration<NetworkInterface> enNetI = NetworkInterface
                     .getNetworkInterfaces(); enNetI.hasMoreElements(); ) {
@@ -598,43 +958,65 @@ public class MainActivity extends ListActivity implements
             e.printStackTrace();
         }
         return "0.0.0.0";
+        */
     }
 
     public class CheckTransaction extends ListActivity implements Runnable {
         public List<String> gid_list = new ArrayList<String>();
-        private int create_tx_period = 10000;
+        private ArrayList<String> not_get_country_list = new ArrayList<String>();
         public void run() {
-            int_tx_hash = transaction(SHA("to", "SHA-256"), 10);
-            AddTxGid(int_tx_hash);
+            for (String value: country_to_short.values()) {
+                not_get_country_list.add(value);
+            }
+
             while (true) {
-                synchronized (this) {
-                    Iterator<String> iterator = gid_list.iterator();
-                    while (iterator.hasNext()) {
-                        String tx_gid = iterator.next();
-                        String res = getTransaction(tx_gid);
-                        Log.e(TAG, "check tx runing." + tx_gid + ":" + res);
-                        if (!res.equals("NO")) {
-                            iterator.remove();
-                            Message message = new Message();
-                            message.what = COMPLETED;
-                            message.obj = res.toString();
-                            handler.sendMessage(message);
-                        }
+                for (int i = 0; i < not_get_country_list.size(); ++i) {
+                    String vpn_url = getVpnNodes(not_get_country_list.get(i));
+                    if (!vpn_url.isEmpty()) {
+                        vpn_url = not_get_country_list.get(i) + "\t" + vpn_url;
+                        Message message = new Message();
+                        message.what = GOT_VPN_SERVICE;
+                        message.obj = vpn_url;
+                        handler.sendMessage(message);
+                    }
+
+                    String route_url = getRouteNodes(not_get_country_list.get(i));
+                    if (!route_url.isEmpty()) {
+                        route_url = not_get_country_list.get(i) + "\t" + route_url;
+                        Message message = new Message();
+                        message.what = GOT_VPN_ROUTE;
+                        message.obj = route_url;
+                        handler.sendMessage(message);
                     }
                 }
 
-                create_tx_period += 500;
-                if (create_tx_period >= 10000) {
-                    if (LocalVpnService.IsRunning) {
-                        String tx_gix1 = transaction("9650e70834d97b0d4de7bdb8a959045a2c9a5704219c896e3c35d2c88e279bb8", 10);
-                        AddTxGid(tx_gix1);
-                        Log.e(TAG,"start new tx: " + tx_gix1);
+                {
+                    long res = getBalance();
+                    if (res != -1) {
+                        Message message = new Message();
+                        message.what = GOT_BALANCE;
+                        message.obj = res;
+                        handler.sendMessage(message);
                     }
-                    create_tx_period = 0;
+                }
+
+                {
+                    String tmp_ip = getIpAddressString();
+                    if (!tmp_ip.isEmpty()) {
+                        Message message = new Message();
+                        message.what = GOT_LOCAL_IP;
+                        message.obj = tmp_ip;
+                        handler.sendMessage(message);
+                    }
+                }
+
+                int p2p_socket = getP2PSocket();
+                if (!vpn_service.protect(p2p_socket)) {
+                    Log.e(TAG,"protect vpn socket failed");
                 }
 
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(2000);
                 } catch(InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -676,9 +1058,21 @@ public class MainActivity extends ListActivity implements
         return strResult;
     }
 
-    public native String initP2PNetwork(String ip, int port, String bootstarp);
+    public native String initP2PNetwork(String ip, int port, String bootstarp, String file_path);
     public native int getP2PSocket();
     public native String createAccount();
     public native String getTransaction(String tx_gid);
     public native String transaction(String to, int amount);
+    public native String getVpnNodes(String country);
+    public native String getRouteNodes(String country);
+    public native boolean isFirstTimeInstall();
+    public native void setFirstTimeInstall();
+    public native String getTransactions();
+    public native long getBalance();
+    public native void vpnNodeHeartbeat(String dht_key);
+    public native int resetTransport(String local_ip, int local_port);
+    public static native String getPublicKey();
+    public static native String vpnLogin(String svr_account);
+    public native String checkVersion();
+
 }

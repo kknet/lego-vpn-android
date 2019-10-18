@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:background="@color/dark_gray"
+    android:orientation="vertical"
+    tools:showIn="hello">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/white"
+        android:gravity="left"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:text="TenonVPN" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="10dp"
+        android:gravity="right"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/white"
+            android:gravity="right"
+            android:textSize="16sp"
+            android:text="Smart Route" />
+        <Switch
+            android:id="@+id/switch_smart_route"
+            android:layout_width="75dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:showText="true"
+            android:switchTextAppearance="@style/SwitchTheme"
+            android:textOff="OFF"
+            android:textOn="ON"
+            android:checked="true"
+            android:onClick="switchSmartRoute"
+            android:thumb="@drawable/switch_custom_thumb_selector"
+            android:track="@drawable/switch_custom_track_selector" />
+    </LinearLayout>
+</RelativeLayout>

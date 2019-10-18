@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LegoVPN</string>
+    <string name="app_name">TenonVPN</string>
     <string name="menu_item_toggle_global">Toggle global mode</string>
     <string name="menu_item_switch">Proxy</string>
     <string name="menu_item_about">About</string>
@@ -22,4 +22,11 @@
     <string name="exit_confirm_info">This will disconnect the VPN connection, Are you sure to exit?</string>
     <string name="err_invalid_url">The config URL is invalid.</string>
     <string name="config_url_hint">ss://method:password@host:port</string>
+    <string name="googlepay_status_unavailable" translatable="false">Unfortunately, Google Pay is not available on this phone.</string>
+    <string name="payments_show_name" translatable="false">Successfully received payment data for %s!</string>
+    <string name="googlepay_status_checking" translatable="false"></string>
+    <string name="googlepay_button_content_description" translatable="false">Google Pay</string>
+    <string name="buy_with_googlepay_button_content_description" translatable="false">Buy with Google Pay</string>
+    <string name="save_to_googlepay_button_content_description" translatable="false">Save to Google Pay</string>
+    <string name="add_to_googlepay_button_content_description" translatable="false">Add to Google Pay</string>
 </resources>

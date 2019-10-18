@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <include layout="@layout/title_layout"
+        android:layout_height="40dp"
+        >
+
+    </include>
+
+    <RelativeLayout
+        android:paddingTop="0dp"
+        android:layout_width="400dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center|center_horizontal|center_vertical">
+
+        <TextView
+            android:layout_width="400dp"
+            android:layout_height="90dp"
+            android:layout_margin="20dp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/country_back"/>
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="15dp"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:layout_marginTop="22dp" />
+    </RelativeLayout >
+    <RelativeLayout
+        android:paddingTop="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="150dp"
+        android:gravity="center|center_horizontal|center_vertical"
+        >
+        <at.grabner.circleprogress.CircleProgressView
+            android:layout_marginTop="0dp"
+            android:id="@+id/circleView"
+            android:layout_width="244dp"
+            android:layout_height="244dp"
+            app:cpv_autoTextSize="true"
+            app:cpv_barColor="@color/gray"
+            app:cpv_barWidth="20dp"
+            app:cpv_innerContourSize="0dp"
+            app:cpv_maxValue="100"
+            app:cpv_outerContourSize="0dp"
+            app:cpv_rimColor="@color/disconnect_succ_out"
+            app:cpv_rimWidth="20dp"
+            app:cpv_seekMode="true"
+            app:cpv_showUnit="true"
+            app:cpv_spinColor="@color/gray"
+            app:cpv_textColor="@color/gray"
+            app:cpv_textScale="1"
+            app:cpv_unit="%"
+            app:cpv_unitColor="@color/gray"
+            app:cpv_unitScale="1"
+            android:layout_marginLeft="0dp"
+            app:cpv_value="5" />
+        <at.markushi.ui.CircleButton
+            android:layout_marginTop="0dp"
+            android:id="@+id/start_vpn"
+            android:layout_width="244dp"
+            android:layout_height="244dp"
+            android:layout_marginLeft="0dp"
+            android:onClick="startVpn"
+            app:cb_color="#D9D9D9"
+            android:src="@drawable/connect"
+            app:cb_pressedRingWidth="8dip" />
+    </RelativeLayout >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:orientation="vertical"
+        android:layout_marginTop="-150dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="70dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv1"
+                    android:layout_width="120dp"
+                    android:layout_height="29dp"
+                    android:layout_marginTop="0dp"
+                    android:textColor="@color/connect_succ_in"
+                    android:textStyle="bold"
+                    android:gravity="center|center_horizontal|center_vertical"
+                    android:text="Account Address" />
+
+                <TextView
+                    android:id="@+id/accoount_address_value"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|center_horizontal|center_vertical"
+                    android:text="-- -- -- -- -- -- -- -- -- -- --"
+                    />
+            </LinearLayout>
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_height="50dp"
+                android:scaleType="center"
+                android:src="@drawable/line" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="70dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv3"
+                    android:layout_width="120dp"
+                    android:layout_height="29dp"
+                    android:layout_marginTop="0dp"
+                    android:textColor="@color/connect_succ_in"
+                    android:textStyle="bold"
+                    android:gravity="center|center_horizontal|center_vertical"
+                    android:text="Balance " />
+                <LinearLayout
+                    android:layout_width="200dp"
+                    android:layout_height="29dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center|center_horizontal|center_vertical"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/balance_lego"
+                        android:layout_marginTop="2dp"
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:gravity="right"
+                        android:text="0 Lego"
+                        />
+                    <TextView
+                        android:id="@+id/balance_dollar"
+                        android:layout_marginTop="2dp"
+                        android:layout_width="100dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_height="30dp"
+                        android:gravity="left"
+                        android:text="0 $"
+                        android:textColor="#ff0000"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    </FrameLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="-40dp"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:gravity="center"
+            android:background="@drawable/btn_bg_normal"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:text="Settings"
+            android:onClick="showDialog"
+            android:focusable="false" />
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:gravity="center"
+            android:background="@drawable/btn_bg_normal"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:text="Upgrade"
+            android:onClick="checkVer"
+            android:focusable="false" />
+    </LinearLayout>
+</TableLayout>

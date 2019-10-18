@@ -1,7 +1,7 @@
-Executable : C:\Users\user\AppData\Local\Android\Sdk\cmake\3.6.4111459\bin\cmake.exe
+Executable : D:\tools\tools\lib\cmake\3.6.4111459\bin\cmake.exe
 arguments : 
 --build
-E:\dvpn\shadowsocks-android-java\app\.externalNativeBuild\cmake\debug\x86_64
+D:\lego\lego-vpn-android\app\.externalNativeBuild\cmake\debug\x86_64
 --target
 native-lib
 jvmArgs : 

@@ -1,4 +1,4 @@
-# Install script for directory: E:/lego/lego/lego_vpn_android/app
+# Install script for directory: D:/lego/lego-vpn-android/app
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "E:/lego/lego/lego_vpn_android/app/.externalNativeBuild/cmake/debug/arm64-v8a/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "D:/lego/lego-vpn-android/app/.externalNativeBuild/cmake/debug/arm64-v8a/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

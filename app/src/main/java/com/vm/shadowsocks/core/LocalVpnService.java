@@ -10,6 +10,7 @@ import android.net.VpnService;
 import android.os.Build;
 import android.os.Handler;
 import android.os.ParcelFileDescriptor;
+import android.util.Log;
 
 import com.vm.shadowsocks.R;
 import com.vm.shadowsocks.core.ProxyConfig.IPAddress;

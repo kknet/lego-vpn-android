@@ -1,7 +1,7 @@
 package cn.forward.androids.utils;
 
 import android.graphics.Point;
-import android.support.v4.widget.TextViewCompat;
+import androidx.core.widget.TextViewCompat;
 import android.text.Layout;
 import android.text.SpannableString;
 import android.text.Spanned;
