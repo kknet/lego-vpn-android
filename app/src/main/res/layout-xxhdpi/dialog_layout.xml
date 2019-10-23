@@ -29,7 +29,7 @@
                 android:textColor="@color/connect_succ_in"
                 android:textStyle="bold"
                 android:gravity="left"
-                android:text="Private Key" />
+                android:text="@string/private_key_string" />
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="0.6"
@@ -68,7 +68,7 @@
             android:textColor="@color/connect_succ_in"
             android:textStyle="bold"
             android:gravity="left"
-            android:text="Account Address" />
+            android:text="@string/account_id_string" />
         <com.andreabaccega.widget.FormEditText
             whatever:testType="alpha"
             android:id="@+id/dlg_account_address"
@@ -92,7 +92,7 @@
                 android:textColor="@color/connect_succ_in"
                 android:textStyle="bold"
                 android:gravity="left"
-                android:text="Balance " />
+                android:text="@string/balance_string " />
 
             <TextView
                 android:id="@+id/dlg_balance_lego"
@@ -135,7 +135,7 @@
             android:textColor="@color/connect_succ_in"
             android:textStyle="bold"
             android:gravity="left"
-            android:text="Transactions" />
+            android:text="@string/transactions_string" />
         <de.codecrafters.tableview.TableView
             xmlns:table="http://schemas.android.com/apk/res-auto"
             android:id="@+id/tableView"

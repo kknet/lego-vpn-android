@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: com.wrapp.floatlabelededittext:library:0.0.6@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c231843aabeb206b8516aaaeedf33055/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c231843aabeb206b8516aaaeedf33055/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c68c2e16a67804c5e8053f95fcea67b7/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c68c2e16a67804c5e8053f95fcea67b7/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

@@ -5,7 +5,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
     <include layout="@layout/title_layout"
-        android:layout_height="40dp"
+
         >
 
     </include>
@@ -13,14 +13,14 @@
     <RelativeLayout
         android:paddingTop="0dp"
         android:layout_width="400dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="10dp"
         android:gravity="center|center_horizontal|center_vertical">
 
         <TextView
             android:layout_width="400dp"
             android:layout_height="90dp"
-            android:layout_margin="20dp"
+            android:layout_margin="10dp"
             android:textColor="#FFFFFF"
             android:background="@drawable/country_back"/>
         <Spinner
@@ -33,25 +33,24 @@
             android:layout_marginTop="22dp" />
     </RelativeLayout >
     <RelativeLayout
-        android:paddingTop="0dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingTop="0dp"
+        android:layout_marginTop="-20dp"
         android:layout_marginBottom="150dp"
-        android:gravity="center|center_horizontal|center_vertical"
+        android:gravity="center_horizontal|center|center_vertical"
         >
         <at.grabner.circleprogress.CircleProgressView
-            android:layout_marginTop="0dp"
             android:id="@+id/circleView"
+            android:layout_marginTop="-20dp"
             android:layout_width="244dp"
             android:layout_height="244dp"
-            app:cpv_autoTextSize="true"
+            app:cpv_autoTextSize="false"
             app:cpv_barColor="@color/gray"
-            app:cpv_barWidth="20dp"
             app:cpv_innerContourSize="0dp"
             app:cpv_maxValue="100"
             app:cpv_outerContourSize="0dp"
             app:cpv_rimColor="@color/disconnect_succ_out"
-            app:cpv_rimWidth="20dp"
             app:cpv_seekMode="true"
             app:cpv_showUnit="true"
             app:cpv_spinColor="@color/gray"
@@ -60,10 +59,10 @@
             app:cpv_unit="%"
             app:cpv_unitColor="@color/gray"
             app:cpv_unitScale="1"
-            android:layout_marginLeft="0dp"
+            android:gravity="center_horizontal|center|center_vertical"
             app:cpv_value="5" />
         <at.markushi.ui.CircleButton
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="-20dp"
             android:id="@+id/start_vpn"
             android:layout_width="244dp"
             android:layout_height="244dp"
@@ -71,6 +70,7 @@
             android:onClick="startVpn"
             app:cb_color="#D9D9D9"
             android:src="@drawable/connect"
+            android:gravity="center_horizontal|center|center_vertical"
             app:cb_pressedRingWidth="8dip" />
     </RelativeLayout >
 
@@ -82,92 +82,98 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         android:orientation="vertical"
-        android:layout_marginTop="-150dp">
+        android:layout_marginTop="-200dp">
         <LinearLayout
+            android:layout_marginTop="0dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="horizontal">
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="70dp"
+                android:layout_height="65dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:gravity="center_horizontal"
-                android:orientation="vertical">
-
+                android:orientation="horizontal">
                 <TextView
-                    android:id="@+id/tv1"
-                    android:layout_width="120dp"
-                    android:layout_height="29dp"
-                    android:layout_marginTop="0dp"
-                    android:textColor="@color/connect_succ_in"
-                    android:textStyle="bold"
-                    android:gravity="center|center_horizontal|center_vertical"
-                    android:text="Account Address" />
-
-                <TextView
-                    android:id="@+id/accoount_address_value"
-                    android:layout_marginTop="10dp"
-                    android:layout_width="wrap_content"
+                    android:layout_width="112dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center|center_horizontal|center_vertical"
-                    android:text="-- -- -- -- -- -- -- -- -- -- --"
-                    />
-            </LinearLayout>
-            <ImageView
-                android:id="@+id/image"
-                android:layout_width="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_height="50dp"
-                android:scaleType="center"
-                android:src="@drawable/line" />
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="70dp"
-                android:layout_marginLeft="10dp"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tv3"
-                    android:layout_width="120dp"
-                    android:layout_height="29dp"
-                    android:layout_marginTop="0dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginTop="5dp"
                     android:textColor="@color/connect_succ_in"
+                    android:gravity="left"
                     android:textStyle="bold"
-                    android:gravity="center|center_horizontal|center_vertical"
-                    android:text="Balance " />
-                <LinearLayout
-                    android:layout_width="200dp"
-                    android:layout_height="29dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginLeft="10dp"
-                    android:gravity="center|center_horizontal|center_vertical"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:id="@+id/balance_lego"
-                        android:layout_marginTop="2dp"
-                        android:layout_width="100dp"
-                        android:layout_height="30dp"
-                        android:gravity="right"
-                        android:text="0 Lego"
-                        />
-                    <TextView
-                        android:id="@+id/balance_dollar"
-                        android:layout_marginTop="2dp"
-                        android:layout_width="100dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_height="30dp"
-                        android:gravity="left"
-                        android:text="0 $"
-                        android:textColor="#ff0000"
-                        />
-                </LinearLayout>
-            </LinearLayout>
+                    android:textSize="18sp"
+                    android:text="@string/smart_route_name_string" />
+                <com.suke.widget.SwitchButton
+                    android:id="@+id/switch_smart_route"
+                    android:layout_width="85dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="0dp"
+                    android:onClick="switchSmartRoute"
+                    android:checked="true"
+                    sb_checked = "true"
+                    android:layout_marginLeft="10dp" />
+                        </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="29dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="120dp"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv31"
+                android:layout_width="wrap_content"
+                android:layout_height="29dp"
+                android:layout_marginTop="0dp"
+                android:textColor="@color/connect_succ_in"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:text="Balance " />
+            <TextView
+                android:id="@+id/balance_lego"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="right"
+                android:text="0 Tenon"
+                android:textSize="13sp"
+                />
+            <TextView
+                android:id="@+id/balance_dollar"
+                android:layout_marginTop="1dp"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_height="30dp"
+                android:gravity="left"
+                android:text="0 $"
+                android:textSize="13sp"
+                android:textColor="#ff0000"
+                />
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="@color/zxing_transparent"
+            android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/disconnect_succ_in"
+            android:textSize="13sp"
+            android:gravity="left"
+            android:text="@string/smart_route_usefull" />
+        </LinearLayout>
     </FrameLayout>
     <LinearLayout
         android:layout_width="fill_parent"
@@ -186,7 +192,7 @@
             android:textColor="#ffffff"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:text="Settings"
+            android:text="@string/account_settings_string"
             android:onClick="showDialog"
             android:focusable="false" />
         <Button
@@ -200,7 +206,7 @@
             android:textColor="#ffffff"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:text="Upgrade"
+            android:text="@string/upgrade_settings_string"
             android:onClick="checkVer"
             android:focusable="false" />
     </LinearLayout>

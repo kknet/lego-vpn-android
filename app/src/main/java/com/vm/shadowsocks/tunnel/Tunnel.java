@@ -70,9 +70,6 @@ public abstract class Tunnel {
                     serverEP = new InetSocketAddress(tmp_split[0], Integer.parseInt(tmp_split[1]));
                 }
             }
-
-            Log.e("choosed route", "ip and port is " + serverEP);
-
             m_InnerChannel.connect(serverEP);//连接目标
         } else {
             throw new Exception("VPN protect socket failed.");

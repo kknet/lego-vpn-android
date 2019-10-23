@@ -14,12 +14,11 @@ public final class P2pLibManager {
     public String choosed_country = "US";
     public boolean use_smart_route = true;
 
-    public ICrypt encryptor;
     public String choosed_vpn_ip;
     public int choosed_vpn_port;
     public String choosed_method = "aes-128-cfb";
     public String public_key;
-
+    public String seckey;
 
     private String countries[] = {"US", "SG", "BR","DE","FR","KR", "JP", "CA","AU","HK", "IN", "GB","CN"};
     private String def_vpn_coutry[] = {"US", "IN", "GB"};
@@ -66,8 +65,9 @@ public final class P2pLibManager {
 
         choosed_vpn_ip = info_split[0];
         choosed_vpn_port = Integer.parseInt(info_split[1]);
-        encryptor = CryptFactory.get(choosed_method, info_split[3]);
-        Log.e("test encryptor", "encryptor is not null: " + encryptor + ", seckey is: " + info_split[3]);
+        seckey = info_split[3];
+        //encryptor = CryptFactory.get(choosed_method, info_split[3]);
+        //Log.e("test encryptor", "encryptor is not null: " + encryptor + ", seckey is: " + info_split[3]);
         public_key = getPublicKey();
         return true;
     }

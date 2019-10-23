@@ -3,6 +3,7 @@ package com.vm.shadowsocks.ui;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -15,11 +16,16 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
@@ -88,6 +94,13 @@ import androidx.core.content.ContextCompat;
 import java.lang.String;
 import java.io.File;
 import android.widget.Switch;
+import android.webkit.WebView;
+import android.webkit.WebSettings;
+import android.webkit.WebViewClient;
+import android.webkit.WebSettings.RenderPriority;
+import android.view.KeyEvent;
+
+import com.suke.widget.SwitchButton;
 
 public class MainActivity extends FragmentActivity  implements
         View.OnClickListener,
@@ -141,6 +154,7 @@ public class MainActivity extends FragmentActivity  implements
     private String local_country = "CN";
     private BottomDialog bottom_dialog;
     private BottomDialog upgrade_dialog;
+    private BottomDialog webview_dialog;
 
     private String private_key;
     private String account_address;
@@ -155,17 +169,28 @@ public class MainActivity extends FragmentActivity  implements
     private final int kDefaultVpnServerPort= 9033;
     private String version_download_url = "";
 
-    private final String kCurrentVersion = "1.0.5";
+    private com.suke.widget.SwitchButton switchButton;
+    private WebView wv_produce;
+
+    private Button web_view_open_btn;
+    private TextView tilte_text_view;
+
+    private long goback_prev_timestamp = 0;
+
+    private final String kCurrentVersion = "1.0.8";
     private int dip2px(float dpValue) {
         final float scale = getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
 
     private void InitItemLayout() {
-        if (mCircleView.getY() > 70) {
-            mCircleView.setY(70);
+        WindowManager wm1 = this.getWindowManager();
+        DisplayMetrics mec = new DisplayMetrics();
+        wm1.getDefaultDisplay().getMetrics(mec);
+        if (mec.heightPixels > 1900) {
+            mCircleView.setY(160);
             CircleButton c_btn = (CircleButton)findViewById(R.id.start_vpn);
-            c_btn.setY(70);
+            c_btn.setY(160);
         }
         //mCircleView.setLayoutParams(params);
     }
@@ -239,7 +264,7 @@ public class MainActivity extends FragmentActivity  implements
                     }
 
                     TextView balance = (TextView)findViewById(R.id.balance_lego);
-                    balance.setText(split[1] + " lego");
+                    balance.setText(split[1] + " Tenon");
                     TextView balance_d = (TextView)findViewById(R.id.balance_dollar);
                     balance_d.setText(String.format("%.2f", Integer.parseInt(split[1]) * 0.002) + "$");
                     String block_item = "\n\n\n    Transaction Hash: \n    " + split[4] + "\n\n    Block Height：" + split[2] + "\n\n    Block Hash：\n    " + split[3] + "\n\n\n";
@@ -296,7 +321,7 @@ public class MainActivity extends FragmentActivity  implements
                 long res = (long)msg.obj;
                 account_balance = res;
                 TextView balance = (TextView)findViewById(R.id.balance_lego);
-                balance.setText(account_balance + " lego");
+                balance.setText(account_balance + " Tenon");
                 TextView balance_d = (TextView)findViewById(R.id.balance_dollar);
                 balance_d.setText(String.format("%.2f", account_balance * 0.002) + "$");
             }
@@ -321,6 +346,12 @@ public class MainActivity extends FragmentActivity  implements
         }
     };
 
+
+    public void closeWebview(View view) {
+        web_view_open_btn.setText(this.getString(R.string.navigation_string));
+        tilte_text_view.setText("TenonVPN");
+        webview_dialog.dismiss();
+    }
     public void hideDialog(View view) {
         bottom_dialog.dismiss();
     }
@@ -328,10 +359,61 @@ public class MainActivity extends FragmentActivity  implements
         upgrade_dialog.dismiss();
     }
     public void switchSmartRoute(View view) {
-        Switch s = (Switch) findViewById(R.id.switch_smart_route);
-        use_smart_route = s.isChecked();
+        use_smart_route = switchButton.isChecked();
         LocalVpnService.IsRunning = false;
-        P2pLibManager.getInstance().use_smart_route = s.isChecked();
+        P2pLibManager.getInstance().use_smart_route = switchButton.isChecked();
+    }
+
+    public void homePage(View view) {
+        wv_produce.loadUrl("file:///android_asset/index.html");
+        wv_produce.clearHistory();
+    }
+
+    public void useBrower(View view) {
+        String url = wv_produce.getUrl();
+        if (url.isEmpty() || url.startsWith("file")) {
+            Toast.makeText(this, getString(R.string.select_a_website_string), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Uri uri = Uri.parse(url);
+        Intent intent = new Intent();
+        intent.setAction("android.intent.action.VIEW");
+        intent.setData(uri);
+        startActivity(intent);
+    }
+
+    void initWebView(final View view) {
+        wv_produce=(WebView) view.findViewById(R.id.wv_produce1);
+        wv_produce.loadUrl("file:///android_asset/index.html");
+        //wv_produce.loadUrl("https://www.google.com");
+        //加上下面这段代码可以使网页中的链接不以浏览器的方式打开
+        //得到webview设置
+        WebSettings webSettings = wv_produce.getSettings();
+        //允许使用javascript
+        webSettings.setJavaScriptEnabled(true);
+        //设置可自由缩放网页
+        wv_produce.getSettings().setSupportZoom(true);
+        wv_produce.getSettings().setAllowFileAccess(true);
+
+        // 如果页面中链接，如果希望点击链接继续在当前browser中响应，
+        // 而不是新开Android的系统browser中响应该链接，必须覆盖webview的WebViewClient对象
+        wv_produce.setWebViewClient(new WebViewClient() {
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                //  重写此方法表明点击网页里面的链接还是在当前的webview里跳转，不跳到浏览器那边
+                view.loadUrl(url);
+                return true;
+            }
+        });
+
+
+        //支持App内部JavaScript交互
+        wv_produce.getSettings().setJavaScriptEnabled(true);        //自适应手机屏幕
+        wv_produce.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        wv_produce.getSettings().setLoadWithOverviewMode(true);
+
+        //设置编码为utf-8
+        wv_produce.getSettings().setDefaultTextEncodingName("utf-8");
     }
 
     private void initView(final View view) {
@@ -388,9 +470,38 @@ public class MainActivity extends FragmentActivity  implements
         }
     }
 
+    public void showWebview(View view) {
+        if (LocalVpnService.IsRunning != true) {
+            Toast.makeText(this, getString(R.string.connect_first_string), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        webview_dialog.show();
+        web_view_open_btn.setText("");
+        tilte_text_view.setText("");
+    }
+
+    public void webPrev(View view) {
+        if (wv_produce.canGoBack()) {
+            wv_produce.goBack();
+        }
+    }
+
+    public void webNext(View view) {
+        if (wv_produce.canGoForward()) {
+            wv_produce.goForward();
+        }
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        return false;
+    }
+
     public void showDialog(View view) {
         bottom_dialog.show();
     }
+
     public void checkVer(View view) {
         version_download_url = "";
         String ver = checkVersion();
@@ -521,6 +632,24 @@ public class MainActivity extends FragmentActivity  implements
         mCircleView.setBarColor(getResources().getColor(R.color.disconnect_succ_out));
         mCalendar = Calendar.getInstance();
         LocalVpnService.addOnStatusChangedListener(this);
+
+        web_view_open_btn = findViewById(R.id.web_open_buton);
+        tilte_text_view = findViewById(R.id.title_text);
+
+
+        switchButton = (com.suke.widget.SwitchButton)
+                findViewById(R.id.switch_smart_route);
+
+        switchButton.setChecked(true);
+        switchButton.setShadowEffect(true);//disable shadow effect
+        switchButton.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(SwitchButton view, boolean isChecked) {
+                //TODO do your job
+                switchSmartRoute(view);
+            }
+        });
+
         //Pre-App Proxy
         if (AppProxyManager.isLollipopOrAbove){
             new AppProxyManager(this);
@@ -572,11 +701,53 @@ public class MainActivity extends FragmentActivity  implements
                 .setDimAmount(0.1f)
                 .setCancelOutside(false)
                 .setTag("UpgradeDialog");
+
+        webview_dialog = BottomDialog.create(getSupportFragmentManager());
+
+        webview_dialog.setViewListener(new BottomDialog.ViewListener() {
+                    @Override
+                    public void bindView(View v) {
+                        initWebView(v);
+
+                        webview_dialog.getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        webview_dialog.getDialog().setOnKeyListener(new DialogInterface.OnKeyListener() {
+                            @Override
+                            public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
+                                if (i == KeyEvent.KEYCODE_BACK) {
+                                    long now_timestamp = System.currentTimeMillis();
+                                    if (now_timestamp - goback_prev_timestamp <= 200) {
+                                        return true;
+                                    }
+
+                                    goback_prev_timestamp = now_timestamp;
+                                    if (wv_produce.canGoBack()) {
+                                        wv_produce.goBack();
+                                        return true;
+                                    } else {
+                                        web_view_open_btn.setText(getString(R.string.navigation_string));
+                                        tilte_text_view.setText("TenonVPN");
+                                        webview_dialog.dismiss();
+                                        return false;
+                                    }
+                                }
+                                webview_dialog.getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+                                return true;
+                            }
+                        });
+                    }
+                })
+                .setLayoutRes(R.layout.link_web)
+                .setDimAmount(0.1f)
+                .setCancelOutside(false)
+                .setTag("WebviewDialog");
+        /*
         TextView acc_view = (TextView)findViewById(R.id.accoount_address_value);
         acc_view.setText(account_address.substring(0, 7).toUpperCase() +
                 "......" +
                 account_address.substring(account_address.length() - 7).toUpperCase());
         Log.d(TAG, "onCreate: start check tx thread. 1111 ");
+        */
 
         int p2p_socket = getP2PSocket();
         if (!vpn_service.protect(p2p_socket)) {
@@ -852,10 +1023,10 @@ public class MainActivity extends FragmentActivity  implements
         String direct_vpn_proxy_url = "ss://aes-128-cfb:passwd@" + item_split[0] + ":" + item_split[1];
         //String login_gid = vpnLogin(item_split[6]);
         //Log.e(TAG, "join account address:" + item_split[6]);
-        P2pLibManager.getInstance().choosed_vpn_ip = "";
-        P2pLibManager.getInstance().encryptor = null;
+
+
         boolean res = P2pLibManager.getInstance().GetVpnNode();
-        if(!res || P2pLibManager.getInstance().choosed_vpn_ip.isEmpty() || P2pLibManager.getInstance().encryptor == null) {
+        if(!res) {
             Toast.makeText(this, "Waiting Decentralized Vpn Server...", Toast.LENGTH_SHORT).show();
             return;
         }

@@ -16,6 +16,7 @@
     <color name="odd">#A9ffef</color>
     <color name="dark_gray">#121212</color>
     <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
 
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>

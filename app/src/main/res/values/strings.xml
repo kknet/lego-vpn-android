@@ -29,4 +29,18 @@
     <string name="buy_with_googlepay_button_content_description" translatable="false">Buy with Google Pay</string>
     <string name="save_to_googlepay_button_content_description" translatable="false">Save to Google Pay</string>
     <string name="add_to_googlepay_button_content_description" translatable="false">Add to Google Pay</string>
+    <string name="smart_route_name_string">Smart Route</string>
+    <string name="account_settings_string">Settings</string>
+    <string name="upgrade_settings_string">Upgrade</string>
+    <string name="private_key_string">Private Key</string>
+    <string name="account_id_string">Account Address</string>
+    <string name="balance_string">Balance</string>
+    <string name="transactions_string">Transactions</string>
+    <string name="navigation_string">Navigation</string>
+    <string name="connect_first_string">To access the external network after connecting to the VPN, click the middle round button.</string>
+    <string name="use_browser_string">open with browser</string>
+    <string name="select_a_website_string">Please select a website and open it with a browser.</string>
+    <string name="home_page">Home</string>
+
+    <string name="smart_route_usefull" translatable="false">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; Intelligent routing will hide your real IP. Each session you access the network will randomly select multiple intermediate nodes for forwarding, and then go to the node of the VPN service provider. Therefore, neither the carrier nor the VPN service provider can track your data flow.</string>
 </resources>

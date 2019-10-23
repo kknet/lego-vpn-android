@@ -75,5 +75,7 @@ dependencies {
     compile 'me.shaohui:bottomdialog:1.1.9'
     compile 'com.andreabaccega:android-form-edittext:1.3.5'
     compile 'de.codecrafters.tableview:tableview:2.8.0'
+    compile 'com.github.zcweng:switch-button:0.0.3@aar'
+    compile 'com.github.ceryle:RadioRealButton:v2.1.1'
 }
 

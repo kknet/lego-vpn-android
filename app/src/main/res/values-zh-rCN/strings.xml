@@ -22,4 +22,18 @@
     <string name="exit_confirm_info">这将会断开VPN连接，确定要退出吗？</string>
     <string name="err_invalid_url">无效的配置地址</string>
     <string name="config_url_hint">ss://method:password@host:port</string>
+    <string name="smart_route_name_string">智能路由</string>
+    <string name="account_settings_string">账号设置</string>
+    <string name="upgrade_settings_string">升级更新</string>
+    <string name="private_key_string">私钥</string>
+    <string name="account_id_string">匿名地址</string>
+    <string name="balance_string">钱包余额</string>
+    <string name="transactions_string">交易记录</string>
+    <string name="navigation_string">常用网址</string>
+    <string name="connect_first_string">连接VPN后才能访问外部网，请点击中间圆形按钮。</string>
+    <string name="use_browser_string">用浏览器打开</string>
+    <string name="select_a_website_string">请选择一个网站，然后用浏览器打开。</string>
+    <string name="home_page">首页</string>
+
+    <string name="smart_route_usefull" translatable="false">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;智能路由将会把你的真实IP进行隐藏，你访问网络的每次会话，都会随机选择多个中间节点进行转发，然后才到VPN服务提供商的节点，不管是运营商还是VPN服务提供商都无法跟踪你的数据流向。</string>
 </resources>

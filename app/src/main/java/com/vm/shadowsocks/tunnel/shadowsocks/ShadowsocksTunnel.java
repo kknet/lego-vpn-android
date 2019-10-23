@@ -10,29 +10,16 @@ import java.nio.channels.Selector;
 import java.util.ArrayList;
 import java.util.List;
 import android.util.Log;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ShadowsocksTunnel extends Tunnel {
-
-    private ICrypt m_Encryptor;
-    private ShadowsocksConfig m_Config;
     private boolean m_TunnelEstablished;
-    private String choosed_vpn_ip;
-    private int choosed_vpn_port;
-    private String choosed_method = "aes-128-cfb";
-    private String public_key;
+    public ICrypt encryptor = null;
+    private String seckey = "";
+    static private AtomicInteger connect_times = new AtomicInteger(1);
 
     public ShadowsocksTunnel(ShadowsocksConfig config, Selector selector) throws Exception {
         super(config.ServerAddress, selector);
-        m_Config = config;
-        public_key = MainActivity.getPublicKey();
-        String choosed_vpn = MainActivity.choosed_vpn_url;
-        String[] vpn_info = choosed_vpn.split(":");
-        if (vpn_info.length < 6) {
-            return;
-        }
-        choosed_vpn_ip = vpn_info[0];
-        choosed_vpn_port = Integer.parseInt(vpn_info[1]);
-        m_Encryptor = CryptFactory.get(choosed_method, vpn_info[3]);
     }
 
     protected int ipToNum(String ip) {
@@ -82,29 +69,23 @@ public class ShadowsocksTunnel extends Tunnel {
         buffer.flip();
         byte[] header = new byte[buffer.limit()];
         buffer.get(header);
-        byte[] enc_data = m_Encryptor.encrypt(header);
+
+        if (!seckey.equals(P2pLibManager.getInstance().seckey)) {
+            encryptor = CryptFactory.get(P2pLibManager.getInstance().choosed_method, P2pLibManager.getInstance().seckey);
+            seckey = P2pLibManager.getInstance().seckey;
+        }
+        byte[] enc_data = encryptor.encrypt(header);
 
         buffer.clear();
-        if (MainActivity.use_smart_route) {
-            String vpn_ip = choosed_vpn_ip;
-            int vpn_port = choosed_vpn_port;
-            // TODO(change sec key)
-            /*
-            String res = P2pLibManager.getInstance().GetVpnNode();
-            if (!res.isEmpty()) {
-                String tmp_split[] = res.split(":");
-                if (tmp_split.length == 2) {
-                    vpn_ip = tmp_split[0];
-                    vpn_port = Integer.parseInt(tmp_split[1]);
-                }
-            }
-*/
-            Log.e("vpn server", "real dest server, " + vpn_ip + ":" + vpn_port);
+        if (P2pLibManager.getInstance().use_smart_route) {
+            String vpn_ip = P2pLibManager.getInstance().choosed_vpn_ip;
+            int vpn_port = P2pLibManager.getInstance().choosed_vpn_port;
             buffer.putInt(ipToNum(vpn_ip));
             buffer.putShort((short)vpn_port);
         }
-        buffer.put(public_key.getBytes());
-        byte[] choosed_method_bytes = choosed_method.getBytes();
+
+        buffer.put(P2pLibManager.getInstance().public_key.getBytes());
+        byte[] choosed_method_bytes = P2pLibManager.getInstance().choosed_method.getBytes();
         buffer.put((byte) choosed_method_bytes.length);
         buffer.put(choosed_method_bytes);
         buffer.put(enc_data);
@@ -117,6 +98,15 @@ public class ShadowsocksTunnel extends Tunnel {
             m_TunnelEstablished = true;
             this.beginReceive();
         }
+
+        int now_times = connect_times.incrementAndGet();
+        if (now_times > 15) {
+            String old_ip = P2pLibManager.getInstance().choosed_vpn_ip;
+            P2pLibManager.getInstance().GetVpnNode();
+            if (!old_ip.equals(P2pLibManager.getInstance().choosed_vpn_ip)) {
+                connect_times.set(0);
+            }
+        }
     }
 
     @Override
@@ -128,7 +118,7 @@ public class ShadowsocksTunnel extends Tunnel {
     protected void beforeSend(ByteBuffer buffer) throws Exception {
         byte[] bytes = new byte[buffer.limit()];
         buffer.get(bytes);
-        byte[] enc_data = m_Encryptor.encrypt(bytes);
+        byte[] enc_data = encryptor.encrypt(bytes);
         buffer.clear();
         buffer.put(enc_data);
         buffer.flip();
@@ -138,16 +128,15 @@ public class ShadowsocksTunnel extends Tunnel {
     protected void afterReceived(ByteBuffer buffer) throws Exception {
         byte[] bytes = new byte[buffer.limit()];
         buffer.get(bytes);
-        byte[] newbytes = m_Encryptor.decrypt(bytes);
+        byte[] newbytes = encryptor.decrypt(bytes);
         buffer.clear();
         buffer.put(newbytes);
         buffer.flip();
+        connect_times.set(0);
     }
 
     @Override
     protected void onDispose() {
-        m_Config = null;
-        m_Encryptor = null;
+        encryptor = null;
     }
-
 }
