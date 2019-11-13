@@ -22,12 +22,14 @@ JNIEXPORT jstring JNICALL Java_com_vm_shadowsocks_ui_MainActivity_initP2PNetwork
         jstring ip,
         jint port,
         jstring bootstrap,
-        jstring file_path) {
+        jstring file_path,
+        jstring pri_key) {
     jboolean iscopy;
     const char *in_ip = env->GetStringUTFChars(ip, &iscopy);
     const char *in_bootstrap = env->GetStringUTFChars(bootstrap, &iscopy);
     //const char *in_path = "data/data/com.vm.legovpn";
     const char *in_path = env->GetStringUTFChars(file_path, &iscopy);
+    const char *pri_key_char = env->GetStringUTFChars(pri_key, &iscopy);
 
     std::string conf_file = std::string(in_path) + "/lego.conf";
     std::string log_file = std::string(in_path) + "/lego.log";
@@ -38,12 +40,20 @@ JNIEXPORT jstring JNICALL Java_com_vm_shadowsocks_ui_MainActivity_initP2PNetwork
             in_bootstrap,
             conf_file,
             log_file,
-            conf_log_file);
+            conf_log_file,
+            pri_key_char);
     if (res == "ERROR") {
         res = "create account address error!";
     }
     return env->NewStringUTF(res.c_str());
 }
+
+JNIEXPORT void JNICALL Java_com_vm_shadowsocks_ui_MainActivity_p2pDestroy(
+        JNIEnv *env,
+        jobject) {
+    lego::client::VpnClient::Instance()->Destroy();
+}
+
 
 JNIEXPORT jstring JNICALL Java_com_vm_shadowsocks_ui_MainActivity_getRouteNodes(
         JNIEnv *env,
@@ -215,19 +225,11 @@ JNIEXPORT jstring JNICALL Java_com_vm_shadowsocks_ui_MainActivity_getTransaction
         jstring tx_gid) {
     jboolean iscopy;
     const char *tx_gid_str = env->GetStringUTFChars(tx_gid, &iscopy);
-    std::string tx_info_str = lego::client::VpnClient::Instance()->GetTransactionInfo(tx_gid_str);
-    if (tx_info_str.empty()) {
+    auto tx_info_str = lego::client::VpnClient::Instance()->GetBlockWithGid(tx_gid_str);
+    if (tx_info_str == nullptr) {
         return env->NewStringUTF("NO");
     }
-    time_t now = time(0);
-    tm *ltm = localtime(&now);
-    std::string res_str = std::to_string(1900 + ltm->tm_year) + "-" +
-                std::to_string(1 + ltm->tm_mon) + "-" +
-                std::to_string(ltm->tm_mday) + " " +
-                std::to_string(ltm->tm_hour) + ":" +
-                std::to_string(ltm->tm_min) + ":" +
-                std::to_string(ltm->tm_sec) + " " + tx_info_str;
-    return env->NewStringUTF(res_str.c_str());
+    return env->NewStringUTF("YES");
 }
 
 JNIEXPORT jint JNICALL Java_com_vm_shadowsocks_ui_MainActivity_resetTransport(
@@ -263,6 +265,33 @@ JNIEXPORT jstring JNICALL Java_com_vm_shadowsocks_ui_MainActivity_checkVersion(
         JNIEnv *env,
         jobject) {
     std::string res = lego::client::VpnClient::Instance()->CheckVersion();
+    return env->NewStringUTF(res.c_str());
+}
+
+JNIEXPORT jstring JNICALL Java_com_vm_shadowsocks_ui_P2pLibManager_payforVpn(
+        JNIEnv *env,
+        jobject,
+        jstring account,
+        jlong tenon,
+        jstring gid) {
+    jboolean iscopy;
+    const char *in_account = env->GetStringUTFChars(account, &iscopy);
+    const char *in_gid = env->GetStringUTFChars(gid, &iscopy);
+    std::string res_gid = lego::client::VpnClient::Instance()->PayForVPN(in_account, in_gid, tenon);
+    return env->NewStringUTF(res_gid.c_str());
+}
+
+JNIEXPORT jstring JNICALL Java_com_vm_shadowsocks_ui_P2pLibManager_checkVip(
+        JNIEnv *env,
+        jobject) {
+    std::string res = lego::client::VpnClient::Instance()->CheckVip();
+    return env->NewStringUTF(res.c_str());
+}
+
+JNIEXPORT jstring JNICALL Java_com_vm_shadowsocks_ui_P2pLibManager_checkFreeBandwidth(
+        JNIEnv *env,
+        jobject) {
+    std::string res = lego::client::VpnClient::Instance()->CheckFreeBandwidth();
     return env->NewStringUTF(res.c_str());
 }
 

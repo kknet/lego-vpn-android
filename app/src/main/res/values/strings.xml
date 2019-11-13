@@ -41,6 +41,8 @@
     <string name="use_browser_string">open with browser</string>
     <string name="select_a_website_string">Please select a website and open it with a browser.</string>
     <string name="home_page">Home</string>
+    <string name="exit_check">Press again to exit.</string>
+    <string name="init_failed">Init network failed, please check your network and try again.</string>
 
     <string name="smart_route_usefull" translatable="false">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; Intelligent routing will hide your real IP. Each session you access the network will randomly select multiple intermediate nodes for forwarding, and then go to the node of the VPN service provider. Therefore, neither the carrier nor the VPN service provider can track your data flow.</string>
 </resources>

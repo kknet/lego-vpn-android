@@ -61,6 +61,7 @@ import com.vm.shadowsocks.core.AppProxyManager;
 import com.vm.shadowsocks.core.LocalVpnService;
 import com.vm.shadowsocks.core.ProxyConfig;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -123,25 +124,19 @@ public class MainActivity extends FragmentActivity  implements
     private static final int GOT_VPN_SERVICE = 1;
     private static final int GOT_TANSACTIONS = 2;
     private static final int GOT_BALANCE = 3;
-    private static final int GOT_LOCAL_IP = 4;
     private static final int GOT_VPN_ROUTE = 5;
+    public static boolean init_p2p_network_succ = false;
 
     private HashMap<Integer, String> block_hashmap = new HashMap<Integer, String>();
     ArrayList<String> listItems=new ArrayList<String>();
     int list_counter = 0;
-    private String int_tx_hash;
 
-//    private PaymentsClient mPaymentsClient;
-    private View mGooglePayButton;
-    private static final int LOAD_PAYMENT_DATA_REQUEST_CODE = 991;
-    private TextView mGooglePayStatusText;
-//    private ItemInfo mBikeItem = new ItemInfo("Simple Bike", 300 * 1000000, R.drawable.bike);
-    private long mShippingCost = 90 * 1000000;
     public ArrayList<String> vpn_country_list = new ArrayList<String>();
 
     private HashMap<String, Vector<String>> country_vpn_map = new HashMap<String, Vector<String>>();
     private HashMap<String, Vector<String>> country_route_map = new HashMap<String, Vector<String>>();
     private HashMap<String, String> country_to_short = new HashMap<String, String>();
+    static public HashMap<String, String> default_routing_map = new HashMap<String, String>();
 
     private CircleProgressView mCircleView;
 
@@ -166,7 +161,7 @@ public class MainActivity extends FragmentActivity  implements
     public static String choosed_vpn_url = "";
     private String relay_country = local_country;
     public static boolean use_smart_route = true;
-    private final int kDefaultVpnServerPort= 9033;
+    private final int kDefaultVpnServerPort = 9033;
     private String version_download_url = "";
 
     private com.suke.widget.SwitchButton switchButton;
@@ -176,8 +171,13 @@ public class MainActivity extends FragmentActivity  implements
     private TextView tilte_text_view;
 
     private long goback_prev_timestamp = 0;
+    private String bootstrap = "id_1:120.77.2.117:9001,id:47.105.87.61:9001,id:110.34.181.120:9001,id:98.126.31.159:9001";
+    //"id:122.112.234.133:9001",
+    private final int kLocalPort = 7891;
 
-    private final String kCurrentVersion = "1.0.8";
+    private boolean isExit;
+
+    private final String kCurrentVersion = "2.0.2";
     private int dip2px(float dpValue) {
         final float scale = getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
@@ -192,7 +192,6 @@ public class MainActivity extends FragmentActivity  implements
             CircleButton c_btn = (CircleButton)findViewById(R.id.start_vpn);
             c_btn.setY(160);
         }
-        //mCircleView.setLayoutParams(params);
     }
 
     private static JSONObject getBaseRequest() {
@@ -258,11 +257,6 @@ public class MainActivity extends FragmentActivity  implements
                 String res = (String)msg.obj;
                 String[] split = res.split("\t");
                 if (split.length == 5) {
-                    if (!split[4].equals(int_tx_hash)) {
-                        String list_item = split[0] + ", now balance: " + split[1];
-                        listItems.add(list_item);
-                    }
-
                     TextView balance = (TextView)findViewById(R.id.balance_lego);
                     balance.setText(split[1] + " Tenon");
                     TextView balance_d = (TextView)findViewById(R.id.balance_dollar);
@@ -325,27 +319,8 @@ public class MainActivity extends FragmentActivity  implements
                 TextView balance_d = (TextView)findViewById(R.id.balance_dollar);
                 balance_d.setText(String.format("%.2f", account_balance * 0.002) + "$");
             }
-
-            if (msg.what == GOT_LOCAL_IP) {
-                String tmp_local_ip = (String)msg.obj;
-                if (!tmp_local_ip.equals(local_ip)) {
-                    int rand_port = (int)(Math.random() * 10000) + 7000;
-                    int socket_num = resetTransport(tmp_local_ip, rand_port);
-                    if (socket_num > 0) {
-                        if (!vpn_service.protect(socket_num)) {
-                            Log.e(TAG,"protect vpn socket failed");
-                        }
-
-                        Log.e(TAG, "success reset local ip from: " + local_ip + " to " + tmp_local_ip);
-                        local_ip = tmp_local_ip;
-                    } else {
-                        Log.e(TAG, "failed reset local ip from: " + local_ip + " to " + tmp_local_ip);
-                    }
-                }
-            }
         }
     };
-
 
     public void closeWebview(View view) {
         web_view_open_btn.setText(this.getString(R.string.navigation_string));
@@ -386,33 +361,20 @@ public class MainActivity extends FragmentActivity  implements
     void initWebView(final View view) {
         wv_produce=(WebView) view.findViewById(R.id.wv_produce1);
         wv_produce.loadUrl("file:///android_asset/index.html");
-        //wv_produce.loadUrl("https://www.google.com");
-        //加上下面这段代码可以使网页中的链接不以浏览器的方式打开
-        //得到webview设置
         WebSettings webSettings = wv_produce.getSettings();
-        //允许使用javascript
         webSettings.setJavaScriptEnabled(true);
-        //设置可自由缩放网页
         wv_produce.getSettings().setSupportZoom(true);
         wv_produce.getSettings().setAllowFileAccess(true);
-
-        // 如果页面中链接，如果希望点击链接继续在当前browser中响应，
-        // 而不是新开Android的系统browser中响应该链接，必须覆盖webview的WebViewClient对象
         wv_produce.setWebViewClient(new WebViewClient() {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                //  重写此方法表明点击网页里面的链接还是在当前的webview里跳转，不跳到浏览器那边
                 view.loadUrl(url);
                 return true;
             }
         });
 
-
-        //支持App内部JavaScript交互
-        wv_produce.getSettings().setJavaScriptEnabled(true);        //自适应手机屏幕
+        wv_produce.getSettings().setJavaScriptEnabled(true);
         wv_produce.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         wv_produce.getSettings().setLoadWithOverviewMode(true);
-
-        //设置编码为utf-8
         wv_produce.getSettings().setDefaultTextEncodingName("utf-8");
     }
 
@@ -480,6 +442,12 @@ public class MainActivity extends FragmentActivity  implements
         tilte_text_view.setText("");
     }
 
+    public void hideWebview(View view) {
+        web_view_open_btn.setText(getString(R.string.navigation_string));
+        tilte_text_view.setText("TenonVPN");
+        webview_dialog.dismiss();
+    }
+
     public void webPrev(View view) {
         if (wv_produce.canGoBack()) {
             wv_produce.goBack();
@@ -492,10 +460,28 @@ public class MainActivity extends FragmentActivity  implements
         }
     }
 
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        return false;
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (isExit) {
+                LocalVpnService.IsRunning = false;
+                LocalVpnService.removeOnStatusChangedListener(this);
+                p2pDestroy();
+                this.finish();
+            } else {
+                Toast.makeText(this, getString(R.string.exit_check), Toast.LENGTH_SHORT).show();
+                isExit = true;
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        isExit= false;
+                    }
+                }, 2000);
+            }
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 
     public void showDialog(View view) {
@@ -516,7 +502,7 @@ public class MainActivity extends FragmentActivity  implements
                 }
 
                 if (item[0].equals("android")) {
-                    if (item[1].equals(kCurrentVersion)) {
+                    if (item[1].compareTo(kCurrentVersion) <= 0) {
                         Toast.makeText(this, "Already the latest version.", Toast.LENGTH_SHORT).show();
                         return;
                     }
@@ -551,7 +537,7 @@ public class MainActivity extends FragmentActivity  implements
         country_vec.add("Germany");
         country_vec.add("France");
         country_vec.add("Korea");
-        country_vec.add("Holland");
+        country_vec.add("Netherlands");
         country_vec.add("Canada");
         country_vec.add("Australia");
         country_vec.add("Portugal");
@@ -569,7 +555,7 @@ public class MainActivity extends FragmentActivity  implements
         country_to_short.put("Germany", "DE");
         country_to_short.put("France", "FR");
         country_to_short.put("Korea", "KR");
-        country_to_short.put("Holland", "NL");
+        country_to_short.put("Netherlands", "NL");
         country_to_short.put("Canada", "CA");
         country_to_short.put("America", "US");
         country_to_short.put("Portugal", "PT");
@@ -584,12 +570,13 @@ public class MainActivity extends FragmentActivity  implements
         for (String value: country_to_short.values()) {
             vpn_country_list.add(value);
         }
-        spinnerTitles = new String[]{"America", "Singapore", "Brazil","Germany","France","Korea", "Japan", "Canada","Australia","Hong Kong", "India", "England", "China"};
+        spinnerTitles = new String[]{"America", "Singapore", "Brazil","Germany", "Netherlands","France","Korea", "Japan", "Canada","Australia","Hong Kong", "India", "England", "China"};
         spinnerImages = new int[]{
                 R.drawable.us
                 , R.drawable.sg
                 , R.drawable.br
                 , R.drawable.de
+                , R.drawable.nl
                 , R.drawable.fr
                 , R.drawable.kr
                 , R.drawable.jp
@@ -619,12 +606,26 @@ public class MainActivity extends FragmentActivity  implements
         });
     }
 
+    public String GetUserPrivateKey() {
+        SharedPreferences sharedPreferences = getSharedPreferences("data", Context.MODE_PRIVATE);
+        String private_key=sharedPreferences.getString("private_key","");
+        return private_key;
+    }
+
+    public void SaveUserPrivateKey(String pri_key) {
+        SharedPreferences sharedPreferences= getSharedPreferences("data",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("private_key", pri_key);
+        editor.commit();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
+        P2pLibManager.getInstance().Init();
         InitSpinner();
         ProxyConfig.Instance.globalMode = true;
         mCircleView = (CircleProgressView) findViewById(R.id.circleView);
@@ -635,11 +636,8 @@ public class MainActivity extends FragmentActivity  implements
 
         web_view_open_btn = findViewById(R.id.web_open_buton);
         tilte_text_view = findViewById(R.id.title_text);
-
-
         switchButton = (com.suke.widget.SwitchButton)
                 findViewById(R.id.switch_smart_route);
-
         switchButton.setChecked(true);
         switchButton.setShadowEffect(true);//disable shadow effect
         switchButton.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
@@ -658,19 +656,41 @@ public class MainActivity extends FragmentActivity  implements
         LinearInterpolator lin = new LinearInterpolator();
         operatingAnim.setInterpolator(lin);
         local_ip = getIpAddressString();
-        int local_port = 7981;
         String data_path = this.getFilesDir().getPath();
         Log.e(TAG, "get file path:" + data_path);
-        String res = initP2PNetwork(local_ip, local_port,
-                "id:122.112.234.133:9001,id:119.3.15.76:9001,id:119.3.73.78:9001",
-                data_path);
-        if (res.equals("create account address error!")) {
-            Log.e(TAG,"init p2p network failed!" + res + ", " + local_ip + ":" + local_port);
+        String pri_key = GetUserPrivateKey();
+        Log.e("TAG", "get private key: " + pri_key);
+        String res = "";
+        int try_times = 0;
+        for (try_times = 0; try_times < 3; ++try_times) {
+            res = initP2PNetwork(local_ip, kLocalPort,
+                    bootstrap,
+                    data_path,
+                    pri_key);
+            if (res.equals("create account address error!")) {
+                try {
+                    Thread.sleep(1000);
+                } catch(InterruptedException e) {
+                    e.printStackTrace();
+                }
+                continue;
+            }
+            break;
+        }
+
+        if (try_times == 5) {
+            Toast.makeText(this, getString(R.string.init_failed) , Toast.LENGTH_SHORT).show();
+            try {
+                Thread.sleep(1000);
+            } catch(InterruptedException e) {
+                e.printStackTrace();
+            }
+            this.finish();
             return;
         }
         String[] res_split = res.split(",");
-        if (res_split.length != 3) {
-            Log.e(TAG,"init p2p network failed!" + res + ", " + local_ip + ":" + local_port);
+        if (res_split.length < 4) {
+            Log.e(TAG,"init p2p network failed!" + res + ", " + local_ip + ":" + kLocalPort);
             return;
         }
         Log.d(TAG, "onCreate: start check tx thread. 22222 ");
@@ -678,6 +698,25 @@ public class MainActivity extends FragmentActivity  implements
         local_country = res_split[0];
         account_address = res_split[1];
         private_key = res_split[2];
+        if (pri_key.isEmpty()) {
+            SaveUserPrivateKey(private_key);
+            Log.e("TAG", "save private key: " + private_key);
+        }
+
+        String[] default_routing = res_split[3].split(";");
+        for (int i = 0; i < default_routing.length; ++i) {
+            String[] tmp_item = default_routing[i].split(":");
+            if (tmp_item.length < 2) {
+                continue;
+            }
+
+            if (tmp_item[0].length() != 2 && tmp_item[1].length() != 2) {
+                continue;
+            }
+
+            default_routing_map.put(tmp_item[0], tmp_item[1]);
+        }
+
         P2pLibManager.getInstance().local_country = local_country;
         Log.e(TAG, "get local country: " + local_country);
         bottom_dialog = BottomDialog.create(getSupportFragmentManager())
@@ -713,6 +752,7 @@ public class MainActivity extends FragmentActivity  implements
                         webview_dialog.getDialog().setOnKeyListener(new DialogInterface.OnKeyListener() {
                             @Override
                             public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
+                                Log.e("Key down", "what's the mater.");
                                 if (i == KeyEvent.KEYCODE_BACK) {
                                     long now_timestamp = System.currentTimeMillis();
                                     if (now_timestamp - goback_prev_timestamp <= 200) {
@@ -730,7 +770,7 @@ public class MainActivity extends FragmentActivity  implements
                                         return false;
                                     }
                                 }
-                                webview_dialog.getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+                                //webview_dialog.getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
 
                                 return true;
                             }
@@ -741,14 +781,6 @@ public class MainActivity extends FragmentActivity  implements
                 .setDimAmount(0.1f)
                 .setCancelOutside(false)
                 .setTag("WebviewDialog");
-        /*
-        TextView acc_view = (TextView)findViewById(R.id.accoount_address_value);
-        acc_view.setText(account_address.substring(0, 7).toUpperCase() +
-                "......" +
-                account_address.substring(account_address.length() - 7).toUpperCase());
-        Log.d(TAG, "onCreate: start check tx thread. 1111 ");
-        */
-
         int p2p_socket = getP2PSocket();
         if (!vpn_service.protect(p2p_socket)) {
             Log.e(TAG,"protect vpn socket failed");
@@ -757,13 +789,6 @@ public class MainActivity extends FragmentActivity  implements
         Thread t1 = new Thread(check_tx,"check tx");
         t1.start();
         Log.d(TAG, "onCreate: start check tx thread.");
-    }
-
-    void setProxyUrl(String ProxyUrl) {
-        SharedPreferences preferences = getSharedPreferences("shadowsocksProxyUrl", MODE_PRIVATE);
-        Editor editor = preferences.edit();
-        editor.putString(CONFIG_URL_KEY, ProxyUrl);
-        editor.apply();
     }
 
     String getVersionName() {
@@ -898,35 +923,6 @@ public class MainActivity extends FragmentActivity  implements
             }
         }
         return route_proxy_url;
-    }
-
-    private String ChooseVpnProxyUrlDirect(String dest_country) {
-        String vpn_proxy_url = new String();
-        if (country_vpn_map.containsKey(dest_country)) {
-            Vector<String> vpn_url_vec = country_vpn_map.get(dest_country);
-            int rand_num = (int)(Math.random() * vpn_url_vec.size());
-            String[] item_split = vpn_url_vec.get(rand_num).split(":");
-            if (item_split.length >= 6) {
-                vpn_proxy_url = "ss://aes-128-cfb:passwd@" + item_split[0] + ":" + item_split[1];
-                relay_country = dest_country;
-            }
-        }
-
-        if (vpn_proxy_url.isEmpty()) {
-            for (String key : country_vpn_map.keySet()) {
-                Vector<String> vpn_url_vec = country_vpn_map.get(key);
-                if (vpn_url_vec.size() > 0) {
-                    int rand_num = (int)(Math.random() * vpn_url_vec.size());
-                    String[] item_split = vpn_url_vec.get(rand_num).split(":");
-                    if (item_split.length >= 6) {
-                        vpn_proxy_url = "ss://aes-128-cfb:passwd@" + item_split[0] + ":" + item_split[1];
-                        relay_country = key;
-                        break;
-                    }
-                }
-            }
-        }
-        return vpn_proxy_url;
     }
 
     private String ChooseVpnProxyUrl() {
@@ -1106,35 +1102,21 @@ public class MainActivity extends FragmentActivity  implements
 
     @Override
     protected void onDestroy() {
+        LocalVpnService.IsRunning = false;
         LocalVpnService.removeOnStatusChangedListener(this);
+        p2pDestroy();
         super.onDestroy();
     }
 
     public static String getIpAddressString() {
         return "0.0.0.0";
-/*
-        try {
-            for (Enumeration<NetworkInterface> enNetI = NetworkInterface
-                    .getNetworkInterfaces(); enNetI.hasMoreElements(); ) {
-                NetworkInterface netI = enNetI.nextElement();
-                for (Enumeration<InetAddress> enumIpAddr = netI
-                        .getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
-                    InetAddress inetAddress = enumIpAddr.nextElement();
-                    if (inetAddress instanceof Inet4Address && !inetAddress.isLoopbackAddress()) {
-                        return inetAddress.getHostAddress();
-                    }
-                }
-            }
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
-        return "0.0.0.0";
-        */
     }
 
     public class CheckTransaction extends ListActivity implements Runnable {
         public List<String> gid_list = new ArrayList<String>();
         private ArrayList<String> not_get_country_list = new ArrayList<String>();
+        private int check_vip_times = 0;
+        private int bandwidth_used = 0;
         public void run() {
             for (String value: country_to_short.values()) {
                 not_get_country_list.add(value);
@@ -1162,28 +1144,25 @@ public class MainActivity extends FragmentActivity  implements
                 }
 
                 {
-                    long res = getBalance();
-                    if (res != -1) {
+                    long now_balance = getBalance();
+                    P2pLibManager.getInstance().SetBalance(now_balance);
+                    if (now_balance != -1) {
                         Message message = new Message();
                         message.what = GOT_BALANCE;
-                        message.obj = res;
+                        message.obj = now_balance;
                         handler.sendMessage(message);
                     }
                 }
 
-                {
-                    String tmp_ip = getIpAddressString();
-                    if (!tmp_ip.isEmpty()) {
-                        Message message = new Message();
-                        message.what = GOT_LOCAL_IP;
-                        message.obj = tmp_ip;
-                        handler.sendMessage(message);
+                vpn_service.protect(getP2PSocket());
+                if (check_vip_times < 10) {
+                    long tm = Long.parseLong(P2pLibManager.checkVip());
+                    if (P2pLibManager.getInstance().payfor_timestamp == 0 || tm != Long.MAX_VALUE) {
+                        P2pLibManager.getInstance().payfor_timestamp = tm;
                     }
-                }
-
-                int p2p_socket = getP2PSocket();
-                if (!vpn_service.protect(p2p_socket)) {
-                    Log.e(TAG,"protect vpn socket failed");
+                    check_vip_times++;
+                } else {
+                    P2pLibManager.getInstance().PayforVpn();
                 }
 
                 try {
@@ -1201,49 +1180,14 @@ public class MainActivity extends FragmentActivity  implements
         }
     }
 
-    private String SHA(final String strText, final String strType)
-    {
-        // 返回值
-        String strResult = null;
-
-        // 是否是有效字符串
-        if (strText != null && strText.length() > 0) {
-            try {
-                MessageDigest messageDigest = MessageDigest.getInstance(strType);
-                messageDigest.update(strText.getBytes());
-                byte byteBuffer[] = messageDigest.digest();
-
-                StringBuffer strHexString = new StringBuffer();
-                for (int i = 0; i < byteBuffer.length; i++) {
-                    String hex = Integer.toHexString(0xff & byteBuffer[i]);
-                    if (hex.length() == 1) {
-                        strHexString.append('0');
-                    }
-                    strHexString.append(hex);
-                }
-                strResult = strHexString.toString();
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            }
-        }
-        return strResult;
-    }
-
-    public native String initP2PNetwork(String ip, int port, String bootstarp, String file_path);
+    public native String initP2PNetwork(String ip, int port, String bootstarp, String file_path, String pri_key);
     public native int getP2PSocket();
     public native String createAccount();
-    public native String getTransaction(String tx_gid);
-    public native String transaction(String to, int amount);
     public native String getVpnNodes(String country);
     public native String getRouteNodes(String country);
-    public native boolean isFirstTimeInstall();
-    public native void setFirstTimeInstall();
     public native String getTransactions();
     public native long getBalance();
-    public native void vpnNodeHeartbeat(String dht_key);
-    public native int resetTransport(String local_ip, int local_port);
-    public static native String getPublicKey();
-    public static native String vpnLogin(String svr_account);
     public native String checkVersion();
+    public native void p2pDestroy();
 
 }
