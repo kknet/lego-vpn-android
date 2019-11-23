@@ -25,6 +25,7 @@ include_directories(
 add_library(cryptopp STATIC IMPORTED)
 add_library(ssl STATIC IMPORTED)
 add_library(crypto STATIC IMPORTED)
+add_library(contract STATIC IMPORTED)
 add_library(common STATIC IMPORTED)
 add_library(kcp STATIC IMPORTED)
 add_library(ip STATIC IMPORTED)
@@ -46,6 +47,7 @@ set_target_properties(cryptopp    PROPERTIES IMPORTED_LOCATION    ${LOCAL_PATH}/
 set_target_properties(ssl    PROPERTIES IMPORTED_LOCATION    ${LOCAL_PATH}/libs/${ANDROID_ABI}/libssl.a )
 set_target_properties(crypto    PROPERTIES IMPORTED_LOCATION    ${LOCAL_PATH}/libs/${ANDROID_ABI}/libcrypto.a )
 set_target_properties(common    PROPERTIES IMPORTED_LOCATION    ${LOCAL_PATH}/libs/${ANDROID_ABI}/libcommon.a )
+set_target_properties(contract    PROPERTIES IMPORTED_LOCATION    ${LOCAL_PATH}/libs/${ANDROID_ABI}/libcontract.a )
 set_target_properties(kcp    PROPERTIES IMPORTED_LOCATION    ${LOCAL_PATH}/libs/${ANDROID_ABI}/libkcp.a )
 set_target_properties(ip    PROPERTIES IMPORTED_LOCATION    ${LOCAL_PATH}/libs/${ANDROID_ABI}/libip.a )
 set_target_properties(log4cpp    PROPERTIES IMPORTED_LOCATION    ${LOCAL_PATH}/libs/${ANDROID_ABI}/liblog4cpp.a )
@@ -109,6 +111,7 @@ target_link_libraries( # Specifies the target library.
         db
         ip
         kcp
+        contract
         common
         log4cpp
         uv

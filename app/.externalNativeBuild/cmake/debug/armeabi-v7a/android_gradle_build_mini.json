@@ -46,6 +46,11 @@
       "abi": "armeabi-v7a",
       "output": "D:\\lego\\lego-vpn-android\\app\\src\\main\\cpp\\libs\\armeabi-v7a\\liblog4cpp.a"
     },
+    "contract-Debug-armeabi-v7a": {
+      "artifactName": "contract",
+      "abi": "armeabi-v7a",
+      "output": "D:\\lego\\lego-vpn-android\\app\\src\\main\\cpp\\libs\\armeabi-v7a\\libcontract.a"
+    },
     "security-Debug-armeabi-v7a": {
       "artifactName": "security",
       "abi": "armeabi-v7a",

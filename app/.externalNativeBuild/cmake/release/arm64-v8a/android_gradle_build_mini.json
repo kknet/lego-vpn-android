@@ -31,6 +31,11 @@
       "abi": "arm64-v8a",
       "output": "D:\\lego\\lego-vpn-android\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libcrypto.a"
     },
+    "contract-Release-arm64-v8a": {
+      "artifactName": "contract",
+      "abi": "arm64-v8a",
+      "output": "D:\\lego\\lego-vpn-android\\app\\src\\main\\cpp\\libs\\arm64-v8a\\libcontract.a"
+    },
     "security-Release-arm64-v8a": {
       "artifactName": "security",
       "abi": "arm64-v8a",

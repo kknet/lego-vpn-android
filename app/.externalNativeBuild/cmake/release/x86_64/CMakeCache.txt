@@ -177,8 +177,8 @@ CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 //Path to a program.
 CMAKE_STRIP:FILEPATH=D:/tools/tools/lib/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/x86_64-linux-android-strip.exe
 
-//The CMake toolchain file
-CMAKE_TOOLCHAIN_FILE:FILEPATH=D:/tools/tools/lib/ndk-bundle/build/cmake/android.toolchain.cmake
+//No help, variable specified on the command line.
+CMAKE_TOOLCHAIN_FILE:UNINITIALIZED=D:\tools\tools\lib\ndk-bundle\build\cmake\android.toolchain.cmake
 
 //If this value is on, makefiles will be generated without the
 // .SILENT directive, and all commands will be echoed to the console
@@ -196,7 +196,7 @@ Project_SOURCE_DIR:STATIC=D:/lego/lego-vpn-android/app
 log-lib:FILEPATH=D:/tools/tools/lib/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/x86_64-linux-android/23/liblog.so
 
 //Dependencies for the target
-native-lib_LIB_DEPENDS:STATIC=general;client;general;network;general;broadcast;general;dht;general;nat_traverse;general;transport;general;security;general;ssl;general;crypto;general;zlib;general;db;general;ip;general;kcp;general;common;general;log4cpp;general;uv;general;leveldb;general;cryptopp;general;protobuf;general;uuid;general;android;general;D:/tools/tools/lib/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/x86_64-linux-android/23/liblog.so;
+native-lib_LIB_DEPENDS:STATIC=general;client;general;network;general;broadcast;general;dht;general;nat_traverse;general;transport;general;security;general;ssl;general;crypto;general;zlib;general;db;general;ip;general;kcp;general;contract;general;common;general;log4cpp;general;uv;general;leveldb;general;cryptopp;general;protobuf;general;uuid;general;android;general;D:/tools/tools/lib/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/x86_64-linux-android/23/liblog.so;
 
 
 ########################

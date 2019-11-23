@@ -56,6 +56,11 @@
       "abi": "x86_64",
       "output": "D:\\lego\\lego-vpn-android\\app\\src\\main\\cpp\\libs\\x86_64\\libcommon.a"
     },
+    "contract-Release-x86_64": {
+      "artifactName": "contract",
+      "abi": "x86_64",
+      "output": "D:\\lego\\lego-vpn-android\\app\\src\\main\\cpp\\libs\\x86_64\\libcontract.a"
+    },
     "log4cpp-Release-x86_64": {
       "artifactName": "log4cpp",
       "abi": "x86_64",

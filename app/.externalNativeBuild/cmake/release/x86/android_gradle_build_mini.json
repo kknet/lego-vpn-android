@@ -86,6 +86,11 @@
       "abi": "x86",
       "output": "D:\\lego\\lego-vpn-android\\app\\src\\main\\cpp\\libs\\x86\\libdb.a"
     },
+    "contract-Release-x86": {
+      "artifactName": "contract",
+      "abi": "x86",
+      "output": "D:\\lego\\lego-vpn-android\\app\\src\\main\\cpp\\libs\\x86\\libcontract.a"
+    },
     "native-lib-Release-x86": {
       "artifactName": "native-lib",
       "buildCommand": "D:\\tools\\tools\\lib\\cmake\\3.6.4111459\\bin\\cmake.exe --build D:\\lego\\lego-vpn-android\\app\\.externalNativeBuild\\cmake\\release\\x86 --target native-lib",

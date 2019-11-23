@@ -32,6 +32,14 @@
 			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/x86_64/libcommon.a",
 			"toolchain" : "688343757"
 		},
+		"contract-Release-x86_64" : 
+		{
+			"abi" : "x86_64",
+			"artifactName" : "contract",
+			"buildType" : "release",
+			"output" : "D:/lego/lego-vpn-android/app/src/main/cpp/libs/x86_64/libcontract.a",
+			"toolchain" : "688343757"
+		},
 		"crypto-Release-x86_64" : 
 		{
 			"abi" : "x86_64",

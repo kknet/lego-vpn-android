@@ -5,7 +5,8 @@ buildscript {
     repositories {
         mavenCentral()
         maven {
-            url 'https://maven.google.com/'
+            // url 'https://maven.google.com/'
+            url 'http://maven.aliyun.com/nexus/content/groups/public/'
             name 'Google'
         }
     }

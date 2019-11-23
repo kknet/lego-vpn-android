@@ -97,6 +97,11 @@
       "abi": "armeabi-v7a",
       "output": "D:\\lego\\lego-vpn-android\\app\\src\\main\\cpp\\libs\\armeabi-v7a\\libbroadcast.a"
     },
+    "contract-Release-armeabi-v7a": {
+      "artifactName": "contract",
+      "abi": "armeabi-v7a",
+      "output": "D:\\lego\\lego-vpn-android\\app\\src\\main\\cpp\\libs\\armeabi-v7a\\libcontract.a"
+    },
     "uuid-Release-armeabi-v7a": {
       "artifactName": "uuid",
       "abi": "armeabi-v7a",

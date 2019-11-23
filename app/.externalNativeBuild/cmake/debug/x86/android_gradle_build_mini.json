@@ -16,6 +16,11 @@
       "abi": "x86",
       "output": "D:\\lego\\lego-vpn-android\\app\\src\\main\\cpp\\libs\\x86\\libzlib.a"
     },
+    "contract-Debug-x86": {
+      "artifactName": "contract",
+      "abi": "x86",
+      "output": "D:\\lego\\lego-vpn-android\\app\\src\\main\\cpp\\libs\\x86\\libcontract.a"
+    },
     "security-Debug-x86": {
       "artifactName": "security",
       "abi": "x86",
