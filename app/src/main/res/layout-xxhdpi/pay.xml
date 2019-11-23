@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:whatever="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.4"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/connect_succ_in"
+                android:textStyle="bold"
+                android:gravity="left"
+                android:text="购买VPN服务" />
+
+            <Button
+                android:layout_width="20dp"
+                android:layout_height="17dp"
+                android:gravity="center"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/arrow_down"
+                android:onClick="hidePayDialog"
+                android:focusable="false" />
+        </LinearLayout>
+
+    </LinearLayout>
+    <WebView
+        android:layout_marginTop = "0dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:tooltipText=""
+        android:id="@+id/wv_pay">
+    </WebView>
+
+</LinearLayout>

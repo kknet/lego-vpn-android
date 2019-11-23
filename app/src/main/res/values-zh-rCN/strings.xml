@@ -36,6 +36,19 @@
     <string name="home_page">首页</string>
     <string name="exit_check">再按一次退出</string>
     <string name="init_failed">初始化网络失败，请检查网络并重试.</string>
+    <string name="bandwidth_over">今天 100M 免费流量已经用完，购买套餐或明天继续使用</string>
+    <string name="invalid_country">所在国家地区不支持代理服务</string>\
+    <string name="disconnect_vpn_network">无法连接VPN网络</string>
 
-    <string name="smart_route_usefull" translatable="false">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;智能路由将会把你的真实IP进行隐藏，你访问网络的每次会话，都会随机选择多个中间节点进行转发，然后才到VPN服务提供商的节点，不管是运营商还是VPN服务提供商都无法跟踪你的数据流向。</string>
+    <string name="copy_succ">拷贝成功</string>
+    <string name="invalid_prikey">私钥不正确</string>
+    <string name="set_prikey">账号设置成功</string>
+    <string name="max_set_prikey">最多设置三个私钥</string>
+    <string name="now_wait_to_sync">等待数据...</string>
+    <string name="now_free_to_use">每天 100M</string>
+    <string name="layters_over_before"></string>
+    <string name="layters_over_after"> 天后到期</string>
+    <string name="restart_app">设置新账号后需要重启APP！</string>
+
+    <string name="smart_route_usefull" translatable="false">Tenon p2p 网络正在保护你的IP和隐私</string>
 </resources>

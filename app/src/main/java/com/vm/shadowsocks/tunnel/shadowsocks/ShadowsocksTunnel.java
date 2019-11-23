@@ -1,5 +1,6 @@
 package com.vm.shadowsocks.tunnel.shadowsocks;
 
+import com.vm.shadowsocks.core.LocalVpnService;
 import com.vm.shadowsocks.tunnel.Tunnel;
 import com.vm.shadowsocks.ui.MainActivity;
 import com.vm.shadowsocks.ui.P2pLibManager;
@@ -16,7 +17,6 @@ public class ShadowsocksTunnel extends Tunnel {
     private boolean m_TunnelEstablished;
     public ICrypt encryptor = null;
     private String seckey = "";
-    static private AtomicInteger connect_times = new AtomicInteger(1);
 
     public ShadowsocksTunnel(ShadowsocksConfig config, Selector selector) throws Exception {
         super(config.ServerAddress, selector);
@@ -98,15 +98,6 @@ public class ShadowsocksTunnel extends Tunnel {
             m_TunnelEstablished = true;
             this.beginReceive();
         }
-
-        int now_times = connect_times.incrementAndGet();
-        if (now_times > 15) {
-            String old_ip = P2pLibManager.getInstance().choosed_vpn_ip;
-            P2pLibManager.getInstance().GetVpnNode();
-            if (!old_ip.equals(P2pLibManager.getInstance().choosed_vpn_ip)) {
-                connect_times.set(0);
-            }
-        }
     }
 
     @Override
@@ -128,11 +119,18 @@ public class ShadowsocksTunnel extends Tunnel {
     protected void afterReceived(ByteBuffer buffer) throws Exception {
         byte[] bytes = new byte[buffer.limit()];
         buffer.get(bytes);
+        if (bytes.length == 3) {
+            String str = new String(bytes);
+            if (str.equals("bwo") || str.equals("cni") || str.equals("oul")) {
+                P2pLibManager.getInstance().now_status = str;
+                LocalVpnService.IsRunning = false;
+                return;
+            }
+        }
         byte[] newbytes = encryptor.decrypt(bytes);
         buffer.clear();
         buffer.put(newbytes);
         buffer.flip();
-        connect_times.set(0);
     }
 
     @Override

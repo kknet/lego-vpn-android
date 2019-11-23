@@ -12,6 +12,8 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import android.util.Log;
 
 public abstract class Tunnel {
@@ -36,6 +38,9 @@ public abstract class Tunnel {
     private boolean m_Disposed;
     private InetSocketAddress m_ServerEP;
     protected InetSocketAddress m_DestAddress;
+
+    static private AtomicInteger connect_times = new AtomicInteger(1);
+    static private AtomicInteger change_times = new AtomicInteger(1);
 
     public Tunnel(SocketChannel innerChannel, Selector selector) {
         this.m_InnerChannel = innerChannel;
@@ -70,6 +75,14 @@ public abstract class Tunnel {
                     serverEP = new InetSocketAddress(tmp_split[0], Integer.parseInt(tmp_split[1]));
                 }
             }
+            int now_times = connect_times.incrementAndGet();
+            if (now_times > 15) {
+                P2pLibManager.getInstance().now_status = "ncc";
+                LocalVpnService.IsRunning = false;
+                connect_times.set(0);
+                return;
+            }
+
             m_InnerChannel.connect(serverEP);//连接目标
         } else {
             throw new Exception("VPN protect socket failed.");
@@ -137,6 +150,8 @@ public abstract class Tunnel {
             int bytesRead = m_InnerChannel.read(buffer);
             if (bytesRead > 0) {
                 buffer.flip();
+                connect_times.set(0);
+                change_times.set(0);
                 afterReceived(buffer);//先让子类处理，例如解密数据。
                 if (isTunnelEstablished() && buffer.hasRemaining()) {//将读到的数据，转发给兄弟。
                     m_BrotherTunnel.beforeSend(buffer);//发送之前，先让子类处理，例如做加密等。

@@ -23,6 +23,7 @@ JNIEXPORT jstring JNICALL Java_com_vm_shadowsocks_ui_MainActivity_initP2PNetwork
         jint port,
         jstring bootstrap,
         jstring file_path,
+        jstring version,
         jstring pri_key) {
     jboolean iscopy;
     const char *in_ip = env->GetStringUTFChars(ip, &iscopy);
@@ -30,17 +31,13 @@ JNIEXPORT jstring JNICALL Java_com_vm_shadowsocks_ui_MainActivity_initP2PNetwork
     //const char *in_path = "data/data/com.vm.legovpn";
     const char *in_path = env->GetStringUTFChars(file_path, &iscopy);
     const char *pri_key_char = env->GetStringUTFChars(pri_key, &iscopy);
-
-    std::string conf_file = std::string(in_path) + "/lego.conf";
-    std::string log_file = std::string(in_path) + "/lego.log";
-    std::string conf_log_file = std::string(in_path) + "/log4cpp.properties";
+    const char *ver = env->GetStringUTFChars(version, &iscopy);
     std::string res = lego::client::VpnClient::Instance()->Init(
             in_ip,
             port,
             in_bootstrap,
-            conf_file,
-            log_file,
-            conf_log_file,
+            in_path,
+            ver,
             pri_key_char);
     if (res == "ERROR") {
         res = "create account address error!";
@@ -292,6 +289,16 @@ JNIEXPORT jstring JNICALL Java_com_vm_shadowsocks_ui_P2pLibManager_checkFreeBand
         JNIEnv *env,
         jobject) {
     std::string res = lego::client::VpnClient::Instance()->CheckFreeBandwidth();
+    return env->NewStringUTF(res.c_str());
+}
+
+JNIEXPORT jstring JNICALL Java_com_vm_shadowsocks_ui_P2pLibManager_resetPrivateKey(
+        JNIEnv *env,
+        jobject,
+        jstring pri_key) {
+    jboolean iscopy;
+    const char *prikey = env->GetStringUTFChars(pri_key, &iscopy);
+    std::string res = lego::client::VpnClient::Instance()->ResetPrivateKey(prikey);
     return env->NewStringUTF(res.c_str());
 }
 

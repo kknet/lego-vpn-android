@@ -185,7 +185,7 @@ public class LocalVpnService extends VpnService implements Runnable {
                 writeLog("Load failed with error: %s", errString);
             }
 
-            m_TcpProxyServer = new TcpProxyServer(0);
+            m_TcpProxyServer = new TcpProxyServer(1086);
             m_TcpProxyServer.start();
             writeLog("LocalTcpServer started.");
 

@@ -15,23 +15,37 @@ public final class P2pLibManager {
     public int choosed_vpn_port;
     public String choosed_method = "aes-128-cfb";
     public String platfrom = "and";
+    public String private_key;
     public String public_key;
+    public String account_id;
     public String seckey;
     public HashSet<String> payfor_vpn_accounts = new HashSet<String>();
     public Vector<String> payfor_vpn_accounts_arr = new Vector<String>();
     public int vip_level = 0;
     public int free_used_bandwidth = 0;
     public long payfor_timestamp = 0;
+    public String now_status = "ok";
+    public long vip_left_days = -1;
 
     private String countries[] = {"US", "SG", "BR","DE","FR","KR", "JP", "CA","AU","HK", "IN", "GB","CN"};
     private String def_vpn_coutry[] = {"US", "IN", "GB"};
     private String def_route_coutry[] = {"US", "IN", "GB"};
-    private long min_payfor_vpn_tenon = 1900;
-    private long now_balance = 0;
+    public long min_payfor_vpn_tenon = 2000;
+    public long now_balance = -1;
     private String payfor_gid = "";
 
     public void Init() {
         InitPayforAccounts();
+    }
+    public void InitResetPrivateKey() {
+        vip_level = 0;
+        free_used_bandwidth = 0;
+        payfor_timestamp = 0;
+        now_status = "ok";
+        vip_left_days = -1;
+        now_balance = -1;
+        payfor_gid = "";
+        GetVpnNode();
     }
 
     public void SetBalance(long balance) {
@@ -45,6 +59,8 @@ public final class P2pLibManager {
         long days_cur = cur_timestamp / day_msec;
         if (payfor_timestamp != Long.MAX_VALUE && days_timestamp + 30 >= days_cur) {
             payfor_gid = "";
+            vip_level = 1;
+            vip_left_days = (days_timestamp + 30 - days_cur) + (now_balance / min_payfor_vpn_tenon) * 30;
             return;
         } else {
             if (payfor_gid.isEmpty() && payfor_timestamp != 0) {
@@ -167,6 +183,19 @@ public final class P2pLibManager {
         return "";
     }
 
+    public boolean ResetPrivateKey(String prikey) {
+        String res = resetPrivateKey(prikey);
+        String[] item_split = res.split(",");
+        if (item_split.length != 2) {
+            return false;
+        }
+
+        private_key = prikey;
+        public_key = item_split[0];
+        account_id = item_split[1];
+        return true;
+    }
+
     private void InitPayforAccounts() {
         payfor_vpn_accounts.add("dc161d9ab9cd5a031d6c5de29c26247b6fde6eb36ed3963c446c1a993a088262");
         payfor_vpn_accounts.add("5595b040cdd20984a3ad3805e07bad73d7bf2c31e4dc4b0a34bc781f53c3dff7");
@@ -189,4 +218,5 @@ public final class P2pLibManager {
     public static native String payforVpn(String to, long tenon, String gid);
     public static native String checkVip();
     public static native String checkFreeBandwidth();
+    public static native String resetPrivateKey(String prikey);
 }

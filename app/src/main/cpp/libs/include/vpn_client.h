@@ -108,9 +108,8 @@ namespace lego {
                     const std::string& local_ip,
                     uint16_t local_port,
                     const std::string& bootstrap,
-                    const std::string& conf_path,
-                    const std::string& log_path,
-                    const std::string& log_conf_path,
+                    const std::string& path,
+                    const std::string& version,
                     const std::string& private_key);
             std::string GetVpnServerNodes(
                     const std::string& country,
@@ -143,6 +142,7 @@ namespace lego {
             std::string CheckVip();
             std::string CheckFreeBandwidth();
             void Destroy();
+            std::string ResetPrivateKey(const std::string& prikey);
 
         private:
             VpnClient();
@@ -189,8 +189,8 @@ namespace lego {
             void SendGetBlockWithGid(const std::string& str, bool is_gid);
             void SendGetAccountAttrUsedBandwidth();
 
-            static const uint32_t kDefaultUdpSendBufferSize = 1u * 1024u * 1024u;
-            static const uint32_t kDefaultUdpRecvBufferSize = 1u * 1024u * 1024u;
+            static const uint32_t kDefaultUdpSendBufferSize = 2u * 1024u * 1024u;
+            static const uint32_t kDefaultUdpRecvBufferSize = 2u * 1024u * 1024u;
             static const uint32_t kTestCreateAccountPeriod = 100u * 1000u;
             static const int64_t kTestNewElectPeriod = 10ll * 1000ll * 1000ll;
             static const uint32_t kCheckTxPeriod = 1000 * 1000;
@@ -221,12 +221,13 @@ namespace lego {
             std::mutex route_nodes_map_mutex_;
             LastPaiedVipInfoPtr paied_vip_info_[2];
             uint32_t paied_vip_valid_idx_{ 0 };
-            uint32_t today_used_bandwidth_{ 0 };
+            int32_t today_used_bandwidth_{ -1 };
 
             std::shared_ptr<common::Tick> check_tx_tick_{ nullptr };
             std::shared_ptr<common::Tick>  vpn_nodes_tick_{ nullptr };
             std::shared_ptr<common::Tick>  dump_config_tick_{ nullptr };
             std::shared_ptr<common::Tick>  dump_bootstrap_tick_{ nullptr };
+            bool account_created_{ false };
         };
 
     }  // namespace client

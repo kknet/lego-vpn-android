@@ -43,6 +43,18 @@
     <string name="home_page">Home</string>
     <string name="exit_check">Press again to exit.</string>
     <string name="init_failed">Init network failed, please check your network and try again.</string>
+    <string name="bandwidth_over">free 100m used up, buy tenon or use tomorrow.</string>
+    <string name="invalid_country">Agent service is not supported in your country or region.</string>
+    <string name="copy_succ">Copy Success.</string>
+    <string name="invalid_prikey">Private key invalid.</string>
+    <string name="set_prikey">Private key set success.</string>
+    <string name="max_set_prikey">Set up to three private keys.</string>
+    <string name="now_wait_to_sync">waiting server...</string>
+    <string name="disconnect_vpn_network">failed to connect vpn network.</string>
+    <string name="now_free_to_use">Free 100M</string>
+    <string name="layters_over_before">Due in </string>
+    <string name="layters_over_after"> days</string>
+    <string name="restart_app">reset private key must restart app!</string>
 
-    <string name="smart_route_usefull" translatable="false">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; Intelligent routing will hide your real IP. Each session you access the network will randomly select multiple intermediate nodes for forwarding, and then go to the node of the VPN service provider. Therefore, neither the carrier nor the VPN service provider can track your data flow.</string>
+    <string name="smart_route_usefull" translatable="false">Tenon p2p network protecting your ip and privacy.</string>
 </resources>

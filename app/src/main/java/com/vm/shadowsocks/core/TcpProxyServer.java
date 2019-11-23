@@ -28,6 +28,7 @@ public class TcpProxyServer implements Runnable {
         m_ServerSocketChannel.socket().bind(new InetSocketAddress(port));
         m_ServerSocketChannel.register(m_Selector, SelectionKey.OP_ACCEPT);
         this.Port = (short) m_ServerSocketChannel.socket().getLocalPort();
+        Log.e("local proxy", "start tcp server " + port + ":" + (int)this.Port);
         System.out.printf("AsyncTcpServer listen on %d success.\n", this.Port & 0xFFFF);
     }
 

@@ -32,19 +32,36 @@
             android:gravity="center|center_horizontal|center_vertical"
             android:layout_marginTop="22dp" />
     </RelativeLayout >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_marginTop="1dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/disconnect_succ_in"
+            android:textSize="13sp"
+            android:gravity="center"
+            android:text="@string/smart_route_usefull"                />
+    </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="0dp"
-        android:layout_marginTop="-20dp"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="150dp"
         android:gravity="center_horizontal|center|center_vertical"
         >
+
         <at.grabner.circleprogress.CircleProgressView
             android:id="@+id/circleView"
-            android:layout_marginTop="-20dp"
-            android:layout_width="244dp"
-            android:layout_height="244dp"
+            android:layout_marginTop="0dp"
+            android:layout_width="224dp"
+            android:layout_height="224dp"
             app:cpv_autoTextSize="false"
             app:cpv_barColor="@color/gray"
             app:cpv_innerContourSize="0dp"
@@ -62,16 +79,27 @@
             android:gravity="center_horizontal|center|center_vertical"
             app:cpv_value="5" />
         <at.markushi.ui.CircleButton
-            android:layout_marginTop="-20dp"
+            android:layout_marginTop="0dp"
             android:id="@+id/start_vpn"
-            android:layout_width="244dp"
-            android:layout_height="244dp"
+            android:layout_width="224dp"
+            android:layout_height="224dp"
             android:layout_marginLeft="0dp"
             android:onClick="startVpn"
             app:cb_color="#D9D9D9"
             android:src="@drawable/connect"
             android:gravity="center_horizontal|center|center_vertical"
             app:cb_pressedRingWidth="8dip" />
+
+            <TextView
+                android:id="@+id/notice_text"
+                android:layout_width="224dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="230dp"
+                android:textColor="#ff0000"
+                android:textSize="13sp"
+                android:gravity="center_horizontal|center|center_vertical"
+                android:text=""/>
+
     </RelativeLayout >
 
     <FrameLayout
@@ -94,6 +122,7 @@
                 android:layout_height="65dp"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_horizontal"
+                android:visibility="invisible"
                 android:orientation="horizontal">
                 <TextView
                     android:layout_width="112dp"
@@ -156,23 +185,55 @@
                 android:textColor="#ff0000"
                 />
         </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:background="@color/zxing_transparent"
-            android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="15dp"
-            android:textColor="@color/disconnect_succ_in"
-            android:textSize="13sp"
+            android:layout_marginTop="84dp"
             android:gravity="left"
-            android:text="@string/smart_route_usefull" />
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.7"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/connect_succ_in"
+                android:textStyle="bold"
+                android:gravity="left"
+                android:text="@string/balance_string" />
+
+            <TextView
+                android:id="@+id/main_balance_lego"
+                android:layout_marginTop="10dp"
+                android:layout_width="0dp"
+                android:layout_weight="1.2"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:layout_marginLeft="-10dp"
+                android:textColor="@color/disconnect_succ_in"
+                android:text="@string/now_wait_to_sync"
+                />
+            <TextView
+                android:id="@+id/main_vip_left_status"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/disconnect_succ_in"
+                android:gravity="right"
+                android:text=""
+                />
+
+            <Button
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/buy"
+                android:focusable="false"
+                android:gravity="center"
+                android:onClick="buyTenon" />
         </LinearLayout>
     </FrameLayout>
     <LinearLayout

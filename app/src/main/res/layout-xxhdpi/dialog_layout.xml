@@ -30,26 +30,34 @@
                 android:textStyle="bold"
                 android:gravity="left"
                 android:text="@string/private_key_string" />
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="0.6"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="-100dp"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/connect_succ_in"
-                android:textStyle="bold"
-                android:textSize="11sp"
+            <Button
+                android:layout_width="20dp"
+                android:layout_height="17dp"
                 android:gravity="left"
-                android:text="" />
-                <Button
-                    android:layout_width="20dp"
-                    android:layout_height="17dp"
-                    android:gravity="center"
-                    android:layout_marginRight="0dp"
-                    android:layout_marginTop="6dp"
-                    android:background="@drawable/arrow_down"
-                    android:onClick="hideDialog"
-                    android:focusable="false" />
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/copy"
+                android:onClick="copyPrikey"
+                android:focusable="false" />
+            <Button
+                android:layout_width="20dp"
+                android:layout_height="17dp"
+                android:gravity="center"
+                android:layout_marginTop="6dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/paste"
+                android:onClick="pastePrikey"
+                android:focusable="false" />
+            <Button
+                android:layout_width="20dp"
+                android:layout_height="17dp"
+                android:gravity="center"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/arrow_down"
+                android:onClick="hideDialog"
+                android:focusable="false" />
 
         </LinearLayout>
         <com.andreabaccega.widget.FormEditText
@@ -57,25 +65,47 @@
             android:id="@+id/dlg_private_key"
             android:layout_width="match_parent"
             android:textSize="13sp"
+            android:enabled="false"
             android:textColor="@android:color/black"
             android:layout_height="wrap_content" />
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/connect_succ_in"
-            android:textStyle="bold"
-            android:gravity="left"
-            android:text="@string/account_id_string" />
+            android:layout_height="match_parent"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/connect_succ_in"
+                android:textStyle="bold"
+                android:gravity="left"
+                android:text="@string/account_id_string" />
+            <Button
+                android:layout_width="20dp"
+                android:layout_height="17dp"
+                android:gravity="left"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/copy"
+                android:onClick="copyAccount"
+                android:focusable="false" />
+        </LinearLayout>
+
         <com.andreabaccega.widget.FormEditText
             whatever:testType="alpha"
             android:id="@+id/dlg_account_address"
             android:textColor="@android:color/black"
             android:textSize="13sp"
             android:layout_width="match_parent"
+            android:enabled="false"
             android:layout_height="wrap_content" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -92,7 +122,7 @@
                 android:textColor="@color/connect_succ_in"
                 android:textStyle="bold"
                 android:gravity="left"
-                android:text="@string/balance_string " />
+                android:text="@string/balance_string" />
 
             <TextView
                 android:id="@+id/dlg_balance_lego"
@@ -115,6 +145,15 @@
                 android:gravity="center_horizontal"
                 android:text="32.8$"
                 />
+            <Button
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/buy"
+                android:onClick="buyTenon"
+                android:focusable="false" />
         </LinearLayout>
     </LinearLayout>
 

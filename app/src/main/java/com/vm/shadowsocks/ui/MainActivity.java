@@ -2,7 +2,11 @@ package com.vm.shadowsocks.ui;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -125,6 +129,11 @@ public class MainActivity extends FragmentActivity  implements
     private static final int GOT_TANSACTIONS = 2;
     private static final int GOT_BALANCE = 3;
     private static final int GOT_VPN_ROUTE = 5;
+    private static final int GOT_INVALID_SERVER_STATUS = 6;
+    private static final int GOT_INVALID_STATUS = 7;
+    private static final int GOT_CHANGE_VIP_STATUS = 8;
+    private int check_vip_times = 0;
+
     public static boolean init_p2p_network_succ = false;
 
     private HashMap<Integer, String> block_hashmap = new HashMap<Integer, String>();
@@ -171,13 +180,17 @@ public class MainActivity extends FragmentActivity  implements
     private TextView tilte_text_view;
 
     private long goback_prev_timestamp = 0;
-    private String bootstrap = "id_1:120.77.2.117:9001,id:47.105.87.61:9001,id:110.34.181.120:9001,id:98.126.31.159:9001";
+    private String bootstrap = "id:139.59.91.63:9001,id:39.105.125.37:9001,id:139.59.47.229:9001,id:46.101.152.5:9001,id:165.227.18.179:9001,id:165.227.60.177:9001,id:39.107.46.245:9001,id:39.97.224.47:9001";
     //"id:122.112.234.133:9001",
     private final int kLocalPort = 7891;
 
     private boolean isExit;
 
-    private final String kCurrentVersion = "2.0.2";
+    private WebView pay_view;
+    private BottomDialog payview_dialog;
+
+
+    private final String kCurrentVersion = "3.0.0";
     private int dip2px(float dpValue) {
         final float scale = getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
@@ -316,8 +329,26 @@ public class MainActivity extends FragmentActivity  implements
                 account_balance = res;
                 TextView balance = (TextView)findViewById(R.id.balance_lego);
                 balance.setText(account_balance + " Tenon");
+                TextView main_balance = (TextView)findViewById(R.id.main_balance_lego);
+                main_balance.setText(account_balance + " Tenon");
+                P2pLibManager.getInstance().now_balance = account_balance;
                 TextView balance_d = (TextView)findViewById(R.id.balance_dollar);
                 balance_d.setText(String.format("%.2f", account_balance * 0.002) + "$");
+            }
+
+            if (msg.what == GOT_INVALID_SERVER_STATUS) {
+                String res = (String)msg.obj;
+                if (res.equals("bwo")) {
+                    LocalVpnService.IsRunning = false;
+                }
+            }
+
+            if (msg.what == GOT_INVALID_STATUS) {
+                setNotice();
+            }
+
+            if (msg.what == GOT_CHANGE_VIP_STATUS) {
+                setVipStatus();
             }
         }
     };
@@ -330,6 +361,91 @@ public class MainActivity extends FragmentActivity  implements
     public void hideDialog(View view) {
         bottom_dialog.dismiss();
     }
+    public void copyAccount(View view) {
+        ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData mClipData = ClipData.newPlainText("Label", account_address);
+        cm.setPrimaryClip(mClipData);
+        Toast.makeText(this, getString(R.string.copy_succ), Toast.LENGTH_SHORT).show();
+    }
+
+    public void copyPrikey(View view) {
+        ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData mClipData = ClipData.newPlainText("Label", private_key);
+        cm.setPrimaryClip(mClipData);
+        Toast.makeText(this, getString(R.string.copy_succ), Toast.LENGTH_SHORT).show();
+    }
+
+    public void buyTenon(View view) {
+        payview_dialog.show();
+    }
+
+    public void hidePayDialog(View view) {
+        payview_dialog.dismiss();
+    }
+
+    public void pastePrikey(View view) {
+        ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        String tmp_prikey = cm.getPrimaryClip().getItemAt(0).getText().toString().toLowerCase().trim();
+        if (tmp_prikey.length() != 64) {
+            Toast.makeText(this, getString(R.string.invalid_prikey) + ":" + tmp_prikey, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        for (int i = 0; i < tmp_prikey.length(); i++) {
+            char ch = tmp_prikey.charAt(i);
+            if (!((ch >= '0' && ch <= '9') || (ch >= 'a' && ch <= 'f'))) {
+                Toast.makeText(this, getString(R.string.invalid_prikey) + ":" + tmp_prikey, Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+
+        if (tmp_prikey.equals(private_key)) {
+            Toast.makeText(this, getString(R.string.set_prikey), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!SaveUserPrivateKey(tmp_prikey)) {
+            Toast.makeText(this, getString(R.string.max_set_prikey), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!P2pLibManager.getInstance().ResetPrivateKey(tmp_prikey)) {
+            Toast.makeText(this, getString(R.string.invalid_prikey) + ":" + tmp_prikey, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        EditText prikey_text=(EditText)bottom_dialog.getView().findViewById(R.id.dlg_private_key);
+        prikey_text.setText(tmp_prikey.toUpperCase());
+        private_key = tmp_prikey;
+
+        account_address = P2pLibManager.getInstance().account_id;
+        EditText acc_text=(EditText)bottom_dialog.getView().findViewById(R.id.dlg_account_address);
+        acc_text.setText(account_address.toUpperCase());
+        Toast.makeText(this, getString(R.string.set_prikey), Toast.LENGTH_SHORT).show();
+
+        TextView main_balance = (TextView)findViewById(R.id.main_balance_lego);
+        main_balance.setText(getString(R.string.now_wait_to_sync));
+        bottom_dialog.dismiss();
+        LocalVpnService.IsRunning = false;
+        P2pLibManager.getInstance().InitResetPrivateKey();
+        TextView vip_txt = (TextView)findViewById(R.id.main_vip_left_status);
+        vip_txt.setText("");
+        TextView notice_txt = (TextView)findViewById(R.id.notice_text);
+        notice_txt.setText("");
+        check_vip_times = 0;
+        account_balance = 0;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.restart_app));
+        builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                System.exit(0);
+            }
+        });
+        builder.show();
+    }
+
     public void hideUpgrade(View view) {
         upgrade_dialog.dismiss();
     }
@@ -356,6 +472,52 @@ public class MainActivity extends FragmentActivity  implements
         intent.setAction("android.intent.action.VIEW");
         intent.setData(uri);
         startActivity(intent);
+    }
+
+    void setNotice() {
+        TextView notice_txt = (TextView)findViewById(R.id.notice_text);
+        if (P2pLibManager.getInstance().now_status.equals("cnn")) {
+            notice_txt.setText(getString(R.string.disconnect_vpn_network));
+        }
+
+        if (P2pLibManager.getInstance().now_status.equals("cni")) {
+            notice_txt.setText(getString(R.string.invalid_country));
+        }
+
+        if (P2pLibManager.getInstance().now_status.equals("bwo")) {
+            notice_txt.setText(getString(R.string.bandwidth_over));
+        }
+    }
+
+    void setVipStatus() {
+        TextView vip_txt = (TextView)findViewById(R.id.main_vip_left_status);
+        if (P2pLibManager.getInstance().vip_left_days == -1 && P2pLibManager.getInstance().now_balance != -1) {
+            vip_txt.setText(getString(R.string.now_free_to_use));
+        }
+
+        if (P2pLibManager.getInstance().vip_left_days >= 0) {
+            vip_txt.setText(getString(R.string.layters_over_before) + " " + P2pLibManager.getInstance().vip_left_days + " " + getString(R.string.layters_over_after));
+        }
+    }
+
+    void initPayView(final View view) {
+        pay_view=(WebView) view.findViewById(R.id.wv_pay);
+        pay_view.loadUrl("http://39.105.125.37:7744/chongzhi/" + P2pLibManager.getInstance().account_id);
+        WebSettings webSettings = pay_view.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        pay_view.getSettings().setSupportZoom(true);
+        pay_view.getSettings().setAllowFileAccess(true);
+        pay_view.setWebViewClient(new WebViewClient() {
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+        });
+
+        pay_view.getSettings().setJavaScriptEnabled(true);
+        pay_view.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        pay_view.getSettings().setLoadWithOverviewMode(true);
+        pay_view.getSettings().setDefaultTextEncodingName("utf-8");
     }
 
     void initWebView(final View view) {
@@ -612,11 +774,34 @@ public class MainActivity extends FragmentActivity  implements
         return private_key;
     }
 
-    public void SaveUserPrivateKey(String pri_key) {
+    public boolean SaveUserPrivateKey(String pri_key) {
         SharedPreferences sharedPreferences= getSharedPreferences("data",Context.MODE_PRIVATE);
+        String saved_private_key = sharedPreferences.getString("saved_private_key","");
+        String[] saved_prikeys = saved_private_key.split(",");
+        for (int i = 0; i < saved_prikeys.length; ++i) {
+            if (saved_prikeys[i].equals(pri_key)) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("private_key", pri_key);
+                editor.commit();
+                return true;
+            }
+        }
+
+        if (saved_prikeys.length >= 3) {
+            return false;
+        }
+
+        if (saved_private_key.isEmpty()) {
+            saved_private_key = pri_key;
+        } else {
+            saved_private_key += "," + pri_key;
+        }
+
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("private_key", pri_key);
+        editor.putString("saved_private_key", saved_private_key);
         editor.commit();
+        return true;
     }
 
     @Override
@@ -666,6 +851,7 @@ public class MainActivity extends FragmentActivity  implements
             res = initP2PNetwork(local_ip, kLocalPort,
                     bootstrap,
                     data_path,
+                    kCurrentVersion,
                     pri_key);
             if (res.equals("create account address error!")) {
                 try {
@@ -703,6 +889,8 @@ public class MainActivity extends FragmentActivity  implements
             Log.e("TAG", "save private key: " + private_key);
         }
 
+        P2pLibManager.getInstance().account_id = account_address;
+        P2pLibManager.getInstance().private_key = private_key;
         String[] default_routing = res_split[3].split(";");
         for (int i = 0; i < default_routing.length; ++i) {
             String[] tmp_item = default_routing[i].split(":");
@@ -742,7 +930,6 @@ public class MainActivity extends FragmentActivity  implements
                 .setTag("UpgradeDialog");
 
         webview_dialog = BottomDialog.create(getSupportFragmentManager());
-
         webview_dialog.setViewListener(new BottomDialog.ViewListener() {
                     @Override
                     public void bindView(View v) {
@@ -752,7 +939,6 @@ public class MainActivity extends FragmentActivity  implements
                         webview_dialog.getDialog().setOnKeyListener(new DialogInterface.OnKeyListener() {
                             @Override
                             public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
-                                Log.e("Key down", "what's the mater.");
                                 if (i == KeyEvent.KEYCODE_BACK) {
                                     long now_timestamp = System.currentTimeMillis();
                                     if (now_timestamp - goback_prev_timestamp <= 200) {
@@ -770,8 +956,6 @@ public class MainActivity extends FragmentActivity  implements
                                         return false;
                                     }
                                 }
-                                //webview_dialog.getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-
                                 return true;
                             }
                         });
@@ -781,6 +965,36 @@ public class MainActivity extends FragmentActivity  implements
                 .setDimAmount(0.1f)
                 .setCancelOutside(false)
                 .setTag("WebviewDialog");
+
+        payview_dialog = BottomDialog.create(getSupportFragmentManager());
+        payview_dialog.setViewListener(new BottomDialog.ViewListener() {
+            @Override
+            public void bindView(View v) {
+                initPayView(v);
+                payview_dialog.getDialog().setOnKeyListener(new DialogInterface.OnKeyListener() {
+                    @Override
+                    public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
+                        if (i == KeyEvent.KEYCODE_BACK) {
+                            long now_timestamp = System.currentTimeMillis();
+                            if (now_timestamp - goback_prev_timestamp <= 200) {
+                                return true;
+                            }
+
+                            goback_prev_timestamp = now_timestamp;
+                            if (pay_view.canGoBack()) {
+                                pay_view.goBack();
+                                return true;
+                            } else {
+                                payview_dialog.dismiss();
+                                return false;
+                            }
+                        }
+                        return true;
+                    }
+                });
+            }
+        }) .setLayoutRes(R.layout.pay).setDimAmount(0.1f).setCancelOutside(false).setTag("PayviewDialog");
+
         int p2p_socket = getP2PSocket();
         if (!vpn_service.protect(p2p_socket)) {
             Log.e(TAG,"protect vpn socket failed");
@@ -867,6 +1081,24 @@ public class MainActivity extends FragmentActivity  implements
     }
 
     public void startVpn(View view) {
+        P2pLibManager.getInstance().now_status = "ok";
+        TextView notice_txt = (TextView)findViewById(R.id.notice_text);
+        notice_txt.setText("");
+        if (P2pLibManager.getInstance().now_status.equals("bwo")) {
+            if (P2pLibManager.getInstance().now_balance >= P2pLibManager.getInstance().min_payfor_vpn_tenon || P2pLibManager.getInstance().vip_level > 0) {
+                P2pLibManager.getInstance().now_status = "ok";
+                P2pLibManager.getInstance().PayforVpn();
+            } else {
+                Toast.makeText(MainActivity.this, getString(R.string.bandwidth_over), Toast.LENGTH_SHORT).show();
+            }
+            return;
+        }
+
+//        if (P2pLibManager.getInstance().now_status.equals("cni")) {
+//            Toast.makeText(MainActivity.this, getString(R.string.invalid_country), Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+
         if (LocalVpnService.IsRunning != true) {
             Intent intent = LocalVpnService.prepare(this);
             if (intent == null) {
@@ -1115,7 +1347,6 @@ public class MainActivity extends FragmentActivity  implements
     public class CheckTransaction extends ListActivity implements Runnable {
         public List<String> gid_list = new ArrayList<String>();
         private ArrayList<String> not_get_country_list = new ArrayList<String>();
-        private int check_vip_times = 0;
         private int bandwidth_used = 0;
         public void run() {
             for (String value: country_to_short.values()) {
@@ -1145,11 +1376,20 @@ public class MainActivity extends FragmentActivity  implements
 
                 {
                     long now_balance = getBalance();
+                    Log.e(TAG, "got balance: " + now_balance);
                     P2pLibManager.getInstance().SetBalance(now_balance);
                     if (now_balance != -1) {
                         Message message = new Message();
                         message.what = GOT_BALANCE;
                         message.obj = now_balance;
+                        handler.sendMessage(message);
+                    }
+                }
+
+                {
+                    if (!P2pLibManager.getInstance().now_status.equals("OK")) {
+                        Message message = new Message();
+                        message.what = GOT_INVALID_STATUS;
                         handler.sendMessage(message);
                     }
                 }
@@ -1163,6 +1403,9 @@ public class MainActivity extends FragmentActivity  implements
                     check_vip_times++;
                 } else {
                     P2pLibManager.getInstance().PayforVpn();
+                    Message message = new Message();
+                    message.what = GOT_CHANGE_VIP_STATUS;
+                    handler.sendMessage(message);
                 }
 
                 try {
@@ -1180,7 +1423,7 @@ public class MainActivity extends FragmentActivity  implements
         }
     }
 
-    public native String initP2PNetwork(String ip, int port, String bootstarp, String file_path, String pri_key);
+    public native String initP2PNetwork(String ip, int port, String bootstarp, String file_path, String version, String pri_key);
     public native int getP2PSocket();
     public native String createAccount();
     public native String getVpnNodes(String country);
